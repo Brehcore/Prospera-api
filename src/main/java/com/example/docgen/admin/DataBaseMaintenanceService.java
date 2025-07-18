@@ -1,11 +1,10 @@
 package com.example.docgen.admin;
 
-import javax.sql.DataSource;
-
+import com.example.docgen.repositories.UserRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import com.example.docgen.repositories.UserRepository;
+import javax.sql.DataSource;
 
 @Service
 @Profile("dev")
@@ -21,7 +20,7 @@ public class DataBaseMaintenanceService {
 	}
 
 	public void deleteAllUser(String token) {
-		if (!token.equals(token)) {
+		if (!this.token.equals(token)) {
 			throw new SecurityException("Token inválido");
 		}
 

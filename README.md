@@ -23,7 +23,10 @@ Conta com autenticação, validação de dados (incluindo CPF) e estrutura pront
 - ✅ **Cadastro de usuários** com:
   - Validação de **e-mail**, **CPF**, **senha** e **telefone**
   - Verificação automática da **data de nascimento**
-- 🔐 **Endpoint de autenticação** (em construção)
+- 🔐 **Sistema de autenticação** com:
+    - Autenticação básica via email/senha
+    - Controle de acesso baseado em roles (ADMIN/USER)
+    - Endpoints protegidos
 - 📄 **Geração futura de documentos** `.docx` a partir de dados personalizados
 
 ---

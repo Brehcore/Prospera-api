@@ -1,21 +1,22 @@
 package com.example.docgen.exceptions;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
-import jakarta.servlet.http.HttpServletRequest;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class ResourceExceptionHandler {
@@ -99,6 +100,44 @@ public class ResourceExceptionHandler {
 		body.put("path", "/users");
 
 		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+	}
+
+	// Trata falha de logins e acessos negados
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<StandardError> handleAuthenticationException(
+			AuthenticationException e,
+			HttpServletRequest request) {
+
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		String message = e instanceof BadCredentialsException ?
+				"Email ou senha incorretos" :
+				e.getMessage();
+
+		StandardError err = new StandardError(
+				Instant.now(),
+				status.value(),
+				"Erro de autenticação",
+				message,
+				request.getRequestURI()
+		);
+
+		return ResponseEntity.status(status).body(err);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<StandardError> handleAccessDeniedException(
+			AccessDeniedException e,
+			HttpServletRequest request) {
+
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		StandardError err = new StandardError(
+				Instant.now(),
+				status.value(),
+				"Acesso negado",
+				e.getMessage(),  // Usando o parâmetro aqui
+				request.getRequestURI()
+		);
+		return ResponseEntity.status(status).body(err);
 	}
 
 }
