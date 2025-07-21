@@ -91,7 +91,7 @@ public class ResourceExceptionHandler {
 
 	// Verifica exceção em cpf
 	@ExceptionHandler(CpfValidationException.class)
-	public ResponseEntity<Object> handleCpfValidationException(CpfValidationException ex) {
+	public ResponseEntity<Object> handleCpfValidationException(CpfValidationException ex, HttpServletRequest request) {
 		Map<String, Object> body = new HashMap<>();
 		body.put("timestamp", Instant.now());
 		body.put("status", HttpStatus.BAD_REQUEST.value());

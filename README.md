@@ -21,12 +21,17 @@ Conta com autenticação, validação de dados (incluindo CPF) e estrutura pront
 ## 📚 Funcionalidades
 
 - ✅ **Cadastro de usuários** com:
-  - Validação de **e-mail**, **CPF**, **senha** e **telefone**
-  - Verificação automática da **data de nascimento**
-- 🔐 **Sistema de autenticação** com:
-    - Autenticação básica via email/senha
-    - Controle de acesso baseado em roles (ADMIN/USER)
-    - Endpoints protegidos
+    - Validação de **e-mail** (único), **CPF** (único), **senha** (mín. 8 caracteres) e **telefone**
+    - Verificação automática da **data de nascimento**
+    - Cadastro individual e em lote
+- ✅ **Sistema de autenticação** com:
+    - Autenticação básica via e-mail/senha utilizando `AuthenticationManager`
+    - Controle de acesso baseado em roles (**ADMIN** / **USER**)
+    - Proteção de endpoints (ex: PUT/DELETE acessíveis apenas por ADMIN)
+    - Tratamento de erros e mensagens claras para falhas de autenticação/autorização
+- 🔄 **CRUD de usuários** com:
+    - Listagem, busca por ID, atualização e deleção de usuários
+    - Restrições de permissão aplicadas conforme o papel do usuário
 - 📄 **Geração futura de documentos** `.docx` a partir de dados personalizados
 
 ---

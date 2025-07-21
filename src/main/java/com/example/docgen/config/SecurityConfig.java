@@ -3,6 +3,7 @@ package com.example.docgen.config;
 import com.example.docgen.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -30,8 +31,9 @@ public class SecurityConfig {
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/auth/**").permitAll()
-						.requestMatchers("/users").permitAll()
+						.requestMatchers("/users/**").hasRole("ADMIN")
 						.requestMatchers("/admin/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session

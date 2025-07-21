@@ -1,13 +1,14 @@
 package com.example.docgen.repositories;
 
-import java.util.Optional;
-
+import com.example.docgen.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.docgen.entities.User;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findByEmail(String email);
+
+	Optional<User> findByCpf(String cpf);
 
 }

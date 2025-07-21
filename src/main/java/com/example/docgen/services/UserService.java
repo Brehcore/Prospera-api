@@ -1,15 +1,7 @@
 package com.example.docgen.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
 import com.example.docgen.dto.BatchUserInsertResponseDTO;
 import com.example.docgen.dto.FailedUserDTO;
 import com.example.docgen.dto.UserMapperDTO;
@@ -20,9 +12,15 @@ import com.example.docgen.entities.User;
 import com.example.docgen.exceptions.CpfValidationException;
 import com.example.docgen.exceptions.ResourceNotFoundException;
 import com.example.docgen.repositories.UserRepository;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.stella.validation.CPFValidator;
-import br.com.caelum.stella.validation.InvalidStateException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -74,6 +72,13 @@ public class UserService implements UserDetailsService {
 		return userRepository.save(user);
 	}
 
+	public void deleteById(Long id) {
+		if (!userRepository.existsById(id)) {
+			throw new ResourceNotFoundException("Usuário não encontrado com id: " + id);
+		}
+		userRepository.deleteById(id);
+	}
+
 	// Insere uma lista de usuarios
 	public BatchUserInsertResponseDTO insertUsers(List<UserRequestDTO> userDTOs) {
 		List<UserResponseDTO> successUsers = new ArrayList<>();
@@ -101,6 +106,11 @@ public class UserService implements UserDetailsService {
 		// Verifica se existe email duplicado
 		userRepository.findByEmail(userDTO.getEmail()).ifPresent(u -> {
 			throw new DataIntegrityViolationException("Email já cadastrado: " + u.getEmail());
+		});
+
+		// Verifica se existe CPF duplicado
+		userRepository.findByCpf(userDTO.getCpf()).ifPresent(u -> {
+			throw new DataIntegrityViolationException("CPF já cadastrado: " + u.getCpf());
 		});
 
 		// Validação real do CPF com Stella

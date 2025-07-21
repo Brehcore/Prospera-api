@@ -1,14 +1,12 @@
 package com.example.docgen.dto;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 
 public class UserRequestDTO {
 
@@ -19,7 +17,7 @@ public class UserRequestDTO {
 	private String email;
 
 	@NotBlank(message = "Sua senha é obrigatório")
-	@Size(min = 8, message = "Sua senha deve ter no minimo 6 caracteres")
+	@Size(min = 8, message = "Sua senha deve ter no minimo 8 caracteres")
 	private String password;
 
 	@NotNull(message = "Sua idade é obrigatória")
