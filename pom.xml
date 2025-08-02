@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
+        <version>3.4.8</version>
         <relativePath/> <!-- Busca o parent no repositório -->
     </parent>
 
@@ -41,6 +41,26 @@
     </properties>
 
     <dependencies>
+
+        <!-- Dependências JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.12.5</version> <!-- Use a versão mais recente estável -->
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.12.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.12.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Fim Dependências JWT -->
 
         <!-- Spring Boot JPA: Integração com JPA/Hibernate -->
         <dependency>

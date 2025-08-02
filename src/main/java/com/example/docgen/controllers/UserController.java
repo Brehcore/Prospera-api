@@ -31,6 +31,22 @@ public class UserController {
 		this.userService = userService;
 	}
 
+    // CREATE
+    @PostMapping
+    public ResponseEntity<UserResponseDTO> insertUser(@RequestBody @Valid UserRequestDTO dto) {
+        User createdUser = userService.insertUser(dto);
+        return ResponseEntity.ok(UserMapperDTO.toDto(createdUser));
+    }
+
+    @PostMapping("/batch")
+    public ResponseEntity<BatchUserInsertResponseDTO> insertMultiplerUsers(
+            @RequestBody List<@Valid UserRequestDTO> userDTOs) {
+
+        BatchUserInsertResponseDTO result = userService.insertUsers(userDTOs);
+        return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(result);
+    }
+
+    // READ
 	@GetMapping
 	public ResponseEntity<List<UserResponseDTO>> findAll() {
 		List<User> users = userService.findAll();
@@ -44,12 +60,7 @@ public class UserController {
 
 	}
 
-	@PostMapping
-	public ResponseEntity<UserResponseDTO> insertUser(@RequestBody @Valid UserRequestDTO dto) {
-		User createdUser = userService.insertUser(dto);
-		return ResponseEntity.ok(UserMapperDTO.toDto(createdUser));
-	}
-
+    // UPDATE
 	@PutMapping("/{id}")
 	public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO dto) {
 		User updateUser = userService.updateUser(id, dto);
@@ -57,20 +68,14 @@ public class UserController {
 
 	}
 
-	@PostMapping("/batch")
-	public ResponseEntity<BatchUserInsertResponseDTO> insertMultiplerUsers(
-			@RequestBody List<@Valid UserRequestDTO> userDTOs) {
-
-		BatchUserInsertResponseDTO result = userService.insertUsers(userDTOs);
-		return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(result);
-	}
-
-
+    // DELETE
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 		userService.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
+
+    // Teste controlador de exibição
 
 
 }
