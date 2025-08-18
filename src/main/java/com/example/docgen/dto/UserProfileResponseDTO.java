@@ -14,11 +14,10 @@ public class UserProfileResponseDTO {
     private String name;
     private String email;
     private String phone;
-    private String message; // Para mensagens de erro ou sucesso adicionais
-    private User userDetails; // Opcional: Para retornar o objeto User completo se preferir
+    private String message; // Para mensagens de erro ou sucesso
     private String role; // Incluir a role do usuário
 
-    // Construtor para sucesso (retornando apenas dados específicos)
+    // Construtor para sucesso
     public UserProfileResponseDTO(String name, String email, String phone, String role) {
         this.name = name;
         this.email = email;
@@ -26,18 +25,17 @@ public class UserProfileResponseDTO {
         this.role = role;
     }
 
-    // Construtor para sucesso (retornando o objeto User diretamente, se preferir)
+    // Construtor para sucesso, pegando os dados da entidade User
     public UserProfileResponseDTO(User user) {
         if (user != null) {
             this.name = user.getName();
             this.email = user.getEmail();
             this.phone = user.getPhone();
             this.role = user.getRole().name();
-            this.userDetails = user; // Opcional: inclui o objeto User completo
         }
     }
 
-    // Construtor para erro
+    // Construtor para mensagens de erro/sucesso
     public UserProfileResponseDTO(String message) {
         this.message = message;
     }
