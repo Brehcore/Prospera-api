@@ -3,9 +3,14 @@ package com.example.docgen.controllers;
 import com.example.docgen.dto.AuthenticationRequestDTO;
 import com.example.docgen.dto.AuthenticationResponseDTO;
 import com.example.docgen.dto.UserProfileResponseDTO;
+import com.example.docgen.dto.UserRequestDTO;
 import com.example.docgen.dto.UserUpdateDTO;
+import com.example.docgen.entities.User;
+import com.example.docgen.entities.enums.UserRole;
 import com.example.docgen.jwt.JwtService;
 import com.example.docgen.repositories.UserRepository;
+import com.example.docgen.services.CpfValidationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +35,50 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final CpfValidationService cpfValidationService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtService jwtService, UserRepository userRepository) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtService jwtService, UserRepository userRepository, CpfValidationService cpfValidationService, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
+        this.cpfValidationService = cpfValidationService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // Endpoint para registrar usuário
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody @Valid UserRequestDTO data) {
+        if (this.userRepository.findByEmail(data.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new UserProfileResponseDTO("Este e-mailjá está em uso."));
+        }
+        if (!cpfValidationService.isValid(data.getCpf())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new UserProfileResponseDTO("O CPF informado é inválido."));
+        }
+
+        // Cria a entidade User com os dados do DTO
+        User newUser = new User();
+        newUser.setName(data.getName());
+        newUser.setEmail(data.getEmail());
+        newUser.setCpf(data.getCpf());
+        newUser.setPhone(data.getPhone());
+        newUser.setBirthDate(data.getBirthDate());
+
+        // Criptografa a senha antes de salvar
+        newUser.setPassword(passwordEncoder.encode(data.getPassword()));
+
+        // Define a role padrão para o usuário
+        newUser.setRole(UserRole.USER);
+
+        // Salva a entidade no banco de dados
+        userRepository.save(newUser);
+
+        // Retorna uma resposta de sucesso para o frontend
+        return ResponseEntity.ok(new UserProfileResponseDTO("Cadastro realizado com sucesso!"));
+
     }
 
     @PostMapping("/login")
@@ -107,9 +151,10 @@ public class AuthenticationController {
                         .body(new UserProfileResponseDTO("Usuário não encontrado.")));
     }
 
+    // Endpoint para mudar e-mail
+
+    // Endpoint para mudar senha
+
 }
 
 
-// Endpoint para mudar e-mail
-
-// Endpoint para mudar senha
