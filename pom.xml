@@ -144,7 +144,7 @@
     <build>
         <plugins>
 
-			<!-- Plugin do Maven para compilar usando annotation processors como o Lombok -->
+            <!--			 Plugin do Maven para compilar usando annotation processors como o Lombok-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
