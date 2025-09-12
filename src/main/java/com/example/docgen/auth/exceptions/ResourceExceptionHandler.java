@@ -89,7 +89,7 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 
-	// Verifica exceção em cpf
+    // Verifica exceção em CPF
 	@ExceptionHandler(CpfValidationException.class)
 	public ResponseEntity<Object> handleCpfValidationException(CpfValidationException ex, HttpServletRequest request) {
 		Map<String, Object> body = new HashMap<>();
@@ -101,6 +101,19 @@ public class ResourceExceptionHandler {
 
 		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 	}
+
+    // Verifica exceção em CNPJ
+    @ExceptionHandler(CnpjValidationException.class)
+    public ResponseEntity<Object> handleCnpjValidationException(CnpjValidationException ex, HttpServletRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", Instant.now());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "Validação de CNPJ");
+        body.put("message", ex.getMessage());
+        body.put("path", request.getRequestURI());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
 
 	// Trata falha de logins e acessos negados
 	@ExceptionHandler(AuthenticationException.class)

@@ -1,32 +1,23 @@
 package com.example.docgen.auth.domain;
 
 import com.example.docgen.common.enums.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import com.example.docgen.enterprise.domain.Membership;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id") // Cria equals e hashCode baseados apenas no campo 'id'
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "auth_users")
 public class AuthUser implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -41,27 +32,21 @@ public class AuthUser implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
-    /**
-     * Construtor vazio mantido manualmente para clareza (requerido pelo JPA).
-     */
-    public AuthUser() {
-    }
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserProfilePF personalProfile;
 
-    /**
-     * Construtor de negócio mantido manualmente para clareza.
-     * Usado pelo AuthenticationService para criar novos usuários.
-     */
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Membership> memberships;
+
     public AuthUser(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    // --- MÉTODOS DO USERDETAILS (Não podem ser gerados pelo Lombok) ---
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getRoleName()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

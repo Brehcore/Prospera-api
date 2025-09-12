@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     // Não precisamos mais injetar nada no construtor
@@ -34,9 +36,16 @@ public class SecurityConfig {
 				.csrf(AbstractHttpConfigurer::disable)
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(auth -> auth
+                        // Endpoints públicos de autenticação
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
-                        .requestMatchers("/users/profile/**").authenticated()
-						.requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // Endpoints que exigem que o usuário esteja logado
+                        .requestMatchers("/profile/**", "/organizations/**").authenticated()
+
+                        // Endpoints de admin do sistema
+                        .requestMatchers("/admin/**").hasRole("SYSTEM_ADMIN")
+
+                        // Qualquer outra requisição deve ser autenticada
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session
