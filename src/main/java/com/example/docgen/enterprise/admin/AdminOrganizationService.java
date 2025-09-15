@@ -1,6 +1,7 @@
 package com.example.docgen.enterprise.admin;
 
 import com.example.docgen.enterprise.domain.Organization;
+import com.example.docgen.enterprise.domain.enums.OrganizationStatus;
 import com.example.docgen.enterprise.repositories.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -28,7 +29,13 @@ public class AdminOrganizationService {
                 .orElseThrow(() -> new RuntimeException("Organização não encontrada: " + organizationId));
     }
 
-    // Futuramente, você pode adicionar o método de ativar/inativar aqui
-    // @Transactional
-    // public void updateOrganizationStatus(UUID organizationId, boolean isActive) { ... }
+    @Transactional
+    public Organization updateOrganizationStatus(UUID organizationId, OrganizationStatus newStatus) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new RuntimeException("Organização não encontrada: " + organizationId));
+
+        organization.setStatus(newStatus);
+
+        return organizationRepository.save(organization);
+    }
 }
