@@ -1,5 +1,7 @@
 package com.example.docgen.enterprise.repositories;
 
+import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.common.enums.OrganizationRole;
 import com.example.docgen.enterprise.domain.Membership;
 import com.example.docgen.enterprise.domain.Organization;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +30,10 @@ public interface MembershipRepository extends JpaRepository<Membership, UUID> {
     List<Membership> findByOrganizationWithDetails(@Param("organization") Organization organization);
 
     Optional<Membership> findByOrganizationAndUser_Id(Organization organization, UUID userId);
+
+    // Método para a verificação do último admin
+    long countByOrganizationAndRole(Organization organization, OrganizationRole role);
+
+    // Método para a verificação de membro duplicado
+    boolean existsByUserAndOrganization(AuthUser user, Organization organization);
 }

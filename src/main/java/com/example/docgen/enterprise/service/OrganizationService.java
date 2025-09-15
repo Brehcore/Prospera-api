@@ -1,6 +1,7 @@
 package com.example.docgen.enterprise.service;
 
 import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.auth.repositories.AuthUserRepository;
 import com.example.docgen.common.enums.OrganizationRole;
 import com.example.docgen.enterprise.api.dto.CreateOrganizationRequest;
 import com.example.docgen.enterprise.domain.Membership;
@@ -18,10 +19,21 @@ import java.util.List;
 public class OrganizationService {
     private final OrganizationRepository orgRepository;
     private final MembershipRepository membershipRepository;
+    private final AuthUserRepository authUserRepository;
 
     @Transactional
     public Organization createOrganization(AuthUser adminUser, CreateOrganizationRequest dto) {
-        // ... Lógica para validar CNPJ, etc. ...
+        // Lógica de verificação adicionada no início
+        // Busca a versão "viva" do usuário para carregar suas afiliações
+        AuthUser managedUser = authUserRepository.findById(adminUser.getId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        // Verifica se o usuário já é membro de alguma organização
+        if (managedUser.getMemberships() != null && !managedUser.getMemberships().isEmpty()) {
+            throw new IllegalStateException("Usuários que já são membros de uma organização não podem criar uma nova.");
+        }
+
+        // A lógica de negócio existente continua a partir daqui
         if (orgRepository.existsByCnpj(dto.cnpj())) {
             throw new IllegalStateException("O CNPJ informado já está cadastrado.");
         }
@@ -32,9 +44,8 @@ public class OrganizationService {
                 .build();
         Organization savedOrg = orgRepository.save(newOrg);
 
-        // Cria a afiliação, tornando o usuário o ADMIN da nova organização
         var membership = Membership.builder()
-                .user(adminUser)
+                .user(managedUser) // 3. Usa a versão gerenciada do usuário
                 .organization(savedOrg)
                 .role(OrganizationRole.ORG_ADMIN)
                 .build();

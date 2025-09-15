@@ -13,6 +13,7 @@ public class ProfileMeResponseDTO {
 
     private final UUID userId;
     private final String email;
+    private final String role;
     private final PersonalProfileData personalProfile;
     private final List<OrganizationInfo> organizations;
 
@@ -51,12 +52,14 @@ public class ProfileMeResponseDTO {
     // DTO aninhado para informações da Organização
     @Getter
     public static class OrganizationInfo {
+        private final UUID membershipId;
         private final UUID organizationId;
         private final String razaoSocial;
         private final String yourRole;
 
-        public OrganizationInfo(UUID id, String name, String role) {
-            this.organizationId = id;
+        public OrganizationInfo(UUID membershipId, UUID organizationId, String name, String role) {
+            this.membershipId = membershipId;
+            this.organizationId = organizationId;
             this.razaoSocial = name;
             this.yourRole = role;
         }
@@ -66,6 +69,7 @@ public class ProfileMeResponseDTO {
     public ProfileMeResponseDTO(AuthUser user) {
         this.userId = user.getId();
         this.email = maskEmail(user.getEmail());
+        this.role = user.getRole().name();
 
         if (user.getPersonalProfile() != null) {
             this.personalProfile = new PersonalProfileData(user.getPersonalProfile());
@@ -75,6 +79,7 @@ public class ProfileMeResponseDTO {
 
         this.organizations = user.getMemberships().stream()
                 .map(m -> new OrganizationInfo(
+                        m.getId(),
                         m.getOrganization().getId(),
                         m.getOrganization().getRazaoSocial(),
                         m.getRole().name()

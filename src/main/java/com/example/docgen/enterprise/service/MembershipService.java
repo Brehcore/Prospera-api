@@ -9,6 +9,8 @@ import com.example.docgen.enterprise.domain.Organization;
 import com.example.docgen.enterprise.repositories.MembershipRepository;
 import com.example.docgen.enterprise.repositories.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,122 +25,101 @@ public class MembershipService {
     private final MembershipRepository membershipRepository;
     private final OrganizationRepository organizationRepository;
     private final AuthUserRepository authUserRepository;
+    private static final Logger log = LoggerFactory.getLogger(MembershipService.class);
 
-    @Transactional
-    public Membership addMemberToOrganization(AuthUser adminUser, UUID organizationId, AddMemberRequest dto) {
-        // Busca a versão "viva" do administrador que está executando a ação.
-        AuthUser managedAdminUser = authUserRepository.findById(adminUser.getId()) // Usando 'adminUser.getId()'
+    // Classe auxiliar interna para agrupar as entidades validadas.
+    private record ValidatedAdminContext(AuthUser admin, Organization org) {
+    }
+
+    /**
+     * MÉTODO PRIVADO CENTRALIZADOR: Valida se o usuário é admin da organização
+     * e retorna as entidades "vivas" (gerenciadas) para uso seguro nos métodos.
+     * Isso elimina a repetição de código.
+     */
+    private ValidatedAdminContext validateAdminAndGetContext(AuthUser detachedAdmin, UUID organizationId) {
+        AuthUser managedAdmin = authUserRepository.findById(detachedAdmin.getId())
                 .orElseThrow(() -> new RuntimeException("Usuário administrador não encontrado."));
-
-        // Verifica se a organização existe
         Organization organization = organizationRepository.findById(organizationId)
                 .orElseThrow(() -> new RuntimeException("Organização não encontrada."));
 
-        // Garante que o usuário que está fazendo a ação é um ADMIN desta organização
-        checkIfUserIsOrgAdmin(managedAdminUser, organization);
+        checkIfUserIsOrgAdmin(managedAdmin, organization);
 
-        // Encontra o usuário a ser adicionado pelo email
+        return new ValidatedAdminContext(managedAdmin, organization);
+    }
+
+    @Transactional
+    public Membership addMemberToOrganization(AuthUser adminUser, UUID organizationId, AddMemberRequest dto) {
+        ValidatedAdminContext context = validateAdminAndGetContext(adminUser, organizationId);
+
         AuthUser userToAdd = authUserRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new RuntimeException("Usuário a ser adicionado não encontrado pelo email: " + dto.email()));
+                .orElseThrow(() -> new RuntimeException("Usuário a ser adicionado não encontrado: " + dto.email()));
 
-        // Cria e salva a nova afiliação (membership)
+        // Regra de negócio: Impede que um usuário seja adicionado duas vezes na mesma organização
+        if (membershipRepository.existsByUserAndOrganization(userToAdd, context.org())) {
+            throw new IllegalStateException("Este usuário já é membro desta organização.");
+        }
+
         Membership newMembership = Membership.builder()
                 .user(userToAdd)
-                .organization(organization)
+                .organization(context.org())
                 .role(dto.role())
                 .build();
-
-
         return membershipRepository.save(newMembership);
     }
 
     @Transactional(readOnly = true)
-// O método agora retorna a entidade
-    public List<Membership> listMembers(AuthUser detachedCurrentUser, UUID organizationId) {
-        AuthUser managedCurrentUser = authUserRepository.findById(detachedCurrentUser.getId())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
-
-        Organization organization = organizationRepository.findById(organizationId)
-                .orElseThrow(() -> new RuntimeException("Organização não encontrada."));
-
-        checkIfUserIsOrgAdmin(managedCurrentUser, organization);
-
-        // Retorna a lista de entidades diretamente
-        return membershipRepository.findByOrganizationWithDetails(organization);
+    public List<Membership> listMembers(AuthUser currentUser, UUID organizationId) {
+        ValidatedAdminContext context = validateAdminAndGetContext(currentUser, organizationId);
+        return membershipRepository.findByOrganizationWithDetails(context.org());
     }
 
-    // --- NOVO MÉTODO PARA REMOVER UM MEMBRO ---
     @Transactional
-    public void removeMember(AuthUser detachedCurrentUser, UUID organizationId, UUID membershipId) {
-        // 1. Busca a versão "viva" do usuário que está executando a ação.
-        AuthUser managedCurrentUser = authUserRepository.findById(detachedCurrentUser.getId())
-                .orElseThrow(() -> new RuntimeException("Usuário administrador não encontrado."));
+    public void removeMember(AuthUser currentUser, UUID organizationId, UUID membershipId) {
+        log.info("Iniciando remoção do membershipId: {}", membershipId);
+        ValidatedAdminContext context = validateAdminAndGetContext(currentUser, organizationId);
 
-        Organization organization = organizationRepository.findById(organizationId)
-                .orElseThrow(() -> new RuntimeException("Organização não encontrada."));
-
-        // 2. Segurança: Garante que o usuário atual é um admin desta organização.
-        checkIfUserIsOrgAdmin(managedCurrentUser, organization);
-
-        // 3. CORREÇÃO: Busca a afiliação a ser removida DIRETAMENTE pelo seu ID.
         Membership membershipToRemove = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new RuntimeException("Afiliação (membership) não encontrada."));
 
-        // Validação de segurança extra: garante que a afiliação pertence à organização correta.
-        if (!membershipToRemove.getOrganization().getId().equals(organizationId)) {
+        if (!membershipToRemove.getOrganization().equals(context.org())) {
             throw new AccessDeniedException("Esta afiliação não pertence à organização especificada.");
         }
 
-        // Verifica se o membro a ser removido é um admin
-        if (membershipToRemove.getRole() == OrganizationRole.ORG_ADMIN) {
-            // Se for um admin, verifica se é o último
-            if (isLastAdmin(organization)) {
-                throw new IllegalStateException("Não é possível remover o último administrador. Promova outro membro primeiro.");
+        boolean isSelfRemoval = context.admin().equals(membershipToRemove.getUser());
+
+        if (isSelfRemoval) {
+            // Se o admin está tentando se remover, ele só pode se não for o último.
+            log.debug("Detectada tentativa de auto-remoção pelo admin {}", context.admin().getEmail());
+            if (isLastAdmin(context.org())) {
+                throw new IllegalStateException("Você não pode sair da organização pois é o último administrador. Promova outro membro primeiro.");
+            }
+        } else {
+            // Se está removendo outra pessoa, verifica se o alvo é o último admin.
+            // (Esta regra impede um admin de, maliciosamente, remover o outro último admin)
+            if (membershipToRemove.getRole() == OrganizationRole.ORG_ADMIN && isLastAdmin(context.org())) {
+                throw new IllegalStateException("Não é possível remover o último administrador da organização.");
             }
         }
 
-        // 5. Deleta a afiliação encontrada.
+        log.info("Validações passaram. Deletando afiliação {}", membershipToRemove.getId());
         membershipRepository.delete(membershipToRemove);
-    }
-
-    /**
-     * Método auxiliar de segurança para verificar se um usuário é admin de uma organização.
-     */
-    private void checkIfUserIsOrgAdmin(AuthUser user, Organization organization) {
-        boolean isOrgAdmin = user.getMemberships().stream()
-                .anyMatch(membership ->
-                        membership.getOrganization().equals(organization) &&
-                                membership.getRole() == OrganizationRole.ORG_ADMIN
-                );
-
-        if (!isOrgAdmin) {
-            throw new AccessDeniedException("Acesso negado. Você não é administrador desta organização.");
-        }
+        log.info("Afiliação {} removida com sucesso.", membershipToRemove.getId());
     }
 
     @Transactional
     public Membership updateMemberRole(AuthUser currentUser, UUID organizationId, UUID membershipId, OrganizationRole newRole) {
-        // CORREÇÃO: Busca a versão "viva" do usuário que está fazendo a ação
-        AuthUser managedCurrentUser = authUserRepository.findById(currentUser.getId())
-                .orElseThrow(() -> new RuntimeException("Usuário administrador não encontrado."));
-
-        Organization organization = organizationRepository.findById(organizationId)
-                .orElseThrow(() -> new RuntimeException("Organização não encontrada."));
-
-        // Segurança: Agora usa a versão gerenciada
-        checkIfUserIsOrgAdmin(managedCurrentUser, organization);
+        ValidatedAdminContext context = validateAdminAndGetContext(currentUser, organizationId);
 
         Membership membershipToUpdate = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new RuntimeException("Afiliação (membership) não encontrada."));
 
-        if (!membershipToUpdate.getOrganization().equals(organization)) {
+        if (!membershipToUpdate.getOrganization().equals(context.org())) {
             throw new AccessDeniedException("Esta afiliação não pertence à organização especificada.");
         }
 
-        // A regra de negócio agora usa a versão gerenciada
-        if (membershipToUpdate.getUser().equals(managedCurrentUser) &&
+        if (membershipToUpdate.getUser().equals(context.admin()) &&
                 newRole == OrganizationRole.ORG_MEMBER &&
-                isLastAdmin(organization)) {
+                isLastAdmin(context.org())) {
             throw new IllegalStateException("Você não pode remover seu próprio acesso de administrador pois é o último da organização.");
         }
 
@@ -146,13 +127,19 @@ public class MembershipService {
         return membershipRepository.save(membershipToUpdate);
     }
 
+    private void checkIfUserIsOrgAdmin(AuthUser user, Organization organization) {
+        boolean isOrgAdmin = user.getMemberships().stream()
+                .anyMatch(m -> m.getOrganization().equals(organization) && m.getRole() == OrganizationRole.ORG_ADMIN);
+        if (!isOrgAdmin) {
+            throw new AccessDeniedException("Acesso negado. Você não é administrador desta organização.");
+        }
+    }
+
     /**
-     * Método auxiliar para verificar se uma organização tem apenas um administrador.
+     * MÉTODO isLastAdmin CORRIGIDO: Agora consulta o repositório diretamente
+     * para uma contagem precisa, evitando problemas de lazy loading.
      */
     private boolean isLastAdmin(Organization organization) {
-        long adminCount = organization.getMemberships().stream()
-                .filter(m -> m.getRole() == OrganizationRole.ORG_ADMIN)
-                .count();
-        return adminCount <= 1;
+        return membershipRepository.countByOrganizationAndRole(organization, OrganizationRole.ORG_ADMIN) <= 1;
     }
 }

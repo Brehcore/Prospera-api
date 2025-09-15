@@ -1,8 +1,8 @@
 package com.example.docgen.auth.api;
 
 import com.example.docgen.auth.api.dto.ProfileMeResponseDTO;
-import com.example.docgen.auth.domain.AuthUser;
 import com.example.docgen.auth.api.dto.UserProfilePFRequest;
+import com.example.docgen.auth.domain.AuthUser;
 import com.example.docgen.auth.services.UserProfileService;
 import com.example.docgen.enterprise.api.dto.OrganizationResponseDTO;
 import jakarta.validation.Valid;
@@ -11,13 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/profile")
@@ -58,5 +61,23 @@ public class UserProfileController {
     public ResponseEntity<ProfileMeResponseDTO> getMyProfile(@AuthenticationPrincipal AuthUser user) {
         ProfileMeResponseDTO myProfile = userProfileService.getMyProfile(user);
         return ResponseEntity.ok(myProfile);
+    }
+
+    @DeleteMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> requestAccountDeletion(@AuthenticationPrincipal AuthUser user) {
+        userProfileService.anonymizeAndDeactivateAccount(user);
+        return ResponseEntity.noContent().build();
+    }
+
+    // --- NOVO ENDPOINT DEDICADO PARA SAIR DA ORGANIZAÇÃO ---
+    @DeleteMapping("/me/organizations/{organizationId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> leaveOrganization(
+            @AuthenticationPrincipal AuthUser user,
+            @PathVariable UUID organizationId) {
+
+        userProfileService.leaveOrganization(user, organizationId);
+        return ResponseEntity.noContent().build(); // Retorna 204 No Content
     }
 }

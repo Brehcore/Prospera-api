@@ -51,6 +51,7 @@ public class AuthController {
         AuthResponse response = AuthResponse.builder()
                 .userId(user.getId())
                 .email(user.getEmail())
+                .role(user.getRole())
                 .token(token)
                 .expiresIn(expirationMillis / 1000)
                 .build();
