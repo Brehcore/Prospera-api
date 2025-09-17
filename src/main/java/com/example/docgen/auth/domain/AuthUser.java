@@ -56,6 +56,8 @@ public class AuthUser implements UserDetails {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    private UUID organizationId;
+
     public AuthUser(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
@@ -70,6 +72,10 @@ public class AuthUser implements UserDetails {
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    public UUID getOrganizationId() {
+        return organizationId;
     }
 
     @Override

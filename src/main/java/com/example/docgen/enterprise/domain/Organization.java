@@ -6,9 +6,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -44,4 +47,8 @@ public class Organization {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrganizationStatus status = OrganizationStatus.ACTIVE; // Define 'ACTIVE' como padrão
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sector_id") // A chave estrangeira na tabela 'organizations'
+    private Sector sector;
 }

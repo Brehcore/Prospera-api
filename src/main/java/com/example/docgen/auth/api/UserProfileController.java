@@ -22,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Controller responsável por gerenciar endpoints relacionados ao perfil do usuário.
+ * Esta classe contém operações como criação de perfil, consulta de informações do perfil
+ * e gerenciamento de organizações relacionadas ao usuário autenticado.
+ */
 @RestController
 @RequestMapping("/profile")
 @RequiredArgsConstructor
