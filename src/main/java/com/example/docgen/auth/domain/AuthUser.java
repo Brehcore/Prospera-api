@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -50,13 +52,11 @@ public class AuthUser implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserProfilePF personalProfile;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Membership> memberships;
 
     @Column(nullable = false)
     private boolean enabled = true;
-
-    private UUID organizationId;
 
     public AuthUser(String email, String password, UserRole role) {
         this.email = email;
@@ -66,16 +66,21 @@ public class AuthUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        // 1. Se o usuário tem um vínculo com uma organização (Membership)...
+        if (this.memberships != null && !this.memberships.isEmpty()) {
+            // ... as permissões dele vêm da role DENTRO da organização (ORG_ADMIN, ORG_MEMBER)
+            return this.memberships.stream()
+                    .map(membership -> new SimpleGrantedAuthority("ROLE_" + membership.getRole().name()))
+                    .collect(Collectors.toList());
+        }
+
+        // 2. Se não, ele é um usuário avulso (PF), então usamos a role base.
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 
     @Override
     public String getUsername() {
         return this.email;
-    }
-
-    public UUID getOrganizationId() {
-        return organizationId;
     }
 
     @Override

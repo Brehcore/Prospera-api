@@ -1,13 +1,17 @@
 package com.example.docgen.courses.service;
 
-import com.example.docgen.courses.domain.Course;
+import com.example.docgen.courses.domain.EbookProgress;
+import com.example.docgen.courses.domain.EbookTraining;
+import com.example.docgen.courses.domain.Training;
 import com.example.docgen.courses.domain.Enrollment;
 import com.example.docgen.courses.domain.Lesson;
 import com.example.docgen.courses.domain.LessonProgress;
 import com.example.docgen.courses.domain.enums.EnrollmentStatus;
+import com.example.docgen.courses.repositories.EbookProgressRepository;
 import com.example.docgen.courses.repositories.EnrollmentRepository;
 import com.example.docgen.courses.repositories.LessonProgressRepository;
 import com.example.docgen.courses.repositories.LessonRepository;
+import com.example.docgen.courses.repositories.TrainingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,29 +27,22 @@ public class ProgressService {
     private final EnrollmentRepository enrollmentRepository;
     private final LessonRepository lessonRepository;
     private final LessonProgressRepository lessonProgressRepository;
+    private final EbookProgressRepository ebookProgressRepository;
+    private final TrainingRepository trainingRepository;
 
-    /**
-     * Marca uma lição como concluída para um usuário.
-     * Após a conclusão, verifica se o curso inteiro foi finalizado.
-     *
-     * @param userId   o ID do usuário
-     * @param lessonId o ID da lição a ser marcada como concluída
-     * @return O registro do progresso criado
-     */
     @Transactional
     public LessonProgress markLessonAsCompleted(UUID userId, UUID lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new EntityNotFoundException("Lição não encontrada com o ID: " + lessonId));
 
-        Course course = lesson.getModule().getCourse();
+        // CORREÇÃO 1: A entidade Module tem um campo 'course' (do tipo RecordedCourse)
+        Training training = lesson.getModule().getCourse();
 
-        Enrollment enrollment = enrollmentRepository.findByUserIdAndCourseId(userId, course.getId())
-                .orElseThrow(() -> new IllegalStateException("Usuário com ID " + userId + " não está matriculado no curso."));
+        // CORREÇÃO 2: O método no repositório foi renomeado para 'findByUserIdAndTrainingId'
+        Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(userId, training.getId())
+                .orElseThrow(() -> new IllegalStateException("Usuário com ID " + userId + " não está matriculado no treinamento."));
 
-        // Evita duplicar o registro de progresso
         if (lessonProgressRepository.existsByEnrollmentAndLesson(enrollment, lesson)) {
-            // Pode-se retornar o progresso existente ou uma exceção, dependendo da regra de negócio.
-            // Aqui, simplesmente evitamos a duplicação.
             throw new IllegalStateException("Esta lição já foi marcada como concluída.");
         }
 
@@ -57,31 +54,40 @@ public class ProgressService {
 
         LessonProgress savedProgress = lessonProgressRepository.save(progress);
 
-        // Após salvar o progresso, verifica a conclusão do curso
         checkCourseCompletion(enrollment);
 
         return savedProgress;
     }
 
-    /**
-     * Verifica se todas as lições de um curso foram concluídas para uma determinada matrícula.
-     * Se sim, o status da matrícula é atualizado para COMPLETED.
-     *
-     * @param enrollment A matrícula a ser verificada
-     */
     private void checkCourseCompletion(Enrollment enrollment) {
-        Course course = enrollment.getCourse();
+        // CORREÇÃO 3: A entidade Enrollment tem um campo 'training'
+        Training training = enrollment.getTraining();
 
-        // 1. Conta o total de lições no curso de forma otimizada
-        long totalLessonsInCourse = lessonRepository.countByCourseId(course.getId());
+        // Esta chamada para 'countByCourseId' pode ser renomeada para 'countByTrainingId' no futuro para maior clareza,
+        // mas se estiver funcionando com a @Query, não há problema.
+        long totalLessonsInCourse = lessonRepository.countByCourseId(training.getId());
 
-        // 2. Conta o total de lições concluídas para esta matrícula
         long completedLessonsForEnrollment = lessonProgressRepository.countByEnrollment(enrollment);
 
-        // 3. Compara e atualiza o status se necessário
         if (totalLessonsInCourse > 0 && totalLessonsInCourse == completedLessonsForEnrollment) {
             enrollment.setStatus(EnrollmentStatus.COMPLETED);
             enrollmentRepository.save(enrollment);
         }
+    }
+
+    @Transactional
+    public void updateEbookProgress(UUID userId, UUID trainingId, int lastPageRead) {
+        // Valida se o treinamento existe e é um Ebook
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado: " + trainingId));
+        if (!(training instanceof EbookTraining)) {
+            throw new IllegalArgumentException("Progresso só pode ser registrado para Ebooks.");
+        }
+
+        EbookProgress progress = ebookProgressRepository.findByUserIdAndTrainingId(userId, trainingId)
+                .orElse(EbookProgress.builder().userId(userId).training(training).build());
+
+        progress.setLastPageRead(lastPageRead);
+        ebookProgressRepository.save(progress);
     }
 }

@@ -137,6 +137,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Para que o backend consiga ler o número de págnas do PDF -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.31</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>

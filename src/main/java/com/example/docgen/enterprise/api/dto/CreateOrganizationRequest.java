@@ -14,10 +14,6 @@ public record CreateOrganizationRequest(
         String razaoSocial,
 
         @NotBlank(message = "O CNPJ é obrigatório")
-        @Pattern(regexp = "^[0-9]{14}$", message = "O CNPJ deve conter 14 dígitos")
-        String cnpj,
-
-        @NotNull(message = "O ID do setor é obrigatório")
-        UUID SectorId
+        String cnpj
 ) {
 }

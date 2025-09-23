@@ -7,6 +7,7 @@ import com.example.docgen.auth.domain.UserProfilePF;
 import com.example.docgen.auth.repositories.AuthUserRepository;
 import com.example.docgen.auth.repositories.UserProfilePfRepository;
 import com.example.docgen.common.enums.OrganizationRole;
+import com.example.docgen.common.validation.CpfValidationService;
 import com.example.docgen.enterprise.api.dto.OrganizationResponseDTO;
 import com.example.docgen.enterprise.domain.Membership;
 import com.example.docgen.enterprise.domain.Organization;
@@ -31,6 +32,7 @@ public class UserProfileService {
     private final PasswordEncoder passwordEncoder;
     private final OrganizationRepository organizationRepository;
     private final MembershipRepository membershipRepository;
+    private final CpfValidationService cpfValidationService;
 
     /**
      * Cria e salva um perfil de Pessoa Física, associando-o a um AuthUser existente.
@@ -44,6 +46,8 @@ public class UserProfileService {
         if (userProfilePfRepository.existsById(detachedUser.getId())) {
             throw new IllegalStateException("Este usuário já possui um perfil pessoal cadastrado.");
         }
+
+        cpfValidationService.validate(dto.cpf());
 
         AuthUser managedUser = authUserRepository.getReferenceById(detachedUser.getId());
 

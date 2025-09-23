@@ -44,4 +44,22 @@ public class AdminUserService {
         return authUserRepository.findUserWithDetailsById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userId));
     }
+
+    // --- RECOMENDAÇÃO 1: MÉTODO PARA DESATIVAR USUÁRIO ---
+    @Transactional
+    public void deactivateUser(UUID userId) {
+        AuthUser user = authUserRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userId));
+        user.setEnabled(false);
+        authUserRepository.save(user);
+    }
+
+    // --- RECOMENDAÇÃO 2: MÉTODO PARA ATIVAR USUÁRIO ---
+    @Transactional
+    public void activateUser(UUID userId) {
+        AuthUser user = authUserRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userId));
+        user.setEnabled(true);
+        authUserRepository.save(user);
+    }
 }

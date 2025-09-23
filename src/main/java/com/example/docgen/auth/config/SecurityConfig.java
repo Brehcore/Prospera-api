@@ -3,6 +3,7 @@ package com.example.docgen.auth.config;
 import com.example.docgen.auth.jwt.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -39,6 +40,9 @@ public class SecurityConfig {
                         // Endpoints públicos de autenticação
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
 
+                        // Rota púclica para consulta de CNPJ
+                        .requestMatchers(HttpMethod.GET, "/api/lookup/cnpj/**").permitAll()
+
                         // Endpoints que exigem que o usuário esteja logado
                         .requestMatchers("/profile/**", "/organizations/**").authenticated()
 
@@ -52,7 +56,7 @@ public class SecurityConfig {
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				)
                 // Usaremos um Provider que será criado como um @Bean separado
-                .authenticationProvider(authenticationProvider(null)) // Passamos null por enquanto
+                // .authenticationProvider(authenticationProvider(null)) // Passamos null por enquanto
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}

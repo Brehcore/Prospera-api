@@ -3,9 +3,11 @@ package com.example.docgen.enterprise.api;
 import com.example.docgen.auth.domain.AuthUser;
 import com.example.docgen.enterprise.api.dto.AddMemberRequest;
 import com.example.docgen.enterprise.api.dto.MemberResponseDTO;
+import com.example.docgen.enterprise.api.dto.SectorIdRequest;
 import com.example.docgen.enterprise.api.dto.UpdateMemberRoleRequest;
 import com.example.docgen.enterprise.domain.Membership;
 import com.example.docgen.enterprise.service.MembershipService;
+import com.example.docgen.enterprise.service.SectorAssignmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class MembershipController {
 
     private final MembershipService membershipService;
+    private final SectorAssignmentService sectorAssignmentService;
 
     /**
      * Endpoint para um ORG_ADMIN adicionar um novo membro à sua organização.
@@ -78,4 +81,22 @@ public class MembershipController {
         Membership updatedMembership = membershipService.updateMemberRole(currentUser, organizationId, membershipId, request.newRole());
         return ResponseEntity.ok(MemberResponseDTO.fromEntity(updatedMembership));
     }
+
+    /**
+     * Endpoint para um ORG_ADMIN atribuir um setor a um membro da sua organização.
+     */
+    @PostMapping("/{membershipId}/sectors")
+    @PreAuthorize("hasRole('ORG_ADMIN')")
+    public ResponseEntity<Void> assignSectorToMember(
+            @AuthenticationPrincipal AuthUser adminUser,
+            @PathVariable UUID organizationId,
+            @PathVariable UUID membershipId, // Usar membershipId é mais específico que userId
+            @RequestBody @Valid SectorIdRequest request) {
+
+        // O Service precisa ser ajustado para receber o membershipId
+        // e validar se o adminUser pertence à organizationId
+        sectorAssignmentService.assignSectorToMember(adminUser, organizationId, membershipId, request.sectorId());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
 }

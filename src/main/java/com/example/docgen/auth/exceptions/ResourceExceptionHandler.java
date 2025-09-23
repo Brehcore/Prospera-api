@@ -24,11 +24,31 @@ public class ResourceExceptionHandler {
 	// Violação de integridade (Ex.: e-mail duplicado)
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<StandardError> handleDataIntegrity(DataIntegrityViolationException e,
-			HttpServletRequest request) {
+                                                             HttpServletRequest request) {
 
-		HttpStatus status = HttpStatus.BAD_REQUEST;
-		StandardError err = new StandardError(Instant.now(), HttpStatus.BAD_REQUEST.value(), "Violação de integridade",
-				e.getMessage(), request.getRequestURI());
+        HttpStatus status = HttpStatus.BAD_REQUEST; // Ou HttpStatus.CONFLICT (409) que é mais específico para duplicados
+        String errorMessage = "Violação de integridade de dados. Tente novamente mais tarde ou contate o administrador do sistema.";
+
+        // Analisa a causa raiz para uma mensagem mais específica
+        Throwable rootCause = e.getMostSpecificCause();
+        String rootMessage = rootCause.getMessage().toLowerCase();
+
+        if (rootMessage.contains("duplicate entry")) {
+            if (rootMessage.contains("cpf")) { // Assumindo que o nome da constraint/campo contém "cpf"
+                errorMessage = "O CPF informado já está cadastrado.";
+            } else if (rootMessage.contains("email")) {
+                errorMessage = "O e-mail informado já está em uso.";
+            }
+            // Adicione outras verificações para outras chaves únicas se necessário
+        }
+
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                "Violação de Integridade",
+                errorMessage, // Mensagem amigável aqui
+                request.getRequestURI()
+        );
 
 		return ResponseEntity.status(status).body(err);
 	}

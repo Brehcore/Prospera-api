@@ -3,6 +3,7 @@ package com.example.docgen.enterprise.service;
 import com.example.docgen.auth.domain.AuthUser;
 import com.example.docgen.auth.repositories.AuthUserRepository;
 import com.example.docgen.common.enums.OrganizationRole;
+import com.example.docgen.common.validation.CnpjValidationService;
 import com.example.docgen.enterprise.api.dto.CreateOrganizationRequest;
 import com.example.docgen.enterprise.domain.Membership;
 import com.example.docgen.enterprise.domain.Organization;
@@ -20,32 +21,39 @@ public class OrganizationService {
     private final OrganizationRepository orgRepository;
     private final MembershipRepository membershipRepository;
     private final AuthUserRepository authUserRepository;
+    private final CnpjValidationService cnpjValidationService;
 
     @Transactional
     public Organization createOrganization(AuthUser adminUser, CreateOrganizationRequest dto) {
-        // Lógica de verificação adicionada no início
-        // Busca a versão "viva" do usuário para carregar suas afiliações
+        // 1. Limpe o CNPJ PRIMEIRO, removendo a máscara.
+        String cleanedCnpj = dto.cnpj().replaceAll("[^\\d]", "");
+
+        // 2. Valide o CNPJ já limpo.
+        cnpjValidationService.validate(cleanedCnpj);
+
+        // 3. Verificação de existência (apenas uma vez, com o CNPJ limpo).
+        if (orgRepository.existsByCnpj(cleanedCnpj)) {
+            throw new IllegalStateException("O CNPJ informado já está cadastrado.");
+        }
+
+        // 4. Lógica de negócio do usuário.
         AuthUser managedUser = authUserRepository.findById(adminUser.getId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
-        // Verifica se o usuário já é membro de alguma organização
         if (managedUser.getMemberships() != null && !managedUser.getMemberships().isEmpty()) {
             throw new IllegalStateException("Usuários que já são membros de uma organização não podem criar uma nova.");
         }
 
-        // A lógica de negócio existente continua a partir daqui
-        if (orgRepository.existsByCnpj(dto.cnpj())) {
-            throw new IllegalStateException("O CNPJ informado já está cadastrado.");
-        }
-
+        // 5. Use APENAS o CNPJ limpo para criar a nova organização.
         var newOrg = Organization.builder()
                 .razaoSocial(dto.razaoSocial())
-                .cnpj(dto.cnpj())
+                .cnpj(cleanedCnpj) // Apenas a versão limpa
                 .build();
         Organization savedOrg = orgRepository.save(newOrg);
 
+        // 6. Crie a afiliação (membership).
         var membership = Membership.builder()
-                .user(managedUser) // 3. Usa a versão gerenciada do usuário
+                .user(managedUser)
                 .organization(savedOrg)
                 .role(OrganizationRole.ORG_ADMIN)
                 .build();

@@ -1,0 +1,15 @@
+package com.example.docgen.courses.api.dto;
+
+import com.example.docgen.courses.domain.enums.TrainingEntityType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
+
+public record TrainingCreateRequest(
+        @NotBlank String title,
+        @NotBlank String description,
+        @NotBlank String author,
+        @NotNull TrainingEntityType entityType, // EBOOK, RECORDED_COURSE, ou LIVE_TRAINING
+        UUID organizationId // Opcional, para treinamentos exclusivos
+) {
+}

@@ -2,7 +2,8 @@ package com.example.docgen.courses.domain.enums;
 
 public enum EnrollmentStatus {
 
-    IN_PROGRESS,
+    NOT_ENROLLED,
+    ACTIVE,
     COMPLETED,
     CANCELLED
 }

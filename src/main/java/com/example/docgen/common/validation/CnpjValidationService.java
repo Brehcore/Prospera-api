@@ -1,6 +1,7 @@
 package com.example.docgen.common.validation;
 
 import br.com.caelum.stella.validation.CNPJValidator;
+import com.example.docgen.auth.exceptions.CnpjValidationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,12 +13,17 @@ public class CnpjValidationService {
         this.cnpjValidator = new CNPJValidator();
     }
 
-    public boolean isValid(String cnpj) {
+    /**
+     * Valida o CNPJ. Se for inválido, lança CnpjValidationException.
+     *
+     * @param cnpj O CNPJ a ser validado.
+     */
+    public void validate(String cnpj) { // Mude o nome e o retorno para void
         try {
             cnpjValidator.assertValid(cnpj);
-            return true;
         } catch (Exception e) {
-            return false;
+            // Lança sua exceção customizada
+            throw new CnpjValidationException("CNPJ inválido.");
         }
     }
 }

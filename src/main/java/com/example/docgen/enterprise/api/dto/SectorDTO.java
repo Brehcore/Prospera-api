@@ -1,6 +1,7 @@
-package com.example.docgen.enterprise.admin.dto;
+package com.example.docgen.enterprise.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import com.example.docgen.enterprise.domain.Sector;
 
 import java.util.UUID;
 
@@ -10,4 +11,8 @@ public record SectorDTO(
         @NotBlank(message = "O nome do setor é obrigatório")
         String name
 ) {
+
+    public static SectorDTO fromEntity(Sector sector) {
+        return new SectorDTO(sector.getId(), sector.getName());
+    }
 }

@@ -36,4 +36,7 @@ public interface MembershipRepository extends JpaRepository<Membership, UUID> {
 
     // Método para a verificação de membro duplicado
     boolean existsByUserAndOrganization(AuthUser user, Organization organization);
+
+    Optional<Membership> findByUserId(UUID userId);
+
 }

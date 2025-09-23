@@ -47,8 +47,8 @@ public class Enrollment {
 
     // O curso no qual ele está matriculado
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @JoinColumn(name = "training_id")
+    private Training training;
 
     // A organização que pagou pela matrícula (pode ser nulo para compras individuais de PF)
     @ManyToOne(fetch = FetchType.LAZY)

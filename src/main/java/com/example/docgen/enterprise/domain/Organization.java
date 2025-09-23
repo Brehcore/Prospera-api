@@ -46,9 +46,6 @@ public class Organization {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private OrganizationStatus status = OrganizationStatus.ACTIVE; // Define 'ACTIVE' como padrão
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sector_id") // A chave estrangeira na tabela 'organizations'
-    private Sector sector;
 }
