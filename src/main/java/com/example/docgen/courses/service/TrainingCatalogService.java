@@ -1,6 +1,7 @@
 package com.example.docgen.courses.service;
 
 import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.courses.api.dto.PublicTrainingDTO;
 import com.example.docgen.courses.api.dto.TrainingCatalogItemDTO;
 import com.example.docgen.courses.api.dto.TrainingSummaryDTO;
 import com.example.docgen.courses.domain.Enrollment;
@@ -14,11 +15,17 @@ import com.example.docgen.courses.repositories.TrainingRepository;
 import com.example.docgen.courses.repositories.TrainingSectorAssignmentRepository;
 import com.example.docgen.enterprise.domain.UserSector;
 import com.example.docgen.enterprise.repositories.UserSectorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -112,5 +119,21 @@ public class TrainingCatalogService {
         return trainings.stream()
                 .map(TrainingSummaryDTO::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PublicTrainingDTO> findAllPublishedForPublic() {
+        // Busca apenas treinamentos com status PUBLISHED
+        List<Training> trainings = trainingRepository.findByStatus(PublicationStatus.PUBLISHED);
+        return trainings.stream()
+                .map(PublicTrainingDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public PublicTrainingDTO findPublishedByIdForPublic(UUID trainingId) {
+        Training training = trainingRepository.findByIdAndStatus(trainingId, PublicationStatus.PUBLISHED)
+                .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado ou não está publicado."));
+        return PublicTrainingDTO.fromEntity(training);
     }
 }

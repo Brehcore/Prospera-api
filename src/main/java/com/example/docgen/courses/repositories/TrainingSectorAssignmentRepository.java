@@ -11,8 +11,13 @@ public interface TrainingSectorAssignmentRepository extends JpaRepository<Traini
     List<TrainingSectorAssignment> findBySectorIdIn(List<UUID> sectorIds);
 
     /**
-     * NOVO MÉTODO: Encontra todas as associações de treinamento para um ID de setor.
+     * Encontra todas as associações de treinamento para um ID de setor.
      */
     List<TrainingSectorAssignment> findBySectorId(UUID sectorId);
+
+    /**
+     * Verifica se existe alguma associação de setor para um treinamento.
+     */
+    boolean existsByTrainingId(UUID trainingId);
 
 }

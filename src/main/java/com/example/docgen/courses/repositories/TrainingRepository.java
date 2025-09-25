@@ -42,4 +42,13 @@ public interface TrainingRepository extends JpaRepository<Training, UUID> {
     List<Training> findAllByIdInAndStatus(List<UUID> ids, PublicationStatus status);
 
 
+    /**
+     * Encontra todos os treinamentos com o status de publicação especificado.
+     */
+    List<Training> findByStatus(PublicationStatus status);
+
+    /**
+     * Encontra um treinamento específico pelo ID e status de publicação.
+     */
+    Optional<Training> findByIdAndStatus(UUID id, PublicationStatus status);
 }

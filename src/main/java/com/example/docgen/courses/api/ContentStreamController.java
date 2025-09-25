@@ -5,7 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/stream")
@@ -26,5 +29,12 @@ public class ContentStreamController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
                 .header(HttpHeaders.ACCEPT_RANGES, "bytes") // Essencial para PDF.js
                 .body(file);
+    }
+
+    @GetMapping("/images/{filename:.+}")
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
+        Resource file = fileStorageService.loadAsResource(filename);
+        // Este header é otimizado para imagens
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(file);
     }
 }

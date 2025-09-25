@@ -2,11 +2,14 @@ package com.example.docgen.courses.service;
 
 import com.example.docgen.auth.domain.AuthUser;
 import com.example.docgen.auth.repositories.AuthUserRepository;
-import com.example.docgen.courses.domain.Training;
+import com.example.docgen.courses.api.dto.EnrollmentResponseDTO;
 import com.example.docgen.courses.domain.Enrollment;
+import com.example.docgen.courses.domain.Training;
 import com.example.docgen.courses.domain.enums.EnrollmentStatus;
-import com.example.docgen.courses.repositories.TrainingRepository;
 import com.example.docgen.courses.repositories.EnrollmentRepository;
+import com.example.docgen.courses.repositories.TrainingRepository;
+import com.example.docgen.enterprise.api.dto.MemberResponseDTO;
+import com.example.docgen.enterprise.domain.Membership;
 import com.example.docgen.enterprise.domain.Organization;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -100,5 +102,32 @@ public class EnrollmentService {
         if (!newEnrollments.isEmpty()) {
             enrollmentRepository.saveAll(newEnrollments);
         }
+    }
+
+    /**
+     * NOVO MÉTODO:
+     * Encontra todos os membros de uma organização específica que estão
+     * matriculados em um determinado treinamento.
+     */
+    @Transactional(readOnly = true)
+    public List<MemberResponseDTO> getEnrolledMembers(UUID organizationId, UUID trainingId) {
+        // Usa o novo método do repositório para buscar os dados já formatados
+        List<Membership> memberships = enrollmentRepository.findMembershipsByOrganizationAndTraining(organizationId, trainingId);
+
+        // Converte a lista de entidades para a lista de DTOs de resposta
+        return memberships.stream()
+                .map(MemberResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Encontra todas as matrículas de um usuário específico.
+     */
+    @Transactional(readOnly = true)
+    public List<EnrollmentResponseDTO> findEnrollmentsForUser(AuthUser user) {
+        List<Enrollment> enrollments = enrollmentRepository.findByUserWithTrainingDetails(user);
+        return enrollments.stream()
+                .map(EnrollmentResponseDTO::fromEntity) // Assumindo que você tem este DTO e método
+                .collect(Collectors.toList());
     }
 }

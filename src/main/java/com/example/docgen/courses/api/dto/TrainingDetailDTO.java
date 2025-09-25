@@ -4,6 +4,7 @@ import com.example.docgen.courses.domain.EbookTraining;
 import com.example.docgen.courses.domain.LiveTraining;
 import com.example.docgen.courses.domain.RecordedCourse;
 import com.example.docgen.courses.domain.Training;
+import com.example.docgen.courses.domain.enums.PublicationStatus;
 import com.example.docgen.courses.domain.enums.TrainingEntityType;
 
 import java.time.OffsetDateTime;
@@ -16,6 +17,12 @@ public record TrainingDetailDTO(
         String title,
         String description,
         TrainingEntityType entityType,
+        String author,
+        PublicationStatus status,
+        OffsetDateTime createdAt,
+        OffsetDateTime updatedAt,
+
+        // Campos Polimórficos
         EbookDetails ebookDetails, // Nulo se não for um Ebook
         CourseDetails courseDetails, // Nulo se não for um Curso Gravado
         LiveDetails liveDetails // Nulo se não for um Treinamento ao Vivo
@@ -26,7 +33,7 @@ public record TrainingDetailDTO(
         LiveDetails live = null;
 
         if (training instanceof EbookTraining et) {
-            ebook = new EbookDetails(et.getFilePath(), et.getTotalPages());
+            ebook = new EbookDetails(et.getFilePath(), et.getTotalPages(), et.getFileUploadedAt());
         } else if (training instanceof RecordedCourse rc) {
             course = new CourseDetails(rc.getModules().stream().map(CourseDetails.ModuleDetail::fromEntity).collect(Collectors.toList()));
         } else if (training instanceof LiveTraining lt) {
@@ -38,6 +45,12 @@ public record TrainingDetailDTO(
                 training.getTitle(),
                 training.getDescription(),
                 training.getEntityType(),
+                training.getAuthor(),
+                training.getStatus(),
+                training.getCreatedAt(),
+                training.getUpdatedAt(),
+
+                // Campos Polimórficos
                 ebook,
                 course,
                 live
@@ -45,7 +58,7 @@ public record TrainingDetailDTO(
     }
 
     // Sub-records para detalhes específicos de cada tipo
-    public record EbookDetails(String filePath, int totalPages) {
+    public record EbookDetails(String filePath, Integer totalPages, OffsetDateTime fileUploadedAt) {
     }
 
     public record LiveDetails(String meetingUrl, OffsetDateTime startDateTime) {

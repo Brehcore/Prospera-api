@@ -1,10 +1,25 @@
 package com.example.docgen.courses.service;
 
-import com.example.docgen.courses.api.dto.*;
-import com.example.docgen.courses.domain.*;
+import com.example.docgen.courses.api.dto.LessonCreateRequest;
+import com.example.docgen.courses.api.dto.LessonDTO;
+import com.example.docgen.courses.api.dto.ModuleCreateRequest;
+import com.example.docgen.courses.api.dto.ModuleDTO;
+import com.example.docgen.courses.api.dto.TrainingCreateRequest;
+import com.example.docgen.courses.api.dto.TrainingDTO;
+import com.example.docgen.courses.api.dto.TrainingDetailDTO;
+import com.example.docgen.courses.api.dto.TrainingSectorAssignmentRequest;
+import com.example.docgen.courses.api.dto.TrainingSummaryDTO;
+import com.example.docgen.courses.api.dto.TrainingUpdateRequest;
+import com.example.docgen.courses.domain.EbookTraining;
+import com.example.docgen.courses.domain.Lesson;
+import com.example.docgen.courses.domain.LiveTraining;
 import com.example.docgen.courses.domain.Module;
+import com.example.docgen.courses.domain.RecordedCourse;
+import com.example.docgen.courses.domain.Training;
+import com.example.docgen.courses.domain.TrainingSectorAssignment;
 import com.example.docgen.courses.domain.enums.PublicationStatus;
 import com.example.docgen.courses.domain.enums.TrainingEntityType;
+import com.example.docgen.courses.repositories.EnrollmentRepository;
 import com.example.docgen.courses.repositories.LessonRepository;
 import com.example.docgen.courses.repositories.ModuleRepository;
 import com.example.docgen.courses.repositories.TrainingRepository;
@@ -19,11 +34,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.client.WebClient; // Import correto
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.util.*;
+import java.time.OffsetDateTime;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,8 +56,8 @@ public class AdminTrainingService {
     private final LessonRepository lessonRepository;
     private final TrainingSectorAssignmentRepository assignmentRepository;
     private final FileStorageService fileStorageService;
-    // CORREÇÃO 1: Injetando o BEAN WebClient, não a classe de configuração.
     private final WebClient enterpriseWebClient;
+    private final EnrollmentRepository enrollmentRepository;
 
 
     /**
@@ -157,6 +178,8 @@ public class AdminTrainingService {
             // 3. Atualiza a entidade
             ebook.setFilePath(filePath);
             ebook.setTotalPages(pageCount);
+            ebook.setFileUploadedAt(OffsetDateTime.now());
+
             trainingRepository.save(ebook);
 
         } catch (IOException e) {
@@ -226,5 +249,91 @@ public class AdminTrainingService {
                 .onStatus(status -> status == HttpStatus.NOT_FOUND,
                         clientResponse -> Mono.error(new SectorNotFoundException("Setor com ID " + sectorId + " não encontrado.")))
                 .bodyToMono(Void.class);
+    }
+
+    // =======================================================================================
+    // == NOVOS MÉTODOS PARA O CRUD COMPLETO DE TREINAMENTOS                                ==
+    // =======================================================================================
+
+    /**
+     * Busca um treinamento pelo ID e o converte para um DTO detalhado.
+     * Usado pelo endpoint GET /admin/trainings/{trainingId}.
+     */
+    @Transactional(readOnly = true)
+    public TrainingDetailDTO getTrainingById(UUID trainingId) {
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado com o ID: " + trainingId));
+
+        // E garanta que ele chama o DTO correto aqui
+        return TrainingDetailDTO.fromEntity(training);
+    }
+
+    /**
+     * Atualiza os dados de um treinamento existente.
+     * Usado pelo endpoint PUT /admin/trainings/{trainingId}.
+     */
+    @Transactional
+    public TrainingDTO updateTraining(UUID trainingId, TrainingUpdateRequest dto) {
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado com o ID: " + trainingId));
+
+        // Atualiza os campos básicos
+        training.setTitle(dto.title());
+        training.setDescription(dto.description());
+        training.setAuthor(dto.author());
+        // Adicione outros campos que podem ser atualizados
+
+        Training updatedTraining = trainingRepository.save(training);
+        return TrainingDTO.fromEntity(updatedTraining);
+    }
+
+    /**
+     * Exclui um treinamento, mas apenas se ele não tiver dados associados.
+     * Usado pelo endpoint DELETE /admin/trainings/{trainingId}.
+     */
+    @Transactional
+    public void deleteTraining(UUID trainingId) {
+        // Validação 1: O treinamento existe?
+        if (!trainingRepository.existsById(trainingId)) {
+            throw new EntityNotFoundException("Treinamento não encontrado com o ID: " + trainingId);
+        }
+
+        // Validação 2 (SEGURANÇA): Verifica se há matrículas associadas.
+        if (enrollmentRepository.existsByTrainingId(trainingId)) {
+            throw new IllegalStateException("Não é possível excluir este treinamento pois existem membros matriculados.");
+        }
+
+        // Validação 3 (SEGURANÇA): Verifica se há módulos associados (se for um curso).
+        if (moduleRepository.existsByCourseId(trainingId)) {
+            throw new IllegalStateException("Não é possível excluir este treinamento pois existem módulos associados. Exclua os módulos primeiro.");
+        }
+
+        // Validação 4 (SEGURANÇA): Verifica se há setores associados.
+        if (assignmentRepository.existsByTrainingId(trainingId)) {
+            throw new IllegalStateException("Não é possível excluir este treinamento pois ele está associado a setores.");
+        }
+
+        // Se todas as validações passaram, a exclusão é segura.
+        trainingRepository.deleteById(trainingId);
+    }
+
+    @Transactional
+    public void setCoverImage(UUID trainingId, MultipartFile file) {
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado: " + trainingId));
+
+        // 1. Salva o arquivo usando o mesmo serviço de antes e obtém o nome único.
+        String filename = fileStorageService.save(file);
+
+        // 2. Constrói a URL completa para acessar o arquivo.
+        String imageUrl = ServletUriComponentsBuilder
+                .fromCurrentContextPath() // Pega a base da URL (ex: http://localhost:8080)
+                .path("/stream/images/") // Adiciona o caminho do endpoint de streaming
+                .path(filename)          // Adiciona o nome do arquivo
+                .toUriString();          // Converte para String
+
+        // 3. Salva a URL completa no banco de dados.
+        training.setCoverImageUrl(imageUrl);
+        trainingRepository.save(training);
     }
 }
