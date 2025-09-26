@@ -8,6 +8,7 @@ import com.example.docgen.courses.domain.enums.PublicationStatus;
 import com.example.docgen.courses.domain.enums.TrainingEntityType;
 
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,11 +22,16 @@ public record TrainingDetailDTO(
         PublicationStatus status,
         OffsetDateTime createdAt,
         OffsetDateTime updatedAt,
+        String coverImageUrl,
 
         // Campos Polimórficos
         EbookDetails ebookDetails, // Nulo se não for um Ebook
         CourseDetails courseDetails, // Nulo se não for um Curso Gravado
-        LiveDetails liveDetails // Nulo se não for um Treinamento ao Vivo
+        LiveDetails liveDetails, // Nulo se não for um Treinamento ao Vivo
+
+        // NOVO CAMPO:
+        List<TrainingSectorAssignmentDTO> sectorAssignments // Lista de associações com setores
+
 ) {
     public static TrainingDetailDTO fromEntity(Training training) {
         EbookDetails ebook = null;
@@ -40,6 +46,13 @@ public record TrainingDetailDTO(
             live = new LiveDetails(lt.getMeetingUrl(), lt.getStartDateTime());
         }
 
+        // LÓGICA ADICIONAL: Buscar as associações com setores
+        List<TrainingSectorAssignmentDTO> assignments = training.getSectorAssignments() != null
+                ? training.getSectorAssignments().stream()
+                .map(TrainingSectorAssignmentDTO::fromEntity)
+                .collect(Collectors.toList())
+                : Collections.emptyList();
+
         return new TrainingDetailDTO(
                 training.getId(),
                 training.getTitle(),
@@ -49,11 +62,13 @@ public record TrainingDetailDTO(
                 training.getStatus(),
                 training.getCreatedAt(),
                 training.getUpdatedAt(),
+                training.getCoverImageUrl(),
 
                 // Campos Polimórficos
                 ebook,
                 course,
-                live
+                live,
+                assignments // Lista de associações com setores
         );
     }
 

@@ -3,10 +3,12 @@ package com.example.docgen.enterprise.admin;
 import com.example.docgen.enterprise.api.dto.SectorDTO;
 import com.example.docgen.enterprise.domain.Sector;
 import com.example.docgen.enterprise.repositories.SectorRepository;
+import com.example.docgen.enterprise.service.SectorService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class AdminSectorController {
 
     private final SectorRepository sectorRepository; // Para um CRUD simples, podemos injetar o repositório diretamente
+    private final SectorService sectorService;
 
     @PostMapping
     public ResponseEntity<SectorDTO> createSector(@RequestBody SectorDTO dto) {
@@ -48,5 +51,13 @@ public class AdminSectorController {
         return ResponseEntity.ok(SectorDTO.fromEntity(sector));
     }
 
-    // Futuramente, pode adicionar endpoints PUT e DELETE aqui
+    /**
+     * Exclui um setor global do sistema.
+     */
+    @DeleteMapping("/{sectorId}")
+    public ResponseEntity<Void> deleteSector(@PathVariable UUID sectorId) {
+        // Agora chama o serviço correto e dedicado
+        sectorService.deleteSector(sectorId);
+        return ResponseEntity.noContent().build();
+    }
 }

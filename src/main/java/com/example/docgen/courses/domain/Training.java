@@ -2,18 +2,21 @@ package com.example.docgen.courses.domain;
 
 import com.example.docgen.courses.domain.enums.PublicationStatus;
 import com.example.docgen.courses.domain.enums.TrainingEntityType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -21,6 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -69,6 +73,9 @@ public abstract class Training { // <-- CORREÇÃO: A classe agora é abstrata
     private OffsetDateTime updatedAt;
 
     private String coverImageUrl;
+
+    @OneToMany(mappedBy = "trainingId", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrainingSectorAssignment> sectorAssignments;
 
     @PrePersist
     void prePersist() {

@@ -137,4 +137,17 @@ public class AdminTrainingController {
         adminTrainingService.setCoverImage(trainingId, file);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * Desvincula um treinamento de um setor no catálogo global.
+     */
+    @DeleteMapping("/{trainingId}/sectors/{sectorId}")
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
+    public ResponseEntity<Void> unassignTrainingFromSector(
+            @PathVariable UUID trainingId,
+            @PathVariable UUID sectorId) {
+
+        adminTrainingService.unassignTrainingFromSector(trainingId, sectorId);
+        return ResponseEntity.noContent().build();
+    }
 }

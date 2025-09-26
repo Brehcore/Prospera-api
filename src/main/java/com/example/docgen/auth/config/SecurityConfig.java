@@ -37,6 +37,9 @@ public class SecurityConfig {
 				.csrf(AbstractHttpConfigurer::disable)
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(auth -> auth
+                        // Regras públicas
+                        .requestMatchers("public/**", "/auth/**", "/stream/**").permitAll()
+
                         // Endpoints públicos de autenticação
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
 

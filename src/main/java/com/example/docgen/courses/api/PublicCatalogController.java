@@ -2,6 +2,8 @@ package com.example.docgen.courses.api;
 
 import com.example.docgen.courses.api.dto.PublicTrainingDTO;
 import com.example.docgen.courses.service.TrainingCatalogService;
+import com.example.docgen.enterprise.api.dto.SectorDTO;
+import com.example.docgen.enterprise.service.SectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class PublicCatalogController {
 
     private final TrainingCatalogService trainingCatalogService;
+    private final SectorService sectorService;
 
     /**
      * Lista todos os treinamentos publicados para a vitrine pública.
@@ -35,5 +38,15 @@ public class PublicCatalogController {
     public ResponseEntity<PublicTrainingDTO> getPublicTrainingDetails(@PathVariable UUID trainingId) {
         PublicTrainingDTO training = trainingCatalogService.findPublishedByIdForPublic(trainingId);
         return ResponseEntity.ok(training);
+    }
+
+    /**
+     * NOVO ENDPOINT:
+     * Lista todos os setores globais disponíveis para serem usados como filtro.
+     */
+    @GetMapping("/sectors")
+    public ResponseEntity<List<SectorDTO>> listPublicSectors() {
+        List<SectorDTO> sectors = sectorService.findAllPublicSectors();
+        return ResponseEntity.ok(sectors);
     }
 }

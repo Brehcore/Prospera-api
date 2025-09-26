@@ -336,4 +336,15 @@ public class AdminTrainingService {
         training.setCoverImageUrl(imageUrl);
         trainingRepository.save(training);
     }
+
+    /**
+     * Desvincula um treinamento de um setor no catálogo global.
+     */
+    @Transactional
+    public void unassignTrainingFromSector(UUID trainingId, UUID sectorId) {
+        // Opcional: Adicionar validações para verificar se os IDs existem antes de deletar.
+
+        // Chama o novo método do repositório para executar a exclusão.
+        assignmentRepository.deleteByTrainingIdAndSectorId(trainingId, sectorId);
+    }
 }

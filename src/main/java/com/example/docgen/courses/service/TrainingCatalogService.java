@@ -13,7 +13,9 @@ import com.example.docgen.courses.domain.enums.TrainingType;
 import com.example.docgen.courses.repositories.EnrollmentRepository;
 import com.example.docgen.courses.repositories.TrainingRepository;
 import com.example.docgen.courses.repositories.TrainingSectorAssignmentRepository;
+import com.example.docgen.enterprise.api.dto.SectorDTO;
 import com.example.docgen.enterprise.domain.UserSector;
+import com.example.docgen.enterprise.repositories.SectorRepository;
 import com.example.docgen.enterprise.repositories.UserSectorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,7 @@ public class TrainingCatalogService {
     private final TrainingSectorAssignmentRepository assignmentRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final UserSectorRepository userSectorRepository;
+    private final SectorRepository sectorRepository;
 
     @Transactional(readOnly = true)
     public List<TrainingCatalogItemDTO> getCatalogForUser(AuthUser user) {
@@ -135,5 +138,12 @@ public class TrainingCatalogService {
         Training training = trainingRepository.findByIdAndStatus(trainingId, PublicationStatus.PUBLISHED)
                 .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado ou não está publicado."));
         return PublicTrainingDTO.fromEntity(training);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SectorDTO> findAllPublicSectors() {
+        return sectorRepository.findAll().stream()
+                .map(SectorDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }

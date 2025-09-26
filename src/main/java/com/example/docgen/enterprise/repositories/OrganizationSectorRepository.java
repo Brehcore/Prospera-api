@@ -3,6 +3,7 @@ package com.example.docgen.enterprise.repositories;
 import com.example.docgen.enterprise.domain.Organization;
 import com.example.docgen.enterprise.domain.OrganizationSector;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,5 +24,18 @@ public interface OrganizationSectorRepository extends JpaRepository<Organization
      * Encontra todas as associações de setores para um ID de organização específico.
      */
     List<OrganizationSector> findAllByOrganizationId(UUID organizationId);
+
+    /**
+     * Deleta a "adoção" de um setor por uma organização,
+     * baseado no ID da organização e no ID do setor.
+     */
+    @Transactional
+    void deleteByOrganizationIdAndSectorId(UUID organizationId, UUID sectorId);
+
+    /**
+     * Verifica se existe alguma "adoção" para um dado sectorId.
+     */
+    boolean existsBySectorId(UUID sectorId);
+
 
 }

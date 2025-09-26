@@ -1,14 +1,18 @@
 package com.example.docgen.enterprise.service;
 
 import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.common.enums.OrganizationRole;
 import com.example.docgen.enterprise.api.dto.SectorDTO;
 import com.example.docgen.enterprise.domain.Membership;
 import com.example.docgen.enterprise.domain.Organization;
 import com.example.docgen.enterprise.domain.OrganizationSector;
 import com.example.docgen.enterprise.domain.Sector;
 import com.example.docgen.enterprise.domain.UserSector;
-import com.example.docgen.enterprise.repositories.*; // Import genérico para os repositórios
-import com.example.docgen.common.enums.OrganizationRole;
+import com.example.docgen.enterprise.repositories.MembershipRepository;
+import com.example.docgen.enterprise.repositories.OrganizationRepository;
+import com.example.docgen.enterprise.repositories.OrganizationSectorRepository;
+import com.example.docgen.enterprise.repositories.SectorRepository;
+import com.example.docgen.enterprise.repositories.UserSectorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -130,7 +134,6 @@ public class SectorAssignmentService {
     }
 
     /**
-     * NOVO MÉTODO:
      * Busca e retorna todos os setores que foram "adotados" por uma organização específica.
      */
     @Transactional(readOnly = true)
@@ -155,5 +158,17 @@ public class SectorAssignmentService {
         return sectors.stream()
                 .map(SectorDTO::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Remove a "adoção" de um setor por uma organização.
+     */
+    @Transactional
+    public void removeSectorFromOrganization(UUID organizationId, UUID sectorId) {
+        // A validação de que o ORG_ADMIN tem permissão para a organizationId
+        // já foi feita no controller.
+
+        // Chama o novo método do repositório para executar a exclusão.
+        organizationSectorRepository.deleteByOrganizationIdAndSectorId(organizationId, sectorId);
     }
 }
