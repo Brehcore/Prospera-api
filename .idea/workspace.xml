@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona suporte a progresso de e-books, streaming e permissões de acesso&#10;&#10;- Criação do `EbookProgressDTO` e novo método `getEbookProgress` no `ProgressService` para consulta de progresso&#10;- Implementação de validações em `updateEbookProgress` para total de páginas e limites de progresso&#10;- Adição de timestamps em `EbookProgress` para rastrear atualizações&#10;- Introdução do `ContentAccessService` para gerenciamento de acesso seguro a conteúdos como e-books e imagens&#10;- Atualização do `ContentStreamController` para endpoints públicos e restritos de streaming de e-books/imagens&#10;- Inclusão de progressão percentual no `EnrollmentResponseDTO`&#10;- Documentação expandida nas entidades, serviços e DTOs afetados">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/common/service/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/common/service/AuthorizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/AdminTrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/AdminTrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/TrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/TrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/dto/EnrollmentResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/dto/EnrollmentResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/domain/Enrollment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/domain/Enrollment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/EnrollmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/EnrollmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/MembershipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/MembershipController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/MemberDetailDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/MemberDetailDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Membership.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Membership.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/repositories/MembershipRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/repositories/MembershipRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/repositories/UserSectorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/repositories/UserSectorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/MembershipService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/MembershipService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-test.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+      <option value="module" />
+      <option value="repository" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Exception" />
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Record" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="--author=&quot;Brena Soares &lt;brena@example.com&gt;&quot;" />
+        <option value="Brena Soares" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Brehcore&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:Gotree-Consultoria/Docgen.git&quot;,
+    &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
+  }
+}</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests /&gt;" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+    <option name="showPreview" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2zrjvNGjEmlSzNI4ZHNwgak1QcR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.TestDBConnection.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.DocgenApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/brehs/Documents/Go-Tree/Prospera/Docgen",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.docgen.courses.api.dto" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.docgen.enterprise.admin" />
+      <recent name="com.example.docgen.courses.api" />
+      <recent name="com.example.docgen.auth.api" />
+      <recent name="com.example.docgen.enterprise.api" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.docgen.dto" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Docgen" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Docgen" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="DocgenApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="docgen" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.docgen.DocgenApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26927.53" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.26927.53" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\brehs\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="" />
+      <created>1752496316012</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1752496316012</updated>
+      <workItem from="1752496317308" duration="9382000" />
+      <workItem from="1752752710888" duration="15123000" />
+      <workItem from="1752866558866" duration="4463000" />
+      <workItem from="1752872170026" duration="364000" />
+      <workItem from="1752872552928" duration="420000" />
+      <workItem from="1753117454598" duration="9437000" />
+      <workItem from="1753274340413" duration="196000" />
+      <workItem from="1753275478098" duration="8289000" />
+      <workItem from="1753360509355" duration="11222000" />
+      <workItem from="1753448444058" duration="1821000" />
+      <workItem from="1753452342342" duration="44000" />
+      <workItem from="1753452398830" duration="1244000" />
+      <workItem from="1753621212967" duration="4713000" />
+      <workItem from="1753634776177" duration="726000" />
+      <workItem from="1753636704524" duration="2219000" />
+      <workItem from="1753639389699" duration="1829000" />
+      <workItem from="1753702574001" duration="5588000" />
+      <workItem from="1753709254020" duration="95000" />
+      <workItem from="1753709370241" duration="362000" />
+      <workItem from="1753710869994" duration="594000" />
+      <workItem from="1753711480066" duration="135000" />
+      <workItem from="1753711632298" duration="8179000" />
+      <workItem from="1753877441187" duration="59000" />
+      <workItem from="1753881331845" duration="1175000" />
+      <workItem from="1753882817287" duration="13000" />
+      <workItem from="1753886204790" duration="5645000" />
+      <workItem from="1754054588360" duration="7716000" />
+      <workItem from="1754486717169" duration="11075000" />
+      <workItem from="1755030866120" duration="595000" />
+      <workItem from="1755519349095" duration="6395000" />
+      <workItem from="1755690588684" duration="10545000" />
+      <workItem from="1755865428793" duration="48000" />
+      <workItem from="1755873471496" duration="35000" />
+      <workItem from="1756313836656" duration="4613000" />
+      <workItem from="1756466977488" duration="101000" />
+      <workItem from="1756485049712" duration="1623000" />
+      <workItem from="1756684952847" duration="42000" />
+      <workItem from="1756731639223" duration="4244000" />
+      <workItem from="1756915120664" duration="23263000" />
+      <workItem from="1756946104440" duration="2783000" />
+      <workItem from="1756989930351" duration="2867000" />
+      <workItem from="1756994533123" duration="852000" />
+      <workItem from="1756995417602" duration="20377000" />
+      <workItem from="1757111836087" duration="2560000" />
+      <workItem from="1757201537997" duration="4000" />
+      <workItem from="1757355190600" duration="6204000" />
+      <workItem from="1757372391560" duration="1535000" />
+      <workItem from="1757511203238" duration="13838000" />
+      <workItem from="1757587833767" duration="28227000" />
+      <workItem from="1757673608255" duration="22731000" />
+      <workItem from="1757719188806" duration="97000" />
+      <workItem from="1757763579338" duration="716000" />
+      <workItem from="1757849087520" duration="6910000" />
+      <workItem from="1757932912384" duration="23131000" />
+      <workItem from="1758020273963" duration="694000" />
+      <workItem from="1758021670395" duration="12318000" />
+      <workItem from="1758102509754" duration="11124000" />
+      <workItem from="1758126986082" duration="28851000" />
+      <workItem from="1758233121803" duration="3009000" />
+      <workItem from="1758236177893" duration="4057000" />
+      <workItem from="1758540134329" duration="15833000" />
+      <workItem from="1758626156134" duration="18624000" />
+      <workItem from="1758710097373" duration="24659000" />
+      <workItem from="1758804207720" duration="5372000" />
+      <workItem from="1758834964639" duration="8370000" />
+      <workItem from="1758883983430" duration="3262000" />
+      <workItem from="1758923874085" duration="9040000" />
+      <workItem from="1758934829428" duration="44000" />
+      <workItem from="1758973630836" duration="16990000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
+      <option name="closed" value="true" />
+      <created>1752870550773</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1752870550773</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: finalização do módulo de autenticação e segurança&#10;&#10;- Implementação completa do endpoint /auth/login com autenticação básica&#10;- Configuração do Spring Security com controle de acesso por roles (USER/ADMIN)&#10;- Proteção de endpoints sensíveis (PUT/DELETE) para ADMIN&#10;- Validações no cadastro de usuários: CPF, e-mail, telefone e data de nascimento&#10;- Testes via Postman concluídos para login, CRUD e regras de permissão&#10;- Tratamento de erros com mensagens apropriadas&#10;- Inclusão do método DELETE no UserController com controle de permissão">
+      <option name="closed" value="true" />
+      <created>1753129117765</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1753129117765</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix(backend): Corrige CORS, falhas na API e validação do token JWT">
+      <option name="closed" value="true" />
+      <created>1754101303168</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1754101303168</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix(backend): Corrige CORS, falhas na API e validação do token JWT">
+      <option name="closed" value="true" />
+      <created>1755526220989</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1755526220989</updated>
+    </task>
+    <task id="LOCAL-00005" summary="&quot;feat: Adicionado fluxos completos de registro, login e edição de perfil&quot;">
+      <option name="closed" value="true" />
+      <created>1755717418017</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1755717418017</updated>
+    </task>
+    <task id="LOCAL-00006" summary="&quot;refactor: Reestruturação e modularização das classes de autenticação&#10;&#10;- Removidas entidades, controladores e serviços desnecessários&#10;- Migração das exceções, DTOs e serviços do pacote 'docgen' para 'auth'&#10;- Criação do pacote 'auth' com estrutura modularizada&#10;- Novo contrato AuthModuleApi para interação com autenticação&#10;- Inclusão de validação de CNPJ dentro do módulo de autenticação&#10;- Ajuste no UserProfileController para suportar perfis pessoa física e jurídica&quot;">
+      <option name="closed" value="true" />
+      <created>1757591991073</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1757591991073</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactor: remove módulos redundantes de autenticação e perfis de usuário&#10;&#10;- Exclusão de classes, DTOs e serviços relacionados a autenticação e perfis&#10;- Ajuste nas propriedades da aplicação para refletir nova configuração&#10;- Simplificação do mapeamento em UserProfileMapperDTO&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;">
+      <option name="closed" value="true" />
+      <created>1757719228819</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1757719228819</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: implementa módulo de cursos com suporte a criação de cursos, módulos, lições e matrículas&#10;&#10;- Adição de entidades para Course, Module, Lesson e Enrollment&#10;- Criação de DTOs para criação de cursos, módulos e lições&#10;- Implementação de serviços e controladores admin para gerenciar cursos&#10;- Suporte a enumerações para tipos de conteúdo e status de matrícula&#10;- Ajustes em repositórios e entidades existentes para suporte ao novo módulo&#10;- Ampliação de APIs no módulo de autenticação e organizações">
+      <option name="closed" value="true" />
+      <created>1757969315927</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1757969315927</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: adiciona gerenciamento de status de organizações&#10;&#10;- Criação do enum `OrganizationStatus` com valores ACTIVE, INACTIVE e SUSPENDED&#10;- Inclusão do status padrão `ACTIVE` na entidade Organization&#10;- Atualização do DTO `AdminOrganizationSummaryDTO` para exibir o status da organização&#10;- Implementação de método `updateOrganizationStatus` no serviço AdminOrganizationService&#10;- Adição de endpoint PATCH `/organizations/{organizationId}/status` no AdminOrganizationController&#10;- Validação de entrada com o DTO `UpdateOrgStatusRequest`">
+      <option name="closed" value="true" />
+      <created>1757980544602</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1757980544602</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: adiciona suporte a setores no módulo de cursos e melhorias na arquitetura&#10;&#10;- Inclusão da entidade `Sector` e seus repositórios para gerenciamento de setores&#10;- Atualização da entidade `Course` para associar setores e novos enums (CourseModality, PublicationStatus, TrainingType)&#10;- Implementação de controladores e serviços para obter informações detalhadas e criar cursos com setores&#10;- Adicionados novos DTOs para criar e detalhar cursos&#10;- Correções e melhorias em métodos existentes para retornar DTOs em vez de entidades&#10;- Configuração de `WebClient` para comunicação com outros serviços, incluindo validação de setores&#10;- Suporte a publicação de cursos e busca filtrada por setores">
+      <option name="closed" value="true" />
+      <created>1758129773915</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1758129773915</updated>
+    </task>
+    <task id="LOCAL-00011" summary="refactor: reestrutura módulo de cursos para suportar diversos tipos de treinamento e integrações externas&#10;&#10;- Renomeia entidades e DTOs para refletir a nova abstração de treinamento (`Training`)&#10;- Remove classes redundantes como `CourseDTO`, `CourseRequestData` e `CourseSummaryDTO`&#10;- Adiciona suporte a tipos de treinamento (`TrainingEntityType`) com herança no modelo&#10;- Refatora o módulo de cursos para consolidar lógica de cursos, ebooks e treinamentos&#10;- Implementa `CnpjLookupService` com integração à BrasilAPI para consulta de CNPJs&#10;- Adiciona endpoint de upload de arquivos para ebooks&#10;- Renomeia controladores e serviços para refletir a nova estrutura de treinamento&#10;- Ajusta enums (e.g., `EnrollmentStatus`) e relacionamentos nas entidades de setor&#10;- Introduz `OrganizationSector` e `UserSector` com repositórios para associar setores e organizações&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;">
+      <option name="closed" value="true" />
+      <created>1758669337963</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1758669337963</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: adiciona API pública de catálogos de treinamento e melhorias gerais no módulo&#10;&#10;- Criação do controlador `PublicCatalogController` com endpoints públicos para listar e detalhar treinamentos publicados&#10;- Introdução do DTO `PublicTrainingDTO` para exibição de informações públicas&#10;- Adição de suporte a imagens de capa de treinamentos com método dedicado no `AdminTrainingController`&#10;- Implementação de novos métodos no `TrainingCatalogService` para buscar treinamentos publicados&#10;- Modificações no DTO `TrainingDetailDTO` para refletir atributos adicionais como status, autor e timestamps&#10;- Novo suporte ao streaming de imagens via `ContentStreamController`&#10;- Inclusão de timestamps e campos adicionais em entidades como `Training` e `EbookTraining`&#10;- Expansão dos serviços e repositórios para validações de exclusão e listagem de matrículas">
+      <option name="closed" value="true" />
+      <created>1758763886085</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1758763886085</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: adiciona suporte a setores globais e associações em treinamentos&#10;&#10;- Criação do `SectorService` para gerenciamento de setores globais&#10;- Adicionado endpoint público `/sectors` no `PublicCatalogController` para listar setores globais&#10;- Novos métodos e validações em serviços e repositórios para gerenciar exclusões seguras de setores e associações&#10;- Refatoração no `Training` para incluir relações com associações de setores (`TrainingSectorAssignment`)&#10;- Atualização dos DTOs `TrainingDetailDTO` e criação do `TrainingSectorAssignmentDTO` para suportar associações&#10;- Endpoint para desvincular treinamentos de setores adicionado ao `AdminTrainingController`&#10;- Expansão da segurança e exclusões para organizações associadas a setores no módulo `enterprise`&#10;- Ajustes no módulo de segurança para novos endpoints públicos">
+      <option name="closed" value="true" />
+      <created>1758848440703</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1758848440704</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: adiciona suporte a progresso de e-books, streaming e permissões de acesso&#10;&#10;- Criação do `EbookProgressDTO` e novo método `getEbookProgress` no `ProgressService` para consulta de progresso&#10;- Implementação de validações em `updateEbookProgress` para total de páginas e limites de progresso&#10;- Adição de timestamps em `EbookProgress` para rastrear atualizações&#10;- Introdução do `ContentAccessService` para gerenciamento de acesso seguro a conteúdos como e-books e imagens&#10;- Atualização do `ContentStreamController` para endpoints públicos e restritos de streaming de e-books/imagens&#10;- Inclusão de progressão percentual no `EnrollmentResponseDTO`&#10;- Documentação expandida nas entidades, serviços e DTOs afetados">
+      <option name="closed" value="true" />
+      <created>1758934851133</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1758934851133</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin" />
+    <MESSAGE value="feat: finalização do módulo de autenticação e segurança&#10;&#10;- Implementação completa do endpoint /auth/login com autenticação básica&#10;- Configuração do Spring Security com controle de acesso por roles (USER/ADMIN)&#10;- Proteção de endpoints sensíveis (PUT/DELETE) para ADMIN&#10;- Validações no cadastro de usuários: CPF, e-mail, telefone e data de nascimento&#10;- Testes via Postman concluídos para login, CRUD e regras de permissão&#10;- Tratamento de erros com mensagens apropriadas&#10;- Inclusão do método DELETE no UserController com controle de permissão" />
+    <MESSAGE value="fix(backend): Corrige CORS, falhas na API e validação do token JWT" />
+    <MESSAGE value="&quot;feat: Adicionado fluxos completos de registro, login e edição de perfil&quot;" />
+    <MESSAGE value="&quot;feat: Refatorando fluxos completos de registro, login e edição de perfil&quot;" />
+    <MESSAGE value="&quot;refactor: Reestruturação e modularização das classes de autenticação&#10;&#10;- Removidas entidades, controladores e serviços desnecessários&#10;- Migração das exceções, DTOs e serviços do pacote 'docgen' para 'auth'&#10;- Criação do pacote 'auth' com estrutura modularizada&#10;- Novo contrato AuthModuleApi para interação com autenticação&#10;- Inclusão de validação de CNPJ dentro do módulo de autenticação&#10;- Ajuste no UserProfileController para suportar perfis pessoa física e jurídica&quot;" />
+    <MESSAGE value="refactor: remove módulos redundantes de autenticação e perfis de usuário&#10;&#10;- Exclusão de classes, DTOs e serviços relacionados a autenticação e perfis&#10;- Ajuste nas propriedades da aplicação para refletir nova configuração&#10;- Simplificação do mapeamento em UserProfileMapperDTO&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
+    <MESSAGE value="feat: implementa módulo de cursos com suporte a criação de cursos, módulos, lições e matrículas&#10;&#10;- Adição de entidades para Course, Module, Lesson e Enrollment&#10;- Criação de DTOs para criação de cursos, módulos e lições&#10;- Implementação de serviços e controladores admin para gerenciar cursos&#10;- Suporte a enumerações para tipos de conteúdo e status de matrícula&#10;- Ajustes em repositórios e entidades existentes para suporte ao novo módulo&#10;- Ampliação de APIs no módulo de autenticação e organizações" />
+    <MESSAGE value="feat: adiciona gerenciamento de status de organizações&#10;&#10;- Criação do enum `OrganizationStatus` com valores ACTIVE, INACTIVE e SUSPENDED&#10;- Inclusão do status padrão `ACTIVE` na entidade Organization&#10;- Atualização do DTO `AdminOrganizationSummaryDTO` para exibir o status da organização&#10;- Implementação de método `updateOrganizationStatus` no serviço AdminOrganizationService&#10;- Adição de endpoint PATCH `/organizations/{organizationId}/status` no AdminOrganizationController&#10;- Validação de entrada com o DTO `UpdateOrgStatusRequest`" />
+    <MESSAGE value="feat: adiciona suporte a setores no módulo de cursos e melhorias na arquitetura&#10;&#10;- Inclusão da entidade `Sector` e seus repositórios para gerenciamento de setores&#10;- Atualização da entidade `Course` para associar setores e novos enums (CourseModality, PublicationStatus, TrainingType)&#10;- Implementação de controladores e serviços para obter informações detalhadas e criar cursos com setores&#10;- Adicionados novos DTOs para criar e detalhar cursos&#10;- Correções e melhorias em métodos existentes para retornar DTOs em vez de entidades&#10;- Configuração de `WebClient` para comunicação com outros serviços, incluindo validação de setores&#10;- Suporte a publicação de cursos e busca filtrada por setores" />
+    <MESSAGE value="refactor: reestrutura módulo de cursos para suportar diversos tipos de treinamento e integrações externas&#10;&#10;- Renomeia entidades e DTOs para refletir a nova abstração de treinamento (`Training`)&#10;- Remove classes redundantes como `CourseDTO`, `CourseRequestData` e `CourseSummaryDTO`&#10;- Adiciona suporte a tipos de treinamento (`TrainingEntityType`) com herança no modelo&#10;- Refatora o módulo de cursos para consolidar lógica de cursos, ebooks e treinamentos&#10;- Implementa `CnpjLookupService` com integração à BrasilAPI para consulta de CNPJs&#10;- Adiciona endpoint de upload de arquivos para ebooks&#10;- Renomeia controladores e serviços para refletir a nova estrutura de treinamento&#10;- Ajusta enums (e.g., `EnrollmentStatus`) e relacionamentos nas entidades de setor&#10;- Introduz `OrganizationSector` e `UserSector` com repositórios para associar setores e organizações&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
+    <MESSAGE value="feat: adiciona API pública de catálogos de treinamento e melhorias gerais no módulo&#10;&#10;- Criação do controlador `PublicCatalogController` com endpoints públicos para listar e detalhar treinamentos publicados&#10;- Introdução do DTO `PublicTrainingDTO` para exibição de informações públicas&#10;- Adição de suporte a imagens de capa de treinamentos com método dedicado no `AdminTrainingController`&#10;- Implementação de novos métodos no `TrainingCatalogService` para buscar treinamentos publicados&#10;- Modificações no DTO `TrainingDetailDTO` para refletir atributos adicionais como status, autor e timestamps&#10;- Novo suporte ao streaming de imagens via `ContentStreamController`&#10;- Inclusão de timestamps e campos adicionais em entidades como `Training` e `EbookTraining`&#10;- Expansão dos serviços e repositórios para validações de exclusão e listagem de matrículas" />
+    <MESSAGE value="feat: adiciona suporte a setores globais e associações em treinamentos&#10;&#10;- Criação do `SectorService` para gerenciamento de setores globais&#10;- Adicionado endpoint público `/sectors` no `PublicCatalogController` para listar setores globais&#10;- Novos métodos e validações em serviços e repositórios para gerenciar exclusões seguras de setores e associações&#10;- Refatoração no `Training` para incluir relações com associações de setores (`TrainingSectorAssignment`)&#10;- Atualização dos DTOs `TrainingDetailDTO` e criação do `TrainingSectorAssignmentDTO` para suportar associações&#10;- Endpoint para desvincular treinamentos de setores adicionado ao `AdminTrainingController`&#10;- Expansão da segurança e exclusões para organizações associadas a setores no módulo `enterprise`&#10;- Ajustes no módulo de segurança para novos endpoints públicos" />
+    <MESSAGE value="feat: adiciona suporte a progresso de e-books, streaming e permissões de acesso&#10;&#10;- Criação do `EbookProgressDTO` e novo método `getEbookProgress` no `ProgressService` para consulta de progresso&#10;- Implementação de validações em `updateEbookProgress` para total de páginas e limites de progresso&#10;- Adição de timestamps em `EbookProgress` para rastrear atualizações&#10;- Introdução do `ContentAccessService` para gerenciamento de acesso seguro a conteúdos como e-books e imagens&#10;- Atualização do `ContentStreamController` para endpoints públicos e restritos de streaming de e-books/imagens&#10;- Inclusão de progressão percentual no `EnrollmentResponseDTO`&#10;- Documentação expandida nas entidades, serviços e DTOs afetados" />
+    <MESSAGE value="Remove `.idea` files from version control to clean up project artifacts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove `.idea` files from version control to clean up project artifacts" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

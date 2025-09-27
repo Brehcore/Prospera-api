@@ -18,7 +18,7 @@
     <artifactId>docgen</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>docgen</name>
-    <description>Automação de relatórios em Word</description>
+    <description>API robusta e modular para uma plataforma de e-learning corporativo</description>
 
     <!-- Placeholder para informações opcionais -->
     <url/>

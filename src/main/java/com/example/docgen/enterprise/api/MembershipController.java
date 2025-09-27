@@ -1,7 +1,9 @@
 package com.example.docgen.enterprise.api;
 
 import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.courses.api.dto.EnrollmentResponseDTO;
 import com.example.docgen.enterprise.api.dto.AddMemberRequest;
+import com.example.docgen.enterprise.api.dto.MemberDetailDTO;
 import com.example.docgen.enterprise.api.dto.MemberResponseDTO;
 import com.example.docgen.enterprise.api.dto.SectorIdRequest;
 import com.example.docgen.enterprise.api.dto.UpdateMemberRoleRequest;
@@ -14,7 +16,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,13 +42,19 @@ public class MembershipController {
      */
     @PostMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Void> addMember(
+// Passo 1: Mude o tipo de retorno para o DTO de resposta.
+    public ResponseEntity<MemberResponseDTO> addMember(
             @AuthenticationPrincipal AuthUser adminUser,
             @PathVariable UUID organizationId,
             @RequestBody @Valid AddMemberRequest request) {
 
-        membershipService.addMemberToOrganization(adminUser, organizationId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        // Passo 2: Capture o objeto Membership que o serviço retorna.
+        Membership newMembership = membershipService.addMemberToOrganization(adminUser, organizationId, request);
+
+        // Passo 3: Converta para DTO e envie-o no corpo da resposta com o status 201 Created.
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(MemberResponseDTO.fromEntity(newMembership));
     }
 
     // --- NOVO ENDPOINT PARA LISTAR MEMBROS ---
@@ -98,5 +113,31 @@ public class MembershipController {
         sectorAssignmentService.assignSectorToMember(adminUser, organizationId, membershipId, request.sectorId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    /**
+     * Retorna o progresso de um membro específico em todos os seus treinamentos.
+     */
+    @GetMapping("/{membershipId}/progress")
+    public ResponseEntity<List<EnrollmentResponseDTO>> getMemberProgress(
+            @AuthenticationPrincipal AuthUser orgAdmin,
+            @PathVariable UUID organizationId,
+            @PathVariable UUID membershipId) {
+
+        // A validação de permissão deve ser feita no serviço
+        List<EnrollmentResponseDTO> progress = membershipService.getMemberEnrollmentProgress(orgAdmin, organizationId, membershipId);
+        return ResponseEntity.ok(progress);
+    }
+
+    @GetMapping("/{membershipId}")
+    public ResponseEntity<MemberDetailDTO> getMemberDetails(
+            @AuthenticationPrincipal AuthUser orgAdmin,
+            @PathVariable UUID organizationId,
+            @PathVariable UUID membershipId) {
+
+        MemberDetailDTO details = membershipService.getMemberDetails(orgAdmin, organizationId, membershipId);
+        return ResponseEntity.ok(details);
+    }
+
+
 
 }

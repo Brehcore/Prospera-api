@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -73,10 +72,6 @@ public class Enrollment {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EnrollmentStatus status;
-
-    // Percentual de progresso, ex: 80.5
-    @Column(precision = 5, scale = 2)
-    private BigDecimal progressPercentage;
 
     @Column(nullable = false, updatable = false)
     private OffsetDateTime enrolledAt;

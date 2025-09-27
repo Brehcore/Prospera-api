@@ -2,10 +2,13 @@ package com.example.docgen.courses.service;
 
 import com.example.docgen.auth.domain.AuthUser;
 import com.example.docgen.auth.repositories.AuthUserRepository;
+import com.example.docgen.common.service.AuthorizationService;
+import com.example.docgen.courses.api.dto.EbookProgressDTO;
 import com.example.docgen.courses.api.dto.EnrollmentResponseDTO;
 import com.example.docgen.courses.domain.Enrollment;
 import com.example.docgen.courses.domain.Training;
 import com.example.docgen.courses.domain.enums.EnrollmentStatus;
+import com.example.docgen.courses.domain.enums.TrainingEntityType;
 import com.example.docgen.courses.repositories.EnrollmentRepository;
 import com.example.docgen.courses.repositories.TrainingRepository;
 import com.example.docgen.enterprise.api.dto.MemberResponseDTO;
@@ -13,7 +16,6 @@ import com.example.docgen.enterprise.domain.Membership;
 import com.example.docgen.enterprise.domain.Organization;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,70 +33,63 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final TrainingRepository trainingRepository;
     private final AuthUserRepository authUserRepository;
+    private final ProgressService progressService;
+    private final AuthorizationService authorizationService;
 
-    // CORREÇÃO: Método renomeado para 'enrollUserInTraining' para consistência
     @Transactional
-    public Enrollment enrollUserInTraining(AuthUser user, UUID trainingId) {
+    public EnrollmentResponseDTO enrollUserInTraining(AuthUser user, UUID trainingId) {
         Training training = trainingRepository.findById(trainingId)
                 .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado com o ID: " + trainingId));
 
-        // FIX 1: Adicionada de volta a verificação de matrícula duplicada
         if (enrollmentRepository.existsByUserAndTraining(user, training)) {
             throw new IllegalStateException("Usuário já matriculado neste treinamento.");
         }
 
-        // LÓGICA CORRIGIDA: Verifica se o usuário tem um membership na organização do treinamento
         if (training.getOrganizationId() != null) {
-            boolean isMember = user.getMemberships().stream()
-                    .anyMatch(membership -> membership.getOrganization().getId().equals(training.getOrganizationId()));
-
-            if (!isMember) {
-                throw new AccessDeniedException("Você não é membro da organização dona deste treinamento.");
-            }
+            authorizationService.checkIsMemberOfOrg(user, training.getOrganizationId());
         }
 
-        // CORREÇÃO: O builder da entidade Enrollment usa o campo 'training'
         Enrollment newEnrollment = Enrollment.builder()
                 .user(user)
-                .training(training) // Corrigido de .course(training)
-                .status(EnrollmentStatus.ACTIVE) // Sugestão: ACTIVE é mais claro que IN_PROGRESS
-                .progressPercentage(BigDecimal.ZERO)
+                .training(training)
+                .status(EnrollmentStatus.ACTIVE)
                 .build();
+        Enrollment savedEnrollment = enrollmentRepository.save(newEnrollment);
 
-        return enrollmentRepository.save(newEnrollment);
+        // 2. Crie e retorne o DTO diretamente do serviço.
+        // O progresso de uma nova matrícula é sempre ZERO.
+        return new EnrollmentResponseDTO(
+                savedEnrollment.getId(),
+                savedEnrollment.getTraining().getId(),
+                savedEnrollment.getTraining().getTitle(),
+                savedEnrollment.getStatus(),
+                savedEnrollment.getEnrolledAt(),
+                savedEnrollment.getTraining().getCoverImageUrl(),
+                BigDecimal.ZERO
+        );
     }
 
-    // Enpoint de matrícula em massa
     @Transactional
     public void enrollMembersInTraining(UUID trainingId, List<UUID> memberUserIds, Organization organization) {
         Training training = trainingRepository.findById(trainingId)
                 .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado."));
 
-        // FIX 2: Adicionada a busca pelos usuários a serem matriculados
         List<AuthUser> usersToEnroll = authUserRepository.findAllById(memberUserIds);
 
-        // FIX 3: Adicionada de volta a verificação de segurança
         for (AuthUser user : usersToEnroll) {
-            boolean isMember = user.getMemberships().stream()
-                    .anyMatch(m -> m.getOrganization().getId().equals(organization.getId()));
-            if (!isMember) {
-                throw new AccessDeniedException("Tentativa de matricular um usuário que não pertence à organização: " + user.getEmail());
-            }
+            authorizationService.checkIsMemberOfOrg(user, organization.getId());
         }
 
-        // FIX 4: Corrigida a chamada para o método correto do repositório
         Set<UUID> alreadyEnrolledUserIds = enrollmentRepository.findEnrolledUserIdsByTrainingAndUserIds(trainingId, memberUserIds);
 
         List<Enrollment> newEnrollments = new ArrayList<>();
         for (AuthUser user : usersToEnroll) {
             if (!alreadyEnrolledUserIds.contains(user.getId())) {
-                // FIX 5: Preenchido o builder com os dados necessários
                 newEnrollments.add(Enrollment.builder()
                         .user(user)
                         .training(training)
                         .status(EnrollmentStatus.ACTIVE)
-                        .progressPercentage(BigDecimal.ZERO)
-                        .sponsoredBy(organization) // Importante para saber quem pagou
+                        .sponsoredBy(organization)
                         .build());
             }
         }
@@ -104,30 +99,38 @@ public class EnrollmentService {
         }
     }
 
-    /**
-     * NOVO MÉTODO:
-     * Encontra todos os membros de uma organização específica que estão
-     * matriculados em um determinado treinamento.
-     */
     @Transactional(readOnly = true)
     public List<MemberResponseDTO> getEnrolledMembers(UUID organizationId, UUID trainingId) {
-        // Usa o novo método do repositório para buscar os dados já formatados
         List<Membership> memberships = enrollmentRepository.findMembershipsByOrganizationAndTraining(organizationId, trainingId);
-
-        // Converte a lista de entidades para a lista de DTOs de resposta
         return memberships.stream()
                 .map(MemberResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Encontra todas as matrículas de um usuário específico.
-     */
     @Transactional(readOnly = true)
     public List<EnrollmentResponseDTO> findEnrollmentsForUser(AuthUser user) {
         List<Enrollment> enrollments = enrollmentRepository.findByUserWithTrainingDetails(user);
-        return enrollments.stream()
-                .map(EnrollmentResponseDTO::fromEntity) // Assumindo que você tem este DTO e método
-                .collect(Collectors.toList());
+
+        return enrollments.stream().map(enrollment -> {
+            BigDecimal realProgressPercentage = BigDecimal.ZERO;
+            Training training = enrollment.getTraining();
+
+            if (training.getEntityType() == TrainingEntityType.EBOOK) {
+                EbookProgressDTO progress = progressService.getEbookProgress(user.getId(), training.getId());
+                realProgressPercentage = progress.progressPercentage();
+            }
+            // Futuramente: else if (training.getEntityType() == TrainingEntityType.RECORDED_COURSE) { ... }
+
+            return new EnrollmentResponseDTO(
+                    enrollment.getId(),
+                    training.getId(),
+                    training.getTitle(),
+                    enrollment.getStatus(),
+                    enrollment.getEnrolledAt(),
+                    training.getCoverImageUrl(),
+                    realProgressPercentage
+            );
+        }).collect(Collectors.toList());
     }
+
 }

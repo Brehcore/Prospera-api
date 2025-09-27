@@ -150,4 +150,13 @@ public class AdminTrainingController {
         adminTrainingService.unassignTrainingFromSector(trainingId, sectorId);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * Altera o status de um treinamento para ARQUIVADO.
+     */
+    @PostMapping("/{trainingId}/archive")
+    public ResponseEntity<Void> archiveTraining(@PathVariable UUID trainingId) {
+        adminTrainingService.changeTrainingStatus(trainingId, PublicationStatus.ARCHIVED);
+        return ResponseEntity.ok().build();
+    }
 }

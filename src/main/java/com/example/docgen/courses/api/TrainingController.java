@@ -3,7 +3,6 @@ package com.example.docgen.courses.api;
 import com.example.docgen.auth.domain.AuthUser;
 import com.example.docgen.courses.api.dto.EnrollmentResponseDTO;
 import com.example.docgen.courses.api.dto.TrainingCatalogItemDTO;
-import com.example.docgen.courses.service.AdminTrainingService;
 import com.example.docgen.courses.service.EnrollmentService;
 import com.example.docgen.courses.service.ProgressService;
 import com.example.docgen.courses.service.TrainingCatalogService;
@@ -29,7 +28,6 @@ public class TrainingController {
     private final TrainingCatalogService trainingCatalogService;
     private final EnrollmentService enrollmentService;
     private final ProgressService progressService;
-    private final AdminTrainingService adminTrainingService;
 
     @GetMapping("/catalog")
     public ResponseEntity<List<TrainingCatalogItemDTO>> getMyCatalog(@AuthenticationPrincipal AuthUser user) {
@@ -42,8 +40,8 @@ public class TrainingController {
     public ResponseEntity<EnrollmentResponseDTO> enrollInTraining(
             @AuthenticationPrincipal AuthUser user,
             @PathVariable UUID trainingId) {
-        var newEnrollment = enrollmentService.enrollUserInTraining(user, trainingId);
-        return ResponseEntity.ok(EnrollmentResponseDTO.fromEntity(newEnrollment));
+        EnrollmentResponseDTO newEnrollmentDTO = enrollmentService.enrollUserInTraining(user, trainingId);
+        return ResponseEntity.ok(newEnrollmentDTO);
     }
 
     @PostMapping("/lessons/{lessonId}/complete")
