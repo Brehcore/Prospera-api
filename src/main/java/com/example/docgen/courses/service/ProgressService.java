@@ -1,11 +1,12 @@
 package com.example.docgen.courses.service;
 
+import com.example.docgen.courses.api.dto.EbookProgressDTO;
 import com.example.docgen.courses.domain.EbookProgress;
 import com.example.docgen.courses.domain.EbookTraining;
-import com.example.docgen.courses.domain.Training;
 import com.example.docgen.courses.domain.Enrollment;
 import com.example.docgen.courses.domain.Lesson;
 import com.example.docgen.courses.domain.LessonProgress;
+import com.example.docgen.courses.domain.Training;
 import com.example.docgen.courses.domain.enums.EnrollmentStatus;
 import com.example.docgen.courses.repositories.EbookProgressRepository;
 import com.example.docgen.courses.repositories.EnrollmentRepository;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -83,11 +86,51 @@ public class ProgressService {
         if (!(training instanceof EbookTraining)) {
             throw new IllegalArgumentException("Progresso só pode ser registrado para Ebooks.");
         }
+        Integer totalPages = ((EbookTraining) training).getTotalPages();
+
+        // Garante que o e-book tem um total de páginas definido
+        if (totalPages == null || totalPages == 0) {
+            throw new IllegalStateException("Não é possível salvar o progresso pois o total de páginas do e-book não foi definido.");
+        }
+
+        // Garante que a página enviada está dentro do intervalo válido (de 0 até o total de páginas)
+        if (lastPageRead < 0 || lastPageRead > totalPages) {
+            throw new IllegalArgumentException(
+                    String.format("Página inválida. O valor deve estar entre 0 e %d.", totalPages)
+            );
+        }
 
         EbookProgress progress = ebookProgressRepository.findByUserIdAndTrainingId(userId, trainingId)
                 .orElse(EbookProgress.builder().userId(userId).training(training).build());
 
         progress.setLastPageRead(lastPageRead);
         ebookProgressRepository.save(progress);
+    }
+
+    @Transactional(readOnly = true)
+    public EbookProgressDTO getEbookProgress(UUID userId, UUID trainingId) {
+        // Busca o treinamento para obter o total de páginas
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado: " + trainingId));
+
+        if (!(training instanceof EbookTraining ebook)) {
+            throw new IllegalArgumentException("Progresso só pode ser consultado para Ebooks.");
+        }
+        Integer totalPages = ebook.getTotalPages();
+
+        // Busca o registro de progresso
+        EbookProgress progress = ebookProgressRepository.findByUserIdAndTrainingId(userId, trainingId).orElse(null);
+
+        if (progress == null) {
+            return new EbookProgressDTO(0, totalPages, BigDecimal.ZERO, null);
+        } else {
+            BigDecimal percentage = BigDecimal.ZERO;
+            if (totalPages != null && totalPages > 0) {
+                percentage = BigDecimal.valueOf(progress.getLastPageRead())
+                        .multiply(BigDecimal.valueOf(100))
+                        .divide(BigDecimal.valueOf(totalPages), 2, RoundingMode.HALF_UP);
+            }
+            return new EbookProgressDTO(progress.getLastPageRead(), totalPages, percentage, progress.getUpdatedAt());
+        }
     }
 }

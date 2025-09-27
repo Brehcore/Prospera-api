@@ -58,4 +58,10 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
      * Verifica se existe alguma matrícula para um treinamento específico.
      */
     boolean existsByTrainingId(UUID trainingId);
+
+    /**
+     * Verifica de forma eficiente se uma matrícula existe para uma combinação
+     * de ID de usuário e ID de treinamento.
+     */
+    boolean existsByUserIdAndTrainingId(UUID userId, UUID trainingId);
 }

@@ -26,6 +26,11 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+/**
+ * Representa a matrícula de um usuário em um curso/treinamento.
+ * Esta entidade mantém o registro e o progresso do aluno em um curso específico,
+ * incluindo informações sobre quem patrocinou a matrícula (se aplicável) e o status atual.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,21 +41,31 @@ import java.util.UUID;
 @Table(name = "course_enrollments")
 public class Enrollment {
 
+    /**
+     * Identificador único da matrícula
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    // O usuário que está matriculado
+    /**
+     * Usuário matriculado no curso
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "auth_user_id")
     private AuthUser user;
 
-    // O curso no qual ele está matriculado
+    /**
+     * Curso/treinamento em que o usuário está matriculado
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "training_id")
     private Training training;
 
-    // A organização que pagou pela matrícula (pode ser nulo para compras individuais de PF)
+    /**
+     * Organização que patrocinou/pagou pela matrícula.
+     * Pode ser nulo em caso de compras individuais por pessoa física.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")
     private Organization sponsoredBy;

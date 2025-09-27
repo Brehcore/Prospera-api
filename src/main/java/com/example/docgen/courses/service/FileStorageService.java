@@ -12,6 +12,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+/**
+ * Serviço responsável pelo armazenamento e recuperação de arquivos no sistema.
+ * Gerencia o upload e download de arquivos como ebooks e imagens, mantendo-os
+ * em um diretório específico no sistema de arquivos.
+ */
 @Service
 public class FileStorageService {
 
@@ -25,6 +30,13 @@ public class FileStorageService {
         }
     }
 
+    /**
+     * Salva um arquivo enviado no sistema de arquivos.
+     *
+     * @param file O arquivo MultipartFile a ser salvo
+     * @return O nome do arquivo gerado com UUID único
+     * @throws RuntimeException se ocorrer erro durante o salvamento
+     */
     public String save(MultipartFile file) {
         try {
             String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();
@@ -35,6 +47,13 @@ public class FileStorageService {
         }
     }
 
+    /**
+     * Carrega um arquivo como Resource para streaming.
+     *
+     * @param filename Nome do arquivo a ser carregado
+     * @return Resource contendo o arquivo solicitado
+     * @throws RuntimeException se o arquivo não puder ser lido ou a URL estiver malformada
+     */
     public Resource loadAsResource(String filename) {
         try {
             Path file = rootLocation.resolve(filename);
@@ -48,4 +67,6 @@ public class FileStorageService {
             throw new RuntimeException("Erro de URL mal formada: " + filename, e);
         }
     }
+
+
 }
