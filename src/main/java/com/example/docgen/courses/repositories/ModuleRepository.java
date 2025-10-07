@@ -1,10 +1,12 @@
 package com.example.docgen.courses.repositories;
 
 import com.example.docgen.courses.domain.Module;
+import com.example.docgen.courses.domain.RecordedCourse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -19,4 +21,7 @@ public interface ModuleRepository extends JpaRepository<Module, UUID> {
      * Nota: O nome 'Course' deve corresponder ao nome do campo na sua entidade Module.
      */
     boolean existsByCourseId(UUID courseId);
+
+    Optional<Module> findByCourseAndModuleOrder(RecordedCourse course, int moduleOrder);
+
 }

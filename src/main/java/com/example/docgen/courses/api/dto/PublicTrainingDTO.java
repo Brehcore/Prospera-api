@@ -1,7 +1,9 @@
 package com.example.docgen.courses.api.dto;
 
-import com.example.docgen.courses.domain.Training;
 
+import com.example.docgen.courses.domain.enums.TrainingEntityType;
+
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -13,18 +15,8 @@ public record PublicTrainingDTO(
         String title,
         String author,
         String description,
-        String coverImageUrl // Campo para a imagem da capa
+        String coverImageUrl, // Campo para a imagem da capa
+        TrainingEntityType entityType,
+        List<SimpleSectorDTO> sectors
 ) {
-    public static PublicTrainingDTO fromEntity(Training training) {
-        // Supondo que você adicione um campo 'coverImageUrl' à sua entidade Training
-        String imageUrl = (training.getCoverImageUrl() != null) ? training.getCoverImageUrl() : "url/de/imagem/padrao.jpg";
-
-        return new PublicTrainingDTO(
-                training.getId(),
-                training.getTitle(),
-                training.getAuthor(),
-                training.getDescription(),
-                imageUrl
-        );
-    }
 }

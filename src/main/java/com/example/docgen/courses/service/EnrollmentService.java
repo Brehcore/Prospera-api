@@ -118,9 +118,9 @@ public class EnrollmentService {
             if (training.getEntityType() == TrainingEntityType.EBOOK) {
                 EbookProgressDTO progress = progressService.getEbookProgress(user.getId(), training.getId());
                 realProgressPercentage = progress.progressPercentage();
+            } else if (training.getEntityType() == TrainingEntityType.RECORDED_COURSE) {
+                realProgressPercentage = progressService.calculateCourseProgress(enrollment);
             }
-            // Futuramente: else if (training.getEntityType() == TrainingEntityType.RECORDED_COURSE) { ... }
-
             return new EnrollmentResponseDTO(
                     enrollment.getId(),
                     training.getId(),

@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("COURSE") // Identifica esta classe na tabela 'trainings'
+@DiscriminatorValue("RECORDED_COURSE") // Identifica esta classe na tabela 'trainings'
 public class RecordedCourse extends Training {
 
     // A lista de módulos que antes estava em 'Course' agora vive aqui

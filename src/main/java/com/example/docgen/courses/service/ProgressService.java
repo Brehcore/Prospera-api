@@ -8,6 +8,7 @@ import com.example.docgen.courses.domain.Lesson;
 import com.example.docgen.courses.domain.LessonProgress;
 import com.example.docgen.courses.domain.Training;
 import com.example.docgen.courses.domain.enums.EnrollmentStatus;
+import com.example.docgen.courses.domain.enums.TrainingEntityType;
 import com.example.docgen.courses.repositories.EbookProgressRepository;
 import com.example.docgen.courses.repositories.EnrollmentRepository;
 import com.example.docgen.courses.repositories.LessonProgressRepository;
@@ -132,5 +133,37 @@ public class ProgressService {
             }
             return new EbookProgressDTO(progress.getLastPageRead(), totalPages, percentage, progress.getUpdatedAt());
         }
+    }
+
+    /**
+     * Calculo do percentual de progresso para um curso gravado (RecordedCourse).
+     *
+     * @param enrollment A matrícula do usuário no curso.
+     * @return O progresso em percentual (ex: 75.00).
+     */
+    @Transactional(readOnly = true)
+    public BigDecimal calculateCourseProgress(Enrollment enrollment) {
+        // Garante que a lógica só se aplica a RecordedCourse
+        if (enrollment.getTraining().getEntityType() != TrainingEntityType.RECORDED_COURSE) {
+            return BigDecimal.ZERO;
+        }
+
+        UUID courseId = enrollment.getTraining().getId();
+
+        // 1. Pega o total de aulas do curso
+        long totalLessons = lessonRepository.countByCourseId(courseId);
+
+        // Se o curso não tem aulas, o progresso é 0
+        if (totalLessons == 0) {
+            return BigDecimal.ZERO;
+        }
+
+        // 2. Pega o total de aulas que o usuário completou para esta matrícula
+        long completedLessons = lessonProgressRepository.countByEnrollment(enrollment);
+
+        // 3. Calcula o percentual usando BigDecimal para precisão
+        return BigDecimal.valueOf(completedLessons)
+                .multiply(BigDecimal.valueOf(100))
+                .divide(BigDecimal.valueOf(totalLessons), 2, RoundingMode.HALF_UP);
     }
 }
