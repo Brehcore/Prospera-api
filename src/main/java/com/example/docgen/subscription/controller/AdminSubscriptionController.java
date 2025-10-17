@@ -1,5 +1,6 @@
 package com.example.docgen.subscription.controller;
 
+import com.example.docgen.subscription.dto.PlanIdRequest;
 import com.example.docgen.subscription.dto.SubscriptionCreateRequest;
 import com.example.docgen.subscription.dto.SubscriptionResponse;
 import com.example.docgen.subscription.entities.Subscription;
@@ -31,54 +32,71 @@ public class AdminSubscriptionController {
 
     private final SubscriptionService subscriptionService;
 
-    @PostMapping
-    public ResponseEntity<SubscriptionResponse> createSubscription(@RequestBody @Valid SubscriptionCreateRequest request) {
-        Subscription newSubscription = subscriptionService.createSubscriptionForUser(request.userId(), request.planId());
-
-        SubscriptionResponse response = new SubscriptionResponse(
-                newSubscription.getId(),
-                newSubscription.getUser().getId(),
-                newSubscription.getPlan().getId(),
-                newSubscription.getPlan().getName(),
-                newSubscription.getStartDate(),
-                newSubscription.getEndDate(),
-                newSubscription.getStatus(),
-                newSubscription.getOrigin()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @PostMapping("/{subscriptionId}/cancel")
-    public ResponseEntity<Void> cancelSubscription(@PathVariable UUID subscriptionId) {
-        subscriptionService.cancelSubscription(subscriptionId);
-        return ResponseEntity.noContent().build(); // Retorna 204 No Content
+    /**
+     * Cria uma nova assinatura pessoal para um usuário específico.
+     * O backend encontra ou cria a "Conta Pessoal" do usuário e atrela a assinatura a ela.
+     */
+    @PostMapping("/users")
+    public ResponseEntity<SubscriptionResponse> createPersonalSubscription(@RequestBody @Valid SubscriptionCreateRequest request) {
+        Subscription newSubscription = subscriptionService.createPersonalSubscription(request.userId(), request.planId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapToSubscriptionResponse(newSubscription));
     }
 
     /**
-     * Endpoint para listar todas as assinaturas do sistema.
-     * Permite filtrar por status e origem.
+     * Cria uma nova assinatura Enterprise.
+     * O backend encontra a "Conta Cliente" (Account) da organização especificada e atrela a assinatura a essa conta inteira.
+     */
+    @PostMapping("/organizations/{organizationId}")
+    public ResponseEntity<SubscriptionResponse> createOrganizationSubscription(
+            @PathVariable UUID organizationId,
+            @RequestBody @Valid PlanIdRequest request) {
+        Subscription newSubscription = subscriptionService.createSubscriptionForOrganization(organizationId, request.planId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapToSubscriptionResponse(newSubscription));
+    }
+
+    /**
+     * Cancela uma assinatura ativa, mudando seu status para CANCELED e a data de término para o momento atual.
+     */
+    @PostMapping("/{subscriptionId}/cancel")
+    public ResponseEntity<Void> cancelSubscription(@PathVariable UUID subscriptionId) {
+        subscriptionService.cancelSubscription(subscriptionId);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Lista todas as assinaturas do sistema.
+     * Permite filtrar os resultados usando os parâmetros ?status= (ex: ACTIVE) e ?origin= (ex: MANUAL).
      */
     @GetMapping
     public ResponseEntity<List<SubscriptionResponse>> listAllSubscriptions(
             @RequestParam(required = false) SubscriptionStatus status,
-            @RequestParam(required = false) SubscriptionOrigin origin
-    ) {
+            @RequestParam(required = false) SubscriptionOrigin origin) {
         List<Subscription> subscriptions = subscriptionService.findAllSubscriptions(status, origin);
-
-        // Mapeia a lista de entidades para uma lista de DTOs de resposta
         List<SubscriptionResponse> response = subscriptions.stream()
-                .map(sub -> new SubscriptionResponse(
-                        sub.getId(),
-                        sub.getUser().getId(),
-                        sub.getPlan().getId(),
-                        sub.getPlan().getName(),
-                        sub.getStartDate(),
-                        sub.getEndDate(),
-                        sub.getStatus(),
-                        sub.getOrigin()
-                ))
+                .map(this::mapToSubscriptionResponse) // Reutiliza o metodo de mapeamento
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Metodo privado auxiliar para mapear a entidade Subscription para o DTO de resposta.
+     * Centraliza a lógica e evita NullPointerExceptions.
+     */
+    private SubscriptionResponse mapToSubscriptionResponse(Subscription subscription) {
+        UUID userId = null;
+        if (subscription.getAccount() != null && subscription.getAccount().getPersonalUser() != null) {
+            userId = subscription.getAccount().getPersonalUser().getId();
+        }
+
+        return new SubscriptionResponse(
+                subscription.getId(),
+                userId,
+                subscription.getPlan().getId(),
+                subscription.getPlan().getName(),
+                subscription.getStartDate(),
+                subscription.getEndDate(),
+                subscription.getStatus(),
+                subscription.getOrigin()
+        );
     }
 }

@@ -1,5 +1,6 @@
 package com.example.docgen.subscription.dto;
 
+import com.example.docgen.subscription.enums.PlanType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -26,6 +27,9 @@ public record PlanUpdateRequest(
         Integer durationInDays,
 
         @NotNull(message = "O status de ativação é obrigatório")
-        Boolean isActive
+        Boolean isActive,
+
+        @NotNull(message = "O tipo do plano (INDIVIDUAL ou ENTERPRISE) é obrigatório")
+        PlanType type
 ) {
 }

@@ -1,6 +1,6 @@
 package com.example.docgen.subscription.entities;
 
-import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.enterprise.domain.Account;
 import com.example.docgen.subscription.enums.SubscriptionOrigin;
 import com.example.docgen.subscription.enums.SubscriptionStatus;
 import jakarta.persistence.Column;
@@ -34,9 +34,11 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    // --- NOVO CAMPO CENTRAL ---
+    // A assinatura agora pertence à Conta
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private AuthUser user;
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id", nullable = false)
@@ -48,6 +50,7 @@ public class Subscription {
     @Column(nullable = false)
     private OffsetDateTime endDate;
 
+    @Enumerated(EnumType.STRING) // <-- ADICIONADO: Boa prática para o status também
     @Column(nullable = false)
     private SubscriptionStatus status;
 

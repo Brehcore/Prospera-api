@@ -1,6 +1,7 @@
 package com.example.docgen.auth.domain;
 
 import com.example.docgen.common.enums.UserRole;
+import com.example.docgen.enterprise.domain.Account;
 import com.example.docgen.enterprise.domain.Membership;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -57,6 +59,15 @@ public class AuthUser implements UserDetails {
 
     @Column(nullable = false)
     private boolean enabled = true;
+
+    /**
+     * A conta pessoal deste usuário, usada para assinaturas individuais.
+     * AuthUser é o "dono" da relação.
+     */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "personal_account_id", referencedColumnName = "id")
+    private Account personalAccount;
+
 
     public AuthUser(String email, String password, UserRole role) {
         this.email = email;

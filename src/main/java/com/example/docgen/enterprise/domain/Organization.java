@@ -48,4 +48,9 @@ public class Organization {
     @Column(nullable = false)
     @Builder.Default
     private OrganizationStatus status = OrganizationStatus.ACTIVE; // Define 'ACTIVE' como padrão
+
+    // Muitas Organizações pertencem a UMA Conta
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

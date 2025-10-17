@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class AuthorizationService {
                 .anyMatch(m -> m.getOrganization().getId().equals(organizationId)
                         && m.getRole() == OrganizationRole.ORG_ADMIN);
         if (!isOrgAdmin) {
-            throw new AccessDeniedException("Acesso negado. Você не é administrador desta organização.");
+            throw new AccessDeniedException("Acesso negado. Você não é administrador desta organização.");
         }
     }
 
@@ -50,12 +51,41 @@ public class AuthorizationService {
      * Lança AccessDeniedException se não for.
      */
     public void checkIsMemberOfOrg(AuthUser user, UUID organizationId) {
-        // A mesma lógica que estava duplicada, agora em um só lugar.
         boolean isMember = user.getMemberships().stream()
                 .anyMatch(m -> m.getOrganization().getId().equals(organizationId));
         if (!isMember) {
-            // Mensagem de erro genérica que serve para vários contextos
             throw new AccessDeniedException("O usuário não é membro da organização especificada.");
+        }
+    }
+
+    // =============================================================
+    // NOVO MÉTODO (A FUNCIONALIDADE QUE ESTAVA FALTANDO)
+    // =============================================================
+
+    /**
+     * Verifica se um usuário é um ORG_ADMIN de QUALQUER organização
+     * dentro de uma Account específica.
+     * Lança AccessDeniedException se a verificação falhar.
+     *
+     * @param user      O usuário cujas permissões estão sendo verificadas.
+     * @param accountId O ID da Account a ser gerenciada.
+     */
+    @Transactional(readOnly = true)
+    public void checkIsAdminOfAccount(AuthUser user, UUID accountId) {
+        if (user.getMemberships() == null || user.getMemberships().isEmpty()) {
+            throw new AccessDeniedException("Acesso negado. O usuário não é membro de nenhuma organização.");
+        }
+
+        boolean hasAdminRightsForAccount = user.getMemberships().stream()
+                .anyMatch(membership ->
+                        // A organização da filiação pertence à conta alvo?
+                        membership.getOrganization().getAccount().getId().equals(accountId) &&
+                                // E o papel do usuário é de administrador?
+                                membership.getRole() == OrganizationRole.ORG_ADMIN
+                );
+
+        if (!hasAdminRightsForAccount) {
+            throw new AccessDeniedException("Acesso negado. O usuário не possui permissão de administrador para esta conta.");
         }
     }
 }

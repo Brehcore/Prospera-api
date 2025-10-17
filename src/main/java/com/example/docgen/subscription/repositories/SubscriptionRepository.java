@@ -1,6 +1,6 @@
 package com.example.docgen.subscription.repositories;
 
-import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.enterprise.domain.Account;
 import com.example.docgen.subscription.entities.Subscription;
 import com.example.docgen.subscription.enums.SubscriptionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,40 +8,44 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, UUID> {
 
-    // Este método vai gerar um SQL para verificar se existe um registro
-    // que bate com o userId E com o status fornecido. Retorna true ou false.
-    boolean existsByUserIdAndStatus(UUID userId, SubscriptionStatus status);
+    // --- NOVOS MÉTODOS (baseados em Account) ---
 
     /**
-     * Busca uma assinatura que pertença a um usuário específico e que tenha um status específico (no caso, ACTIVE)
+     * Busca uma assinatura ativa para uma Conta específica.
      */
-    Optional<Subscription> findByUserAndStatus(AuthUser user, SubscriptionStatus status);
+    Optional<Subscription> findByAccountAndStatus(Account account, SubscriptionStatus status);
+
+    /**
+     * Verifica se uma Conta específica já possui uma assinatura ativa.
+     */
+    boolean existsByAccountAndStatus(Account account, SubscriptionStatus status);
 
 
     /**
-     * Busca todas as assinaturas que pertencem a uma lista de usuários
+     * QUERY DO PAYWALL ATUALIZADA
+     * Verifica se um usuário tem acesso a um treinamento através de QUALQUER
+     * conta à qual ele esteja vinculado (seja pessoal ou de organização).
      */
-    List<Subscription> findByUserIn(List<AuthUser> users);
-
     @Query("SELECT COUNT(s) > 0 FROM Subscription s " +
             "JOIN s.plan p " +
-            "JOIN p.trainings t " + // Assumindo que a relação em Plan se chama 'trainings'
-            "WHERE s.user.id = :userId " +
-            "AND s.status = :status " +
+            "JOIN p.trainings t " +
+            "WHERE s.status = :status " +
             "AND :now BETWEEN s.startDate AND s.endDate " +
-            "AND t.id = :trainingId")
+            "AND t.id = :trainingId " +
+            "AND ( " +
+            "  s.account.id = (SELECT u.personalAccount.id FROM AuthUser u WHERE u.id = :userId) OR " +
+            "  s.account.id IN (SELECT m.organization.account.id FROM Membership m WHERE m.user.id = :userId) " +
+            ")")
     boolean doesUserHaveActiveSubscriptionForTraining(
             @Param("userId") UUID userId,
             @Param("trainingId") UUID trainingId,
             @Param("status") SubscriptionStatus status,
             @Param("now") OffsetDateTime now
     );
-
 
 }

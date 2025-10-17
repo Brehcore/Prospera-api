@@ -4,6 +4,9 @@ import com.example.docgen.courses.api.dto.PublicTrainingDTO;
 import com.example.docgen.courses.service.TrainingCatalogService;
 import com.example.docgen.enterprise.api.dto.SectorDTO;
 import com.example.docgen.enterprise.service.SectorService;
+import com.example.docgen.subscription.dto.PlanResponse;
+import com.example.docgen.subscription.entities.Plan;
+import com.example.docgen.subscription.service.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ public class PublicCatalogController {
 
     private final TrainingCatalogService trainingCatalogService;
     private final SectorService sectorService;
+    private final PlanService planService;
 
     /**
      * Lista todos os treinamentos publicados para a vitrine pública.
@@ -48,5 +52,18 @@ public class PublicCatalogController {
     public ResponseEntity<List<SectorDTO>> listPublicSectors() {
         List<SectorDTO> sectors = sectorService.findAllPublicSectors();
         return ResponseEntity.ok(sectors);
+    }
+
+    @GetMapping("/plans")
+    public ResponseEntity<List<PlanResponse>> listPublicPlans() {
+        // Chama o metodo que já existe no PlanService
+        List<Plan> activePlans = planService.getActivePlans();
+
+        // Mapeia a lista de entidades para a lista de DTOs usando o método estático
+        List<PlanResponse> response = activePlans.stream()
+                .map(PlanResponse::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 }

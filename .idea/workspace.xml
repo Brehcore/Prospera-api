@@ -4,43 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="Remove `application-test.properties` do version control.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/exceptions/BusinessRuleException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/LessonController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/dto/SimpleSectorDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/LessonService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminPlanController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminSubscriptionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/SubscriptionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanCreateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanUpdateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/SubscriptionCreateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/SubscriptionResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Plan.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/PlanTraining.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/PlanTrainingId.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Subscription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/enums/SubscriptionOrigin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/enums/SubscriptionStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/PlanRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/PlanTrainingRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/SubscriptionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/PlanService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/SubscriptionService.java" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/AdminAccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/AccountSummaryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/repositories/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/AccessStatusDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanIdRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/enums/AccessType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/enums/PlanType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/admin/dto/AdminUserSummaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/admin/dto/AdminUserSummaryDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/dto/PublicTrainingDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/dto/PublicTrainingDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/domain/RecordedCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/domain/RecordedCourse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/domain/enums/TrainingEntityType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/domain/enums/TrainingEntityType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/repositories/LessonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/repositories/LessonRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/repositories/ModuleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/repositories/ModuleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/ContentAccessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/ContentAccessService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/EnrollmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/EnrollmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/ProgressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/ProgressService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/TrainingCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/service/TrainingCatalogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/SectorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/SectorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/domain/AuthUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/domain/AuthUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/services/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/common/service/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/common/service/AuthorizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/PublicCatalogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/PublicCatalogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/OrganizationResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/OrganizationResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Organization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Organization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/OrganizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/OrganizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminPlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminPlanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminSubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminSubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/SubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Plan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Subscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Subscription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/PlanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/PlanRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/SubscriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/SubscriptionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/PlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/PlanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/SubscriptionService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,10 +51,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Exception" />
-        <option value="Interface" />
-        <option value="Class" />
-        <option value="Record" />
         <option value="Enum" />
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -87,6 +80,9 @@
     &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
   }
 }</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;9f2e38c841c9d7af83d1d57d22330f6d0a45b2a5&quot; value=&quot;###&amp;#10;DELETE http://localhost:8080/organizations/{{organizationId}}/members/{{membershipId}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -110,35 +106,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.TestDBConnection.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.DocgenApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/brehs/Documents/Go-Tree/Prospera/Docgen",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.TestDBConnection.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.DocgenApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/brehs/Documents/Go-Tree/Prospera/Docgen&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.grazie&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -274,7 +270,15 @@
       <workItem from="1759230833208" duration="1117000" />
       <workItem from="1759403271841" duration="25227000" />
       <workItem from="1759574078017" duration="4993000" />
-      <workItem from="1759749546637" duration="26835000" />
+      <workItem from="1759749546637" duration="26895000" />
+      <workItem from="1759848440837" duration="40000" />
+      <workItem from="1760009785226" duration="12866000" />
+      <workItem from="1760098544884" duration="594000" />
+      <workItem from="1760141243036" duration="6997000" />
+      <workItem from="1760355276828" duration="2093000" />
+      <workItem from="1760359343393" duration="14000" />
+      <workItem from="1760572654507" duration="752000" />
+      <workItem from="1760619408980" duration="11098000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -396,7 +400,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759014700176</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;">
+      <option name="closed" value="true" />
+      <created>1759795272309</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1759795272309</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -445,7 +457,8 @@
     <MESSAGE value="feat: adiciona suporte a progresso de e-books, streaming e permissões de acesso&#10;&#10;- Criação do `EbookProgressDTO` e novo método `getEbookProgress` no `ProgressService` para consulta de progresso&#10;- Implementação de validações em `updateEbookProgress` para total de páginas e limites de progresso&#10;- Adição de timestamps em `EbookProgress` para rastrear atualizações&#10;- Introdução do `ContentAccessService` para gerenciamento de acesso seguro a conteúdos como e-books e imagens&#10;- Atualização do `ContentStreamController` para endpoints públicos e restritos de streaming de e-books/imagens&#10;- Inclusão de progressão percentual no `EnrollmentResponseDTO`&#10;- Documentação expandida nas entidades, serviços e DTOs afetados" />
     <MESSAGE value="Remove `.idea` files from version control to clean up project artifacts" />
     <MESSAGE value="Remove `application-test.properties` do version control." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove `application-test.properties` do version control." />
+    <MESSAGE value="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

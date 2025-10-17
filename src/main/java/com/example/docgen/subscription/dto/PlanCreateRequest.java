@@ -1,5 +1,6 @@
 package com.example.docgen.subscription.dto;
 
+import com.example.docgen.subscription.enums.PlanType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -24,6 +25,9 @@ public record PlanCreateRequest(
 
         @NotNull(message = "O período de tempo do plano é obrigatório")
         @PositiveOrZero(message = "O período de tempo do plano deve ser um valor positivo ou zero")
-        Integer durationInDays
+        Integer durationInDays,
+
+        @NotNull(message = "O tipo do plano (INDIVIDUAL ou ENTERPRISE) é obrigatório")
+        PlanType type
 ) {
 }

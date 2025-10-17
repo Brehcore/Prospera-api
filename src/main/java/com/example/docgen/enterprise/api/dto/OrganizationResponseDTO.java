@@ -13,7 +13,7 @@ public record OrganizationResponseDTO(
         String cnpj
 ) {
     /**
-     * Método de fábrica para converter uma entidade Organization para este DTO.
+     * Metodo de fábrica para converter uma entidade Organization para este DTO.
      */
     public static OrganizationResponseDTO fromEntity(Organization organization) {
         return new OrganizationResponseDTO(

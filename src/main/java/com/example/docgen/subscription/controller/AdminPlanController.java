@@ -27,29 +27,32 @@ public class AdminPlanController {
 
     private final PlanService planService;
 
+    /**
+     * Cria um novo plano e o retorna no corpo da resposta.
+     */
     @PostMapping
-    public ResponseEntity<Void> createPlan(
-            @RequestBody @Valid PlanCreateRequest request) {
-        planService.createPlan(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<PlanResponse> createPlan(@RequestBody @Valid PlanCreateRequest request) {
+        // 1. O PlanService já usa o 'request.type()' para definir o tipo do plano.
+        Plan newPlan = planService.createPlan(request);
+
+        // 2. Mapeia a entidade completa para o DTO de resposta.
+        PlanResponse response = PlanResponse.fromEntity(newPlan);
+
+        // 3. Retorna 201 Created com o objeto recém-criado.
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Atualiza um plano existente e o retorna no corpo da resposta.
+     */
     @PutMapping("/{planId}")
     public ResponseEntity<PlanResponse> updatePlan(
             @PathVariable UUID planId, @RequestBody @Valid PlanUpdateRequest request) {
-        Plan updatePlan = planService.updatePlan(planId, request);
+        Plan updatedPlan = planService.updatePlan(planId, request);
 
-        // Converte a entidade Plan para um DTO e retorna o DTO como resposta.
-        PlanResponse response = new PlanResponse(
-                updatePlan.getId(),
-                updatePlan.getName(),
-                updatePlan.getDescription(),
-                updatePlan.getOriginalPrice(),
-                updatePlan.getCurrentPrice(),
-                updatePlan.getDurationInDays(),
-                updatePlan.isActive()
-        );
-        // Retorna 200 OK com o DTO como corpo da resposta.
+        // Mapeia a entidade atualizada para o DTO de resposta.
+        PlanResponse response = PlanResponse.fromEntity(updatedPlan);
+
         return ResponseEntity.ok(response);
     }
 }

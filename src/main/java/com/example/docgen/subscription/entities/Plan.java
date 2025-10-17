@@ -1,8 +1,11 @@
 package com.example.docgen.subscription.entities;
 
 import com.example.docgen.courses.domain.Training;
+import com.example.docgen.subscription.enums.PlanType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -50,6 +53,10 @@ public class Plan {
 
     @Column(nullable = false)
     private boolean isActive;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PlanType type;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "plan_trainings", joinColumns = @JoinColumn(name = "plan_id"), inverseJoinColumns = @JoinColumn(name = "training_id"))

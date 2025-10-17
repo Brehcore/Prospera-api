@@ -1,26 +1,24 @@
 package com.example.docgen.subscription.controller;
 
 import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.subscription.dto.AccessStatusDTO;
 import com.example.docgen.subscription.dto.PlanResponse;
-import com.example.docgen.subscription.dto.SubscriptionResponse;
 import com.example.docgen.subscription.entities.Plan;
-import com.example.docgen.subscription.entities.Subscription;
+import com.example.docgen.subscription.enums.PlanType;
 import com.example.docgen.subscription.service.PlanService;
 import com.example.docgen.subscription.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/subscriptions")
+@RequestMapping("/api") // 1. Mapeamento base mais genérico para evitar repetição
 @RequiredArgsConstructor
 public class SubscriptionController {
 
@@ -28,71 +26,45 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     /**
-     * SubscriptionController, por enquanto, não terá um endpoint para o usuário contratar um plano sozinho.
-     * Ele será focado em visualizar as informações
-     * O endpoint para o usuário se auto-servir (ex: POST /subscriptions/checkout) será a grande feature da Fase 2,
-     * quando for com um sistema de pagamento como Stripe ou Mercado Pago
+     * Endpoint unificado para que qualquer usuário logado verifique a origem
+     * e o status de seu acesso (seja pessoal ou via organização).
+     * ESTE É O SUBSTITUTO DO ANTIGO 'getMySubscription'.
      */
-
-    @GetMapping("/plans")
-    public List<PlanResponse> listAvailablePlans() {
-        // Busca a lista de entidades Plan ativas através do serviço.
-        List<Plan> activePlans = planService.getActivePlans();
-
-        // Converte (mapeia) a lista de Entidades para uma lista de DTOs.
-        return activePlans.stream()
-                .map(plan -> new PlanResponse(
-                        plan.getId(),
-                        plan.getName(),
-                        plan.getDescription(),
-                        plan.getOriginalPrice(),
-                        plan.getCurrentPrice(),
-                        plan.getDurationInDays(),
-                        plan.isActive()
-                ))
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/me/subscription")
+    @GetMapping("/me/access-status")
     @PreAuthorize("isAuthenticated()")
-    public SubscriptionResponse getMySubscription(@AuthenticationPrincipal AuthUser currentUser) {
-        Subscription activeSubscription = subscriptionService.findActiveSubscriptionForUser(currentUser);
-
-        // Mapeia a entidade para o DTO de resposta
-        return new SubscriptionResponse(
-                activeSubscription.getId(),
-                activeSubscription.getUser().getId(),
-                activeSubscription.getPlan().getId(),
-                activeSubscription.getPlan().getName(),
-                activeSubscription.getStartDate(),
-                activeSubscription.getEndDate(),
-                activeSubscription.getStatus(),
-                activeSubscription.getOrigin()
-        );
+    public ResponseEntity<AccessStatusDTO> getMyAccessStatus(@AuthenticationPrincipal AuthUser currentUser) {
+        AccessStatusDTO status = subscriptionService.getAccessStatusForUser(currentUser);
+        return ResponseEntity.ok(status);
     }
 
     /**
-     * Endpoint para um ORG_ADMIN ver todas as assinaturas dos membros de sua organização.
+     * Retorna os planos disponíveis para o usuário LOGADO, de acordo com seu contexto
+     * (se ele tem ou não uma organização).
      */
-    @GetMapping("/organizations/{orgId}/subscriptions")
-    @PreAuthorize("hasRole('ORG_ADMIN')")
-    public List<SubscriptionResponse> getOrganizationSubscriptions(
-            @PathVariable UUID orgId,
-            @AuthenticationPrincipal AuthUser currentUser) {
+    @GetMapping("/available-plans") // 2. URL simplificada
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<PlanResponse>> getAvailablePlansForUser(@AuthenticationPrincipal AuthUser currentUser) {
+        List<Plan> availablePlans;
 
-        List<Subscription> subscriptions = subscriptionService.findAllSubscriptionsByOrganization(orgId, currentUser);
+        if (currentUser.getMemberships() != null && !currentUser.getMemberships().isEmpty()) {
+            // Se for membro, mostra apenas planos ENTERPRISE
+            availablePlans = planService.findAvailablePlansByType(PlanType.ENTERPRISE);
+        } else {
+            // Se for usuário individual, mostra apenas planos INDIVIDUAL
+            availablePlans = planService.findAvailablePlansByType(PlanType.INDIVIDUAL);
+        }
 
-        return subscriptions.stream()
-                .map(sub -> new SubscriptionResponse(
-                        sub.getId(),
-                        sub.getUser().getId(),
-                        sub.getPlan().getId(),
-                        sub.getPlan().getName(),
-                        sub.getStartDate(),
-                        sub.getEndDate(),
-                        sub.getStatus(),
-                        sub.getOrigin()
-                ))
+        // 3. Mapeamento consistente usando o método 'fromEntity'
+        List<PlanResponse> response = availablePlans.stream()
+                .map(PlanResponse::fromEntity)
                 .toList();
+
+        return ResponseEntity.ok(response);
     }
+
+    // 4. MÉTODOS OBSOLETOS REMOVIDOS
+    // - O endpoint GET /plans foi movido para o PublicCatalogController, que é seu lugar correto.
+    // - O endpoint GET /me/subscription foi substituído por /me/access-status, que é mais completo.
+    // - O endpoint GET /organizations/{orgId}/subscriptions foi movido para um futuro 'OrgAdminController',
+    //   pois a lógica dele está mais ligada à gestão da organização do que ao contexto do usuário comum.
 }
