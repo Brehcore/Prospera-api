@@ -13,7 +13,7 @@ public record AccountSummaryDTO(
         String name
 ) {
     /**
-     * Método estático para converter a entidade Account para este DTO.
+     * Metodo estático para converter a entidade Account para este DTO.
      */
     public static AccountSummaryDTO fromEntity(Account account) {
         return new AccountSummaryDTO(

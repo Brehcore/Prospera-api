@@ -11,19 +11,23 @@ import org.springframework.web.server.ResponseStatusException;
 public class CnpjLookupService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final String BRASIL_API_URL = "https://brasilapi.com.br/api/cnpj/v1/"; //
+
+    // A URL agora inclui o placeholder {cnpj} no final.
+    private static final String BRASIL_API_URL = "https://brasilapi.com.br/api/cnpj/v1/{cnpj}";
 
     public BrasilApiCnpjResponse consultCnpj(String cnpj) {
         String cleanedCnpj = cnpj.replaceAll("[^0-9]", "");
-        String url = BRASIL_API_URL + cleanedCnpj;
 
         try {
-            return restTemplate.getForObject(url, BrasilApiCnpjResponse.class);
+            // A chamada continua a mesma, mas agora ela funciona porque a URL tem o placeholder.
+            // O RestTemplate irá substituir {cnpj} pelo valor de cleanedCnpj.
+            return restTemplate.getForObject(BRASIL_API_URL, BrasilApiCnpjResponse.class, cleanedCnpj);
+
         } catch (HttpClientErrorException.NotFound e) {
-            // Erro 404: A BrasilAPI informou que o CNPJ não foi encontrado.
+            // Seu tratamento de erro para CNPJ não encontrado está perfeito.
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "O CNPJ informado não foi encontrado na base de dados da Receita Federal.");
         } catch (Exception e) {
-            // Outros erros: Falha de rede, API fora do ar, etc.
+            // Seu tratamento de erro genérico também está ótimo.
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Não foi possível consultar o CNPJ neste momento. O serviço externo pode estar indisponível.");
         }
     }

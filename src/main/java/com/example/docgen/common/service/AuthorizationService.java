@@ -59,7 +59,7 @@ public class AuthorizationService {
     }
 
     // =============================================================
-    // NOVO MÉTODO (A FUNCIONALIDADE QUE ESTAVA FALTANDO)
+    // NOVO METODO (A FUNCIONALIDADE QUE ESTAVA FALTANDO)
     // =============================================================
 
     /**

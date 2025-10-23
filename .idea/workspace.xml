@@ -4,36 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/AdminAccountController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/AccountSummaryDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/repositories/AccountRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/AccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/AccessStatusDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanIdRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/enums/AccessType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/enums/PlanType.java" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona suporte a gerenciamento de contas pessoais e organizacionais para assinaturas&#10;&#10;- Refatora assinatura para associar `Subscription` à entidade `Account` em vez de `User`&#10;- Atualiza `AuthUser` para incluir uma conta pessoal (`personalAccount`)&#10;- Cria métodos para criar/gerenciar assinaturas pessoais e organizacionais (`SubscriptionService`)&#10;- Adiciona campos `type` em `Plan`, DTOs e repositórios relacionados&#10;- Introduz novos endpoints para gerenciamento unificado de acesso e planos disponíveis&#10;- Atualiza métodos nos controladores com base na nova estrutura de assinatura (e.g., `/me/access-status`)&#10;- Remove endpoints obsoletos relacionados a assinaturas individuais&#10;- Ajusta lógica de validação para planos empresariais e individuais&#10;- Refatora DTOs e serviços para mapear entidades mais eficientemente (`fromEntity`)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/domain/AuthUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/domain/AuthUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/auth/services/AuthenticationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/common/service/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/common/service/AuthorizationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/PublicCatalogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/courses/api/PublicCatalogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/OrganizationResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/OrganizationResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Organization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/domain/Organization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/OrganizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/OrganizationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminPlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminPlanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminSubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/AdminSubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/AccountSummaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/api/dto/AccountSummaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/enterprise/service/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/integration/service/CnpjLookupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/integration/service/CnpjLookupService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/controller/SubscriptionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/dto/PlanUpdateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Plan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Subscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/entities/Subscription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/PlanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/PlanRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/SubscriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/repositories/SubscriptionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/PlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/PlanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/docgen/subscription/service/SubscriptionService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +59,7 @@
   }
 }</component>
   <component name="HttpClientEndpointsTabState">
-    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;9f2e38c841c9d7af83d1d57d22330f6d0a45b2a5&quot; value=&quot;###&amp;#10;DELETE http://localhost:8080/organizations/{{organizationId}}/members/{{membershipId}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;b105b16c6e3f40785d3fcc053dac8e97d5dff93d&quot; value=&quot;###&amp;#10;GET http://localhost:8080/api/lookup/cnpj/{{cnpj}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -278,7 +256,9 @@
       <workItem from="1760355276828" duration="2093000" />
       <workItem from="1760359343393" duration="14000" />
       <workItem from="1760572654507" duration="752000" />
-      <workItem from="1760619408980" duration="11098000" />
+      <workItem from="1760619408980" duration="11287000" />
+      <workItem from="1760720515599" duration="14000" />
+      <workItem from="1761221621733" duration="11858000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -408,7 +388,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759795272309</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="feat: adiciona suporte a gerenciamento de contas pessoais e organizacionais para assinaturas&#10;&#10;- Refatora assinatura para associar `Subscription` à entidade `Account` em vez de `User`&#10;- Atualiza `AuthUser` para incluir uma conta pessoal (`personalAccount`)&#10;- Cria métodos para criar/gerenciar assinaturas pessoais e organizacionais (`SubscriptionService`)&#10;- Adiciona campos `type` em `Plan`, DTOs e repositórios relacionados&#10;- Introduz novos endpoints para gerenciamento unificado de acesso e planos disponíveis&#10;- Atualiza métodos nos controladores com base na nova estrutura de assinatura (e.g., `/me/access-status`)&#10;- Remove endpoints obsoletos relacionados a assinaturas individuais&#10;- Ajusta lógica de validação para planos empresariais e individuais&#10;- Refatora DTOs e serviços para mapear entidades mais eficientemente (`fromEntity`)">
+      <option name="closed" value="true" />
+      <created>1760660151980</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1760660151980</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -458,7 +446,8 @@
     <MESSAGE value="Remove `.idea` files from version control to clean up project artifacts" />
     <MESSAGE value="Remove `application-test.properties` do version control." />
     <MESSAGE value="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
+    <MESSAGE value="feat: adiciona suporte a gerenciamento de contas pessoais e organizacionais para assinaturas&#10;&#10;- Refatora assinatura para associar `Subscription` à entidade `Account` em vez de `User`&#10;- Atualiza `AuthUser` para incluir uma conta pessoal (`personalAccount`)&#10;- Cria métodos para criar/gerenciar assinaturas pessoais e organizacionais (`SubscriptionService`)&#10;- Adiciona campos `type` em `Plan`, DTOs e repositórios relacionados&#10;- Introduz novos endpoints para gerenciamento unificado de acesso e planos disponíveis&#10;- Atualiza métodos nos controladores com base na nova estrutura de assinatura (e.g., `/me/access-status`)&#10;- Remove endpoints obsoletos relacionados a assinaturas individuais&#10;- Ajusta lógica de validação para planos empresariais e individuais&#10;- Refatora DTOs e serviços para mapear entidades mais eficientemente (`fromEntity`)" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: adiciona suporte a gerenciamento de contas pessoais e organizacionais para assinaturas&#10;&#10;- Refatora assinatura para associar `Subscription` à entidade `Account` em vez de `User`&#10;- Atualiza `AuthUser` para incluir uma conta pessoal (`personalAccount`)&#10;- Cria métodos para criar/gerenciar assinaturas pessoais e organizacionais (`SubscriptionService`)&#10;- Adiciona campos `type` em `Plan`, DTOs e repositórios relacionados&#10;- Introduz novos endpoints para gerenciamento unificado de acesso e planos disponíveis&#10;- Atualiza métodos nos controladores com base na nova estrutura de assinatura (e.g., `/me/access-status`)&#10;- Remove endpoints obsoletos relacionados a assinaturas individuais&#10;- Ajusta lógica de validação para planos empresariais e individuais&#10;- Refatora DTOs e serviços para mapear entidades mais eficientemente (`fromEntity`)" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

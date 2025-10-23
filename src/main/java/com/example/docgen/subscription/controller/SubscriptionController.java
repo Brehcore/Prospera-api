@@ -54,7 +54,7 @@ public class SubscriptionController {
             availablePlans = planService.findAvailablePlansByType(PlanType.INDIVIDUAL);
         }
 
-        // 3. Mapeamento consistente usando o método 'fromEntity'
+        // 3. Mapeamento consistente usando o metodo 'fromEntity'
         List<PlanResponse> response = availablePlans.stream()
                 .map(PlanResponse::fromEntity)
                 .toList();

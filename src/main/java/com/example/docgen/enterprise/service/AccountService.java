@@ -19,7 +19,7 @@ public class AccountService {
 
     /**
      * Encontra a conta pessoal de um usuário. Se não existir, cria uma nova.
-     * Este método garante que cada usuário individual tenha uma conta para
+     * Este metodo garante que cada usuário individual tenha uma conta para
      * atrelar suas assinaturas.
      *
      * @param user O usuário para o qual a conta será encontrada ou criada.

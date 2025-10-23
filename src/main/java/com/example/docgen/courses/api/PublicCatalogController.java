@@ -59,7 +59,7 @@ public class PublicCatalogController {
         // Chama o metodo que já existe no PlanService
         List<Plan> activePlans = planService.getActivePlans();
 
-        // Mapeia a lista de entidades para a lista de DTOs usando o método estático
+        // Mapeia a lista de entidades para a lista de DTOs usando o metodo estático
         List<PlanResponse> response = activePlans.stream()
                 .map(PlanResponse::fromEntity)
                 .toList();
