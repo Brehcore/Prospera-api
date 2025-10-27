@@ -79,24 +79,36 @@ public class AdminSubscriptionController {
     }
 
     /**
-     * Metodo privado auxiliar para mapear a entidade Subscription para o DTO de resposta.
-     * Centraliza a lógica e evita NullPointerExceptions.
+     * Mapeia a entidade Subscription para o DTO de resposta de forma inteligente.
      */
     private SubscriptionResponse mapToSubscriptionResponse(Subscription subscription) {
-        UUID userId = null;
-        if (subscription.getAccount() != null && subscription.getAccount().getPersonalUser() != null) {
-            userId = subscription.getAccount().getPersonalUser().getId();
+        // Inicializa as variáveis do "dono"
+        UUID ownerAccountId = subscription.getAccount().getId();
+        String ownerName;
+        UUID ownerUserId = null;
+
+        // Verifica se a conta da assinatura é uma conta pessoal
+        if (subscription.getAccount().getPersonalUser() != null) {
+            // Se sim, é uma assinatura INDIVIDUAL
+            ownerName = subscription.getAccount().getPersonalUser().getEmail(); // Ou getFullName(), se preferir
+            ownerUserId = subscription.getAccount().getPersonalUser().getId();
+        } else {
+            // Se não, é uma assinatura ENTERPRISE
+            ownerName = subscription.getAccount().getName();
         }
 
         return new SubscriptionResponse(
                 subscription.getId(),
-                userId,
                 subscription.getPlan().getId(),
                 subscription.getPlan().getName(),
                 subscription.getStartDate(),
                 subscription.getEndDate(),
                 subscription.getStatus(),
-                subscription.getOrigin()
+                subscription.getOrigin(),
+                // Preenche os novos campos do "dono"
+                ownerAccountId,
+                ownerName,
+                ownerUserId
         );
     }
 }

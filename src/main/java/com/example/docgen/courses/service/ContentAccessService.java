@@ -1,6 +1,7 @@
 package com.example.docgen.courses.service;
 
 import com.example.docgen.auth.domain.AuthUser;
+import com.example.docgen.common.enums.UserRole;
 import com.example.docgen.courses.domain.EbookTraining;
 import com.example.docgen.courses.domain.Training;
 import com.example.docgen.courses.repositories.EnrollmentRepository;
@@ -34,6 +35,14 @@ public class ContentAccessService {
      * Carrega o recurso de um e-book, mas apenas se o usuário tiver permissão.
      */
     public Resource loadEbookForUser(AuthUser user, UUID trainingId) {
+
+        // --- LÓGICA DE BYPASS PARA O SYSTEM_ADMIN ---
+        // 3. Verifica se a role do usuário é SYSTEM_ADMIN.
+        if (user.getRole() == UserRole.SYSTEM_ADMIN) {
+            // Se for, concede o acesso imediatamente e pula todas as outras verificações.
+            return loadTrainingResource(trainingId);
+        }
+
         // LÓGICA DE NEGÓCIO (O "PAYWALL"):
         // O usuário está matriculado neste treinamento?
         boolean isEnrolled = enrollmentRepository.existsByUserIdAndTrainingId(user.getId(), trainingId);
@@ -50,6 +59,25 @@ public class ContentAccessService {
 
         if (!(training instanceof EbookTraining ebook)) {
             throw new IllegalArgumentException("O conteúdo solicitado não é um e-book.");
+        }
+
+        return fileStorageService.loadAsResource(ebook.getFilePath());
+    }
+
+    /**
+     * Método privado para evitar duplicação de código.
+     * Busca o treinamento e carrega o recurso do arquivo.
+     */
+    private Resource loadTrainingResource(UUID trainingId) {
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new EntityNotFoundException("Treinamento não encontrado."));
+
+        if (!(training instanceof EbookTraining ebook)) {
+            throw new IllegalArgumentException("O conteúdo solicitado não é um e-book.");
+        }
+
+        if (ebook.getFilePath() == null || ebook.getFilePath().isBlank()) {
+            throw new EntityNotFoundException("O arquivo deste e-book ainda não foi enviado.");
         }
 
         return fileStorageService.loadAsResource(ebook.getFilePath());

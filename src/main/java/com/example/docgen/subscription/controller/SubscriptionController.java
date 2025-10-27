@@ -28,7 +28,6 @@ public class SubscriptionController {
     /**
      * Endpoint unificado para que qualquer usuário logado verifique a origem
      * e o status de seu acesso (seja pessoal ou via organização).
-     * ESTE É O SUBSTITUTO DO ANTIGO 'getMySubscription'.
      */
     @GetMapping("/me/access-status")
     @PreAuthorize("isAuthenticated()")

@@ -79,12 +79,12 @@ public class OrganizationAdminController {
     }
 
     /**
-     * Lista os treinamentos do catálogo global que estão disponíveis para a organização contratar/atribuir.
+     * Lista os treinamentos do catálogo completo que estão disponíveis para a organização contratar/atribuir.
      */
     // VERIFICAR ERROS NO METODO GET
     @GetMapping("/assignable-trainings")
     public ResponseEntity<List<TrainingSummaryDTO>> getAssignableTrainingsForOrg(
-            @AuthenticationPrincipal AuthUser orgAdmin,
+            @AuthenticationPrincipal AuthUser orgAdmin, // O admin que está autenticado no momento.
             @PathVariable UUID orgId) {
 
         // 1. A validação de segurança crucial que usa a lógica correta de 'memberships'.

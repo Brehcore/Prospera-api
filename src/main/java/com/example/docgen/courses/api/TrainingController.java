@@ -29,6 +29,10 @@ public class TrainingController {
     private final EnrollmentService enrollmentService;
     private final ProgressService progressService;
 
+    /**
+     * @param user
+     * @return
+     */
     @GetMapping("/catalog")
     public ResponseEntity<List<TrainingCatalogItemDTO>> getMyCatalog(@AuthenticationPrincipal AuthUser user) {
         List<TrainingCatalogItemDTO> catalog = trainingCatalogService.getCatalogForUser(user);
@@ -36,6 +40,11 @@ public class TrainingController {
     }
 
     // VERIFICAR ENDPOINT PARA CORRIGIR
+    /**
+     * Chama `enrollmentService.enrollUserInTraining()` para realizar a matrícula
+     * Passa o usuário autenticado e o ID do treinamento
+     * Retorna a resposta da matrícula () `EnrollmentResponseDTO`
+     */
     @PostMapping("/{trainingId}/enroll")
     public ResponseEntity<EnrollmentResponseDTO> enrollInTraining(
             @AuthenticationPrincipal AuthUser user,
@@ -61,4 +70,5 @@ public class TrainingController {
         List<EnrollmentResponseDTO> enrollments = enrollmentService.findEnrollmentsForUser(user);
         return ResponseEntity.ok(enrollments);
     }
+
 }
