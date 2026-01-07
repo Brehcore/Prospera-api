@@ -15,9 +15,9 @@
 
     <!-- Informações básicas do projeto -->
     <groupId>com.example</groupId>
-    <artifactId>docgen</artifactId>
+    <artifactId>Prospera-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>docgen</name>
+    <name>Prospera - Capacitação Continuada</name>
     <description>API robusta e modular para uma plataforma de e-learning corporativo</description>
 
     <!-- Placeholder para informações opcionais -->
