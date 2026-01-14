@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Certificado de Conclusão</title>
+    <style>
+        @page {
+            size: A4 landscape; /* Define a página como paisagem */
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            padding-top: 100px;
+            box-sizing: border-box;
+            border: 20px solid #2c3e50; /* Borda do certificado */
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+
+        .student-name {
+            font-size: 42px;
+            font-weight: bold;
+            color: #e67e22; /* Cor de destaque */
+            margin: 20px 0;
+            border-bottom: 2px solid #ccc;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .course-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .footer {
+            margin-top: 80px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .code {
+            font-family: 'Courier New', monospace;
+            background: #eee;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Certificado de Conclusão</h1>
+
+    <p class="subtitle">A Prospera Academy certifica que</p>
+
+    <div class="student-name" th:text="${studentName}">Nome do Aluno</div>
+
+    <p class="subtitle">concluiu com êxito o curso</p>
+
+    <div class="course-title" th:text="${courseTitle}">Nome do Curso</div>
+
+    <p>Data de emissão: <span th:text="${issueDate}">12/12/2025</span></p>
+
+    <div class="footer">
+        <p>Este certificado pode ser validado através do código:</p>
+        <p class="code" th:text="${validationCode}">ABCD-1234</p>
+        <p>Prospera Academy - Ensino de Tecnologia</p>
+    </div>
+</div>
+</body>
+</html>
