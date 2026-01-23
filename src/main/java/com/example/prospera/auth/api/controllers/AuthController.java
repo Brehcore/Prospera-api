@@ -2,17 +2,24 @@ package com.example.prospera.auth.api.controllers;
 
 import com.example.prospera.auth.api.dto.AuthLoginRequest;
 import com.example.prospera.auth.api.dto.AuthResponse;
+import com.example.prospera.auth.api.dto.ChangePasswordRequest;
+import com.example.prospera.auth.api.dto.ForgotPasswordRequest;
+import com.example.prospera.auth.api.dto.PasswordResetRequest;
 import com.example.prospera.auth.api.dto.UserRegisterRequest;
 import com.example.prospera.auth.domain.AuthUser;
+import com.example.prospera.auth.dto.ConfirmEmailChangeRequest;
+import com.example.prospera.auth.dto.InitiateEmailChangeRequest;
 import com.example.prospera.auth.jwt.JwtService;
 import com.example.prospera.auth.services.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,5 +80,54 @@ public class AuthController {
                 .build();
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody @Valid ForgotPasswordRequest request) {
+        authenticationService.forgotPassword(request.email());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody @Valid PasswordResetRequest request) {
+        authenticationService.resetPassword(request.token(), request.newPassword());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/change-password")
+    @PreAuthorize("isAuthenticated()") // O SecurityConfig já garante isso para rotas não públicas, mas reforçar é bom
+    public ResponseEntity<Void> changePassword(
+            @AuthenticationPrincipal AuthUser user, // Pega o usuário do Token JWT
+            @RequestBody @Valid ChangePasswordRequest request) {
+
+        // Validação simples de confirmação (pode ser feita no Service ou DTO validator também)
+        if (!request.newPassword().equals(request.confirmationPassword())) {
+            throw new IllegalArgumentException("A nova senha e a confirmação não coincidem.");
+        }
+
+        authenticationService.changePassword(user.getId(), request.currentPassword(), request.newPassword());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/email/initiate-change")
+    public ResponseEntity<String> initiateEmailChange(
+            @AuthenticationPrincipal AuthUser user,
+            @RequestBody @Valid InitiateEmailChangeRequest request) {
+
+        authenticationService.initiateEmailChange(user.getId(), request.currentEmail(), request.newEmail());
+
+        return ResponseEntity.ok("Código de verificação enviado para o seu e-mail atual.");
+    }
+
+    @PostMapping("/email/confirm-change")
+    public ResponseEntity<Void> confirmEmailChange(
+            @AuthenticationPrincipal AuthUser user,
+            @RequestBody @Valid ConfirmEmailChangeRequest request) {
+
+        authenticationService.confirmEmailChange(user.getId(), request.code());
+
+        // Frontend deve forçar logout aqui
+        return ResponseEntity.ok().build();
     }
 }

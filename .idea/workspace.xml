@@ -4,7 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: implementa módulo de certificados para emissão e download&#10;&#10;- Adiciona entidade `Certificate` com vínculos a matrículas e validações exclusivas&#10;- Cria `CertificateRepository` para métodos de acesso a certificados&#10;- Implementa `CertificateController` com endpoints para emitir certificados (`/issue/{enrollmentId}`) e realizar download em PDF (`/download/{certificateId}`)&#10;- Adiciona dependências para geração de PDFs (Thymeleaf e Flying Saucer)&#10;- Configura inicialização automática de campos como código de validação e timestamps na entidade `Certificate`" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: atualiza configurações do workspace no IntelliJ">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/ChangePasswordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/ForgotPasswordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/PasswordResetRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/domain/EmailUpdateToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/domain/PasswordResetToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/ConfirmEmailChangeRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/InitiateEmailChangeRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/EmailUpdateTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/PasswordResetTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/controllers/MaintenanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/controllers/MaintenanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/service/TestDataMaintenanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/service/TestDataMaintenanceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/jwt/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/jwt/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/AuthUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/AuthUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/TrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/TrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/ModuleDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/ModuleDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/repositories/ModuleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/repositories/ModuleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-dev.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,9 +52,9 @@
         <option value="Exception" />
         <option value="Enum" />
         <option value="Interface" />
-        <option value="Record" />
         <option value="HTML File" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -51,6 +80,9 @@
     &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
   }
 }</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests /&gt;" />
+  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -76,6 +108,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.KeyGen.executor": "Run",
     "Application.TestDBConnection.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -265,7 +298,11 @@
       <workItem from="1767610707081" duration="10607000" />
       <workItem from="1767796958812" duration="541000" />
       <workItem from="1767892682391" duration="57000" />
-      <workItem from="1768392122134" duration="3723000" />
+      <workItem from="1768392122134" duration="3786000" />
+      <workItem from="1768565896405" duration="9497000" />
+      <workItem from="1768655470358" duration="16000" />
+      <workItem from="1768914211839" duration="2458000" />
+      <workItem from="1769010844659" duration="13762000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -435,7 +472,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768406700906</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="chore: atualiza configurações do workspace no IntelliJ">
+      <option name="closed" value="true" />
+      <created>1768406768170</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1768406768170</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -490,7 +535,8 @@
     <MESSAGE value="feat: adiciona melhorias de comentários e suporte avançado para assinaturas e treinamentos&#10;&#10;- Documenta endpoints no `TrainingController` para melhor clareza sobre matrícula e catálogo de treinamentos&#10;- Refatora `SubscriptionResponse` para incluir detalhes do proprietário (ID, nome, usuário associado)&#10;- Atualiza lógica no `AdminSubscriptionController` para mapear assinaturas considerando diferentes tipos de usuários&#10;- Adiciona bypass para administradores do sistema no acesso a conteúdos protegidos no `ContentAccessService`&#10;- Expande validações e reutiliza lógica de carregamento de recursos nos serviços de conteúdo" />
     <MESSAGE value="refactor: reestrutura pacotes para `prospera` e remove classes redundantes&#10;&#10;- Altera base de pacotes de `docgen` para `prospera` em todo o sistema&#10;- Remove classes obsoletas não referenciadas, como `StandardError`, `UserType` e `IntegrationController`&#10;- Atualiza referências de pacotes em entidades, DTOs, controladores e serviços&#10;- Corrige e padroniza comentários em controladores e serviços afetados" />
     <MESSAGE value="feat: implementa módulo de certificados para emissão e download&#10;&#10;- Adiciona entidade `Certificate` com vínculos a matrículas e validações exclusivas&#10;- Cria `CertificateRepository` para métodos de acesso a certificados&#10;- Implementa `CertificateController` com endpoints para emitir certificados (`/issue/{enrollmentId}`) e realizar download em PDF (`/download/{certificateId}`)&#10;- Adiciona dependências para geração de PDFs (Thymeleaf e Flying Saucer)&#10;- Configura inicialização automática de campos como código de validação e timestamps na entidade `Certificate`" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: implementa módulo de certificados para emissão e download&#10;&#10;- Adiciona entidade `Certificate` com vínculos a matrículas e validações exclusivas&#10;- Cria `CertificateRepository` para métodos de acesso a certificados&#10;- Implementa `CertificateController` com endpoints para emitir certificados (`/issue/{enrollmentId}`) e realizar download em PDF (`/download/{certificateId}`)&#10;- Adiciona dependências para geração de PDFs (Thymeleaf e Flying Saucer)&#10;- Configura inicialização automática de campos como código de validação e timestamps na entidade `Certificate`" />
+    <MESSAGE value="chore: atualiza configurações do workspace no IntelliJ" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: atualiza configurações do workspace no IntelliJ" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

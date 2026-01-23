@@ -68,7 +68,7 @@ public class JwtService {
     }
 
     /**
-     * Método auxiliar que constrói o token com base nas 'claims' recebidas.
+     * Metodo auxiliar que constrói o token com base nas 'claims' recebidas.
      */
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         // 3. Aqui, 'extraClaims' é um parâmetro recebido, por isso é encontrado.

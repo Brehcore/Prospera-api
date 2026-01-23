@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Profile("dev") // O serviço só existe no perfil 'dev'
+@Profile("local") // O serviço só existe no perfil 'dev'
 public class TestDataMaintenanceService {
 
     private final AuthUserRepository authUserRepository;
@@ -22,7 +22,7 @@ public class TestDataMaintenanceService {
     public void deleteAllUsers() {
         // Checagem de segurança no nome do banco de dados
         String currentDbName = jdbcTemplate.queryForObject("SELECT DATABASE()", String.class);
-        if (!"docgenDev".equalsIgnoreCase(currentDbName)) {
+        if (!"prospera_db".equalsIgnoreCase(currentDbName)) {
             throw new SecurityException("A limpeza de dados só é permitida no banco 'docgenDev'.");
         }
 

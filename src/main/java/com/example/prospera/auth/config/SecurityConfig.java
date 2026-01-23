@@ -49,6 +49,12 @@ public class SecurityConfig {
                         // Rota púclica para consulta de CNPJ
                         .requestMatchers(HttpMethod.GET, "/api/lookup/cnpj/**").permitAll()
 
+                        // Rota para resetar senha sem estar logado
+                        .requestMatchers("/auth/forgot-password", "/auth/reset-password").permitAll()
+
+                        // Rota para alterar senha
+                        .requestMatchers("/auth/change-password").authenticated()
+
                         // Endpoints que exigem que o usuário esteja logado
                         .requestMatchers("/profile/**", "/organizations/**").authenticated()
 
@@ -61,8 +67,6 @@ public class SecurityConfig {
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				)
-                // Usaremos um Provider que será criado como um @Bean separado
-                // .authenticationProvider(authenticationProvider(null)) // Passamos null por enquanto
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}

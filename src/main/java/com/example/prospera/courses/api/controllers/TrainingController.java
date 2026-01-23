@@ -2,6 +2,7 @@ package com.example.prospera.courses.api.controllers;
 
 import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.courses.api.dto.EnrollmentResponseDTO;
+import com.example.prospera.courses.api.dto.ModuleDTO;
 import com.example.prospera.courses.api.dto.TrainingCatalogItemDTO;
 import com.example.prospera.courses.service.EnrollmentService;
 import com.example.prospera.courses.service.ProgressService;
@@ -86,5 +87,26 @@ public class TrainingController {
     public ResponseEntity<List<EnrollmentResponseDTO>> getMyEnrollments(@AuthenticationPrincipal AuthUser user) {
         List<EnrollmentResponseDTO> enrollments = enrollmentService.findEnrollmentsForUser(user);
         return ResponseEntity.ok(enrollments);
+    }
+
+    /**
+     * Retorna a estrutura de módulos e aulas de um treinamento para o aluno assistir.
+     * Deve validar se o aluno possui uma matrícula ativa neste treinamento.
+     *
+     * @param user       Usuário autenticado
+     * @param trainingId ID do treinamento
+     * @return Lista de módulos com suas respectivas aulas
+     */
+    @GetMapping("/{trainingId}/modules")
+    public ResponseEntity<List<ModuleDTO>> getTrainingModules(
+            @AuthenticationPrincipal AuthUser user,
+            @PathVariable UUID trainingId) {
+
+        // 1. Verificar se o usuário tem matrícula ativa no trainingId.
+        // 2. Buscar os módulos e aulas desse treinamento.
+        // 3. Retornar os DTOs.
+        List<ModuleDTO> modules = trainingCatalogService.findModulesForStudent(user, trainingId);
+
+        return ResponseEntity.ok(modules);
     }
 }

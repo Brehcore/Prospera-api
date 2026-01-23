@@ -1,17 +1,22 @@
 package com.example.prospera.courses.service;
 
 import com.example.prospera.auth.domain.AuthUser;
+import com.example.prospera.courses.api.dto.LessonDTO;
+import com.example.prospera.courses.api.dto.ModuleDTO;
 import com.example.prospera.courses.api.dto.PublicTrainingDTO;
 import com.example.prospera.courses.api.dto.SimpleSectorDTO;
 import com.example.prospera.courses.api.dto.TrainingCatalogItemDTO;
 import com.example.prospera.courses.api.dto.TrainingSummaryDTO;
 import com.example.prospera.courses.domain.Enrollment;
+import com.example.prospera.courses.domain.Lesson;
+import com.example.prospera.courses.domain.Module;
 import com.example.prospera.courses.domain.Training;
 import com.example.prospera.courses.domain.TrainingSectorAssignment;
 import com.example.prospera.courses.domain.enums.EnrollmentStatus;
 import com.example.prospera.courses.domain.enums.PublicationStatus;
 import com.example.prospera.courses.domain.enums.TrainingType;
 import com.example.prospera.courses.repositories.EnrollmentRepository;
+import com.example.prospera.courses.repositories.ModuleRepository;
 import com.example.prospera.courses.repositories.TrainingRepository;
 import com.example.prospera.courses.repositories.TrainingSectorAssignmentRepository;
 import com.example.prospera.enterprise.api.dto.SectorDTO;
@@ -25,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,6 +49,8 @@ public class TrainingCatalogService {
     private final UserSectorRepository userSectorRepository;
     private final SectorRepository sectorRepository;
     private final SectorService sectorService;
+    private final LessonService lessonService;
+    private final ModuleRepository moduleRepository;
 
     @Transactional(readOnly = true)
     public List<TrainingCatalogItemDTO> getCatalogForUser(AuthUser user) {
@@ -121,6 +129,48 @@ public class TrainingCatalogService {
     @Transactional(readOnly = true)
     public List<SectorDTO> findAllPublicSectors() {
         return sectorRepository.findAll().stream().map(SectorDTO::fromEntity).collect(Collectors.toList());
+    }
+
+    /**
+     * Busca a estrutura de módulos e aulas para um aluno, verificando se ele tem permissão (matrícula).
+     */
+    @Transactional(readOnly = true)
+    public List<ModuleDTO> findModulesForStudent(AuthUser user, UUID trainingId) {
+        // 1. Segurança: Verificar se o usuário está matriculado neste curso
+        // (Assumindo que EnrollmentRepository tenha este método ou similar)
+        boolean isEnrolled = enrollmentRepository.existsByUserIdAndTrainingId(user.getId(), trainingId);
+
+        if (!isEnrolled) {
+            throw new org.springframework.security.access.AccessDeniedException("Você não está matriculado neste treinamento.");
+        }
+
+        // 2. Buscar os módulos do treinamento (ordenados por ordem de exibição)
+        // (Assumindo que ModuleRepository tenha findByTrainingIdOrderByOrderIndex ou similar)
+        List<Module> modules = moduleRepository.findAllByCourse_IdOrderByModuleOrder(trainingId);
+
+        // 3. Converter para DTOs e preencher o status de conclusão das aulas
+        return modules.stream()
+                .map(module -> {
+                    // Mapeia as lições dentro do módulo
+                    List<LessonDTO> lessonDTOs = module.getLessons().stream()
+                            .sorted(Comparator.comparingInt(Lesson::getLessonOrder)) // Garante ordem das aulas
+                            .map(lesson -> {
+                                // Verifica se o aluno já completou esta aula específica
+                                boolean isCompleted = lessonService.isLessonCompleted(lesson.getId(), user.getId());
+                                // Retorna o DTO com o status correto e URL do vídeo
+                                return LessonDTO.fromEntity(lesson, isCompleted);
+                            })
+                            .toList();
+
+                    // Retorna o DTO do módulo preenchido
+                    return new ModuleDTO(
+                            module.getId(),
+                            module.getTitle(),
+                            module.getModuleOrder(),
+                            lessonDTOs
+                    );
+                })
+                .toList();
     }
 
     private PublicTrainingDTO buildPublicTrainingDTO(Training training, Map<UUID, String> sectorNamesById) {

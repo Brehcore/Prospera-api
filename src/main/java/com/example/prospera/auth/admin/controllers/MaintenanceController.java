@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin/maintenance")
-@Profile("dev") // O controlador inteiro só existe no perfil 'dev'
+@Profile("local") // O controlador inteiro só existe no perfil 'dev'
 public class MaintenanceController {
 
     private final TestDataMaintenanceService maintenanceService;

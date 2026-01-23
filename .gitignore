@@ -23,7 +23,8 @@
 hs_err_pid*
 replay_pid*
 
-# Ignorar configurações sensíveis
-/src/main/resources/application.properties
-/src/main/resources/application-dev.properties
-/src/main/resources/application-local.properties
+### Secrets ###
+src/main/resources/application-local.properties
+src/main/resources/application-prod.properties
+src/main/resources/application-dev.properties
+.env

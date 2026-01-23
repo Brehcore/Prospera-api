@@ -24,4 +24,5 @@ public interface ModuleRepository extends JpaRepository<Module, UUID> {
 
     Optional<Module> findByCourseAndModuleOrder(RecordedCourse course, int moduleOrder);
 
+    List<Module> findAllByCourse_IdOrderByModuleOrder(UUID trainingId);
 }

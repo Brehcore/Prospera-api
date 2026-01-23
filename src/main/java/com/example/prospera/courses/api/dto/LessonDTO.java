@@ -14,7 +14,7 @@ public record LessonDTO(
         boolean isCompleted // Campo novo
 ) {
 
-    // Método 1: Completo (usado quando sabemos o progresso)
+    // Metodo 1: Completo (usado quando sabemos o progresso)
     public static LessonDTO fromEntity(Lesson lesson, boolean isCompleted) {
         return new LessonDTO(
                 lesson.getId(),
