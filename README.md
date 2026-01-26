@@ -1,8 +1,8 @@
-# DocGen Platform - Backend Service
+# Prospera-api Platform - Backend Service
 
 > API robusta e modular para uma plataforma de e-learning corporativo e gestão de documentos. Construída com Java e
-Spring Boot, a aplicação oferece um sistema completo de autenticação, gestão de usuários e organizações, um módulo
-versátil de cursos e integrações com serviços externos.
+> Spring Boot, a aplicação oferece um sistema completo de autenticação, gestão de usuários e organizações, um módulo
+> versátil de cursos e integrações com serviços externos.
 
 O backend é projetado com uma arquitetura de microsserviços, separando responsabilidades em domínios claros como
 autenticação, empresa, cursos e integrações.
@@ -17,6 +17,8 @@ de Organização** e **Administrador do Sistema**.
 * **Autenticação e Perfil**:
   * Registro de identidade com e-mail e senha.
   * Login seguro com autenticação baseada em JSON Web Tokens (JWT).
+  * **Gestão de Segurança**: Alteração de senha e fluxo seguro de alteração de e-mail com verificação em duas etapas (
+    código por e-mail).
   * Criação e gerenciamento de perfil de Pessoa Física (PF).
   * Visualização segura do próprio perfil com mascaramento de dados sensíveis (CPF, e-mail, etc.).
   * Solicitação de anonimização e desativação da própria conta.
@@ -26,8 +28,9 @@ de Organização** e **Administrador do Sistema**.
 * **Catálogo de Cursos**:
   * Acesso ao catálogo de treinamentos personalizado, baseado nos setores aos quais pertence.
   * Matrícula em treinamentos disponíveis.
+  * **Player de Estudo**: Visualização da estrutura completa do curso (módulos e aulas) e reprodução de vídeos.
   * Acompanhamento de progresso em cursos e e-books.
-  * Acesso seguro ao conteúdo dos treinamentos (streaming de e-books).
+  * Acesso seguro ao conteúdo dos treinamentos (streaming de e-books e imagens).
 
 ### 🏢 Para Administradores de Organização (`ORG_ADMIN`)
 
@@ -48,7 +51,7 @@ de Organização** e **Administrador do Sistema**.
 
 * **Gestão Global de Usuários**:
   * Listar todos os usuários do sistema, com filtros de busca.
-  * Ativar, desativar e resetar a senha de qualquer usuário.
+  * Ativar, desativar e resetar a senha de qualquer usuário (admin reset).
 * **Gestão Global de Organizações**:
   * Listar todas as organizações da plataforma.
   * Visualizar detalhes de qualquer organização, incluindo sua lista de membros.
@@ -118,135 +121,18 @@ de Organização** e **Administrador do Sistema**.
 ### Instalação e Execução
 
 1. **Clone o repositório:**
-   ```bash
-   git clone [URL_DO_REPOSITORIO]
-   cd [NOME_DO_PROJETO]
-   ```
-2. **Configure as variáveis de ambiente:**
-   Crie um arquivo `application.properties` em `src/main/resources/` e configure as seguintes propriedades (Lembre-se o
-   properties é um arquivo de segurança da sua aplicação, então lembre-se de adicionar ao gitignore):
-   ```properties
-   # Perfil ativo (lembre-se de criar o perfil e ajustar no seu MaintenanceController
-   spring.profiles.active=dev
-   
-   # Configuração do Banco de Dados
-   spring.datasource.url=jdbc:postgresql://localhost:5432/docgen_final
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
+2. **Configure seu aplication.properties**
+3. Execute a aplicação
 
-   # Chave secreta para JWT (gere uma chave segura em Base64)
-   application.security.jwt.secret-key=sua_chave_secreta_muito_longa_e_segura
-
-   # Expiração do Token (em milissegundos, ex: 24 horas)
-   application.security.jwt.expiration=86400000
-   
-   # O tamanho máximo para upload de arquivos e para requisição total é de 50MB
-   spring.servlet.multipart.max-file-size=50MB
-   spring.servlet.multipart.max-request-size=50MB
-
-   # URL de outros microsserviços
-   enterprise.service.url=http://localhost:8081 # Exemplo
-   ```
-3. **Execute a aplicação (usando Maven):**
-   ```bash
-   mvn spring-boot:run
-   ```
-   A aplicação estará disponível em `http://localhost:8080`.
-
-## ⚙️ Perfis (Profiles) do Spring
-
-* **`dev`**: Ativa endpoints de manutenção (`/admin/maintenance`) que permitem, por exemplo, apagar todos os usuários do
-  banco de desenvolvimento.
-* **`prod`** (padrão): Desativa funcionalidades perigosas de desenvolvimento.
-
-Para ativar um perfil, adicione ao `application.properties`:
-`spring.profiles.active=dev`
-
-## 📖 Endpoints da API
-
-A seguir, a lista dos principais endpoints agrupados por funcionalidade.
-
-🌐 API Pública (Não requer autenticação)
-
-| Método | Rota                                 | Descrição                                                                         |
-| :----- | :----------------------------------- | :-------------------------------------------------------------------------------- |
-| `POST` | `/auth/register`                     | Registra um novo usuário.                                  |
-| `POST` | `/auth/login`                        | Autentica um usuário e retorna um token JWT.               |
-| `GET`  | `/public/catalog`                    | Lista todos os treinamentos publicados disponíveis na vitrine. |
-| `GET`  | `/public/catalog/{trainingId}`       | Exibe os detalhes públicos de um treinamento específico.       |
-| `GET`  | `/public/catalog/sectors`            | Lista todos os setores globais disponíveis para filtro.      |
-| `GET`  | `/stream/images/{filename}`          | Serve arquivos de imagem (ex: capas de cursos).               |
-| `GET`  | `/api/lookup/cnpj/{cnpj}`            | Consulta dados de um CNPJ em uma API externa (BrasilAPI).         |
-
-👤 API de Usuário Autenticado
-
-| Método | Rota                                       | Descrição                                                                                             |
-| :----- | :----------------------------------------- | :---------------------------------------------------------------------------------------------------- |
-| `GET`  | `/profile/me`                              | Retorna o perfil completo do usuário logado (com dados mascarados).         |
-| `POST` | `/profile/pf`                              | Cria o perfil de Pessoa Física para o usuário logado.                      |
-| `GET`  | `/profile/me/organizations`                | Lista as organizações das quais o usuário é membro.                     |
-| `POST` | `/organizations`                           | Cria uma nova organização (o criador se torna `ORG_ADMIN`).              |
-| `GET`  | `/trainings/catalog`                       | Retorna o catálogo de treinamentos personalizado para o usuário.                 |
-| `GET`  | `/trainings/my-enrollments`                | Lista todos os treinamentos em que o usuário está matriculado.             |
-| `POST` | `/trainings/{trainingId}/enroll`           | Matricula o usuário em um treinamento.                                         |
-| `POST` | `/trainings/lessons/{lessonId}/complete`   | Marca uma lição como concluída.                                                |
-| `GET`  | `/progress/ebooks/{trainingId}`            | Retorna o progresso do usuário em um e-book.                                   |
-| `PUT`  | `/progress/ebooks/{trainingId}`            | Atualiza o progresso do usuário em um e-book (última página lida).            |
-| `GET`  | `/stream/ebooks/{trainingId}`              | Acessa o conteúdo de um e-book (requer matrícula).                           |
-
-🏢 API de Administrador de Organização (`ORG_ADMIN`)
-
-| Método | Rota                                                        | Descrição                                                                                |
-| :----- | :---------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| `POST` | `/organizations/{orgId}/members`                            | Adiciona um novo membro à organização.                             |
-| `GET`  | `/organizations/{orgId}/members`                            | Lista todos os membros da organização.                               |
-| `DELETE` | `/organizations/{orgId}/members/{membershipId}`             | Remove um membro da organização.                                     |
-| `PATCH`  | `/organizations/{orgId}/members/{membershipId}`             | Altera o papel de um membro (`ORG_ADMIN` ou `ORG_MEMBER`).             |
-| `GET`  | `/organizations/{orgId}/members/{membershipId}`             | Exibe os detalhes de um membro específico.                         |
-| `POST` | `/organizations/{orgId}/members/{membershipId}/sectors`     | Atribui um membro a um setor.                                      |
-| `GET`  | `/organizations/{orgId}/sectors`                            | Lista os setores que a organização "adotou".                   |
-| `POST` | `/organizations/{orgId}/sectors`                            | "Adota" um setor do catálogo global para a organização.       |
-| `DELETE` | `/organizations/{orgId}/sectors/{sectorId}`                 | Remove um setor da organização.                               |
-| `POST` | `/organizations/{orgId}/enrollments`                        | Matricula múltiplos membros em um treinamento (matrícula em massa). |
-| `GET`  | `/organizations/{orgId}/trainings/{trainingId}/enrollments` | Lista os membros da organização que estão matriculados em um treinamento. |
-| `GET`  | `/organizations/{orgId}/assignable-trainings`               | Lista os treinamentos disponíveis para a organização atribuir aos seus membros. |
-
-️API de Administrador do Sistema (`SYSTEM_ADMIN`)
-
-| Método | Rota                                       | Descrição                                                                            |
-| :----- | :----------------------------------------- | :----------------------------------------------------------------------------------- |
-| `GET`  | `/admin/users`                             | Lista todos os usuários do sistema.                             |
-| `PATCH`  | `/admin/users/{userId}/activate`           | Ativa a conta de um usuário.                                      |
-| `PATCH`  | `/admin/users/{userId}/deactivate`         | Desativa a conta de um usuário.                                    |
-| `GET`  | `/admin/organizations`                     | Lista todas as organizações da plataforma.              |
-| `GET`  | `/admin/organizations/{orgId}`             | Exibe detalhes de uma organização específica.                 |
-| `PATCH`  | `/admin/organizations/{orgId}/status`      | Altera o status de uma organização.                        |
-| `GET`  | `/admin/sectors`                           | Lista todos os setores globais.                                   |
-| `POST` | `/admin/sectors`                           | Cria um novo setor global.                                        |
-| `DELETE` | `/admin/sectors/{sectorId}`                | Deleta um setor global (se não estiver em uso). |
-| `GET`  | `/admin/trainings`                         | Lista todos os treinamentos do sistema.                        |
-| `POST` | `/admin/trainings`                         | Cria um novo treinamento.                                     |
-| `PUT`  | `/admin/trainings/{trainingId}`            | Atualiza os dados de um treinamento.                           |
-| `DELETE` | `/admin/trainings/{trainingId}`            | Deleta um treinamento (se não tiver matrículas/módulos).     |
-| `POST` | `/admin/trainings/{trainingId}/publish`    | Publica um treinamento.                                     |
-| `POST` | `/admin/trainings/{trainingId}/archive`    | Arquiva um treinamento.                                      |
-| `POST` | `/admin/trainings/{trainingId}/sectors`    | Associa um treinamento a um setor (obrigatório/eletivo).       |
-| `POST` | `/admin/trainings/{trainingId}/cover-image`| Faz upload da imagem de capa de um treinamento.                  |
 
 ## 🔮 Futuro e Próximos Passos
 
-Conforme solicitado, os seguintes módulos ainda estão planejados para desenvolvimento futuro:
+Os seguintes módulos continuam em planejamento para desenvolvimento futuro:
 
-* **Módulo de Relatórios (Analytics)**: Para extrair métricas de uso, progresso de membros e engajamento com os
+- Módulo de Relatórios (Analytics): Para extrair métricas de uso, progresso de membros e engajamento com os
   treinamentos.
-* **Módulo de Assinaturas e Pagamentos**: Para implementar planos, assinaturas e integração com gateways de pagamento,
-  permitindo a monetização da plataforma.
+- Integração de Pagamentos: Gateways para processamento de assinaturas dos planos já listados.
 
----
+## 👩🏻‍💻 Autora:
 
-## 👩🏻‍💻 Autor(a)
-
-Desenvolvido por **Brena Soares**
-
-[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/brenasoares/)
-[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Brehcore)
+Desenvolvido por Brena Soares
