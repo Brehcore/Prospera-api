@@ -31,15 +31,13 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "trainings")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // Define que é uma classe pai
-@DiscriminatorColumn(name = "entity_type", discriminatorType = DiscriminatorType.STRING) // Coluna que define o tipo
-public abstract class Training { // <-- CORREÇÃO: A classe agora é abstrata
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "entity_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Training {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    // --- CAMPOS COMUNS A TODOS OS TREINAMENTOS (O QUE FOI MANTIDO) ---
 
     @Column(nullable = false)
     private String title;
@@ -73,6 +71,9 @@ public abstract class Training { // <-- CORREÇÃO: A classe agora é abstrata
     private OffsetDateTime updatedAt;
 
     private String coverImageUrl;
+
+    @Column(name = "page_count")
+    private Integer pageCount;
 
     @OneToMany(mappedBy = "trainingId", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrainingSectorAssignment> sectorAssignments;

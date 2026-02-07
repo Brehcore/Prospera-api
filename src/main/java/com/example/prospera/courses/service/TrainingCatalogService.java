@@ -14,6 +14,7 @@ import com.example.prospera.courses.domain.Training;
 import com.example.prospera.courses.domain.TrainingSectorAssignment;
 import com.example.prospera.courses.domain.enums.EnrollmentStatus;
 import com.example.prospera.courses.domain.enums.PublicationStatus;
+import com.example.prospera.courses.domain.enums.TrainingEntityType;
 import com.example.prospera.courses.domain.enums.TrainingType;
 import com.example.prospera.courses.repositories.EnrollmentRepository;
 import com.example.prospera.courses.repositories.ModuleRepository;
@@ -171,6 +172,41 @@ public class TrainingCatalogService {
                     );
                 })
                 .toList();
+    }
+
+    public String calculateWorkloadForCertificate(Training training) {
+        int totalMinutes = 0;
+
+        if (training.getEntityType() == TrainingEntityType.EBOOK) {
+            // Regra: Ebook usa pageCount. Se for nulo, assume 0.
+            // Estimativa: 3 minutos por página
+            int pages = (training.getPageCount() != null) ? training.getPageCount() : 0;
+            totalMinutes = pages * 3;
+
+        } else if (training.getEntityType() == TrainingEntityType.RECORDED_COURSE) {
+            // Regra: Vídeo soma a duração das aulas
+            // (Supondo que você buscou os módulos e aulas do banco)
+            totalMinutes = moduleRepository.calculateTotalDurationByTrainingId(training.getId());
+        }
+
+        // --- LÓGICA DE APRESENTAÇÃO ---
+
+        // Opção 1: Arredondar para cima (Padrão Ouro para Certificados)
+        // Ex: 150 min = 2.5h -> vira "3 Horas"
+        // Ex: 130 min = 2.16h -> vira "3 Horas"
+        int hoursRoundedUp = (int) Math.ceil(totalMinutes / 60.0);
+
+        // Garante que nunca mostre 0 horas
+        if (hoursRoundedUp < 1) hoursRoundedUp = 1;
+
+        return hoursRoundedUp + " horas";
+
+    /* // Opção 2: Mostrar exato com uma casa decimal (Ex: "2,5 horas")
+    double hoursExact = totalMinutes / 60.0;
+    if (hoursExact < 1.0) hoursExact = 1.0;
+    // Formata trocando ponto por vírgula se for Brasil
+    return String.format("%.1f horas", hoursExact).replace(".", ",");
+    */
     }
 
     private PublicTrainingDTO buildPublicTrainingDTO(Training training, Map<UUID, String> sectorNamesById) {

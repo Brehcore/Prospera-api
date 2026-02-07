@@ -3,6 +3,8 @@ package com.example.prospera.courses.repositories;
 import com.example.prospera.courses.domain.Module;
 import com.example.prospera.courses.domain.RecordedCourse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +27,8 @@ public interface ModuleRepository extends JpaRepository<Module, UUID> {
     Optional<Module> findByCourseAndModuleOrder(RecordedCourse course, int moduleOrder);
 
     List<Module> findAllByCourse_IdOrderByModuleOrder(UUID trainingId);
+
+    // COALESCE garante que retorne 0 se não houver aulas, evitando NullPointerException
+    @Query("SELECT COALESCE(SUM(l.durationInMinutes), 0) FROM Module m JOIN m.lessons l WHERE m.course.id = :trainingId")
+    Integer calculateTotalDurationByTrainingId(@Param("trainingId") UUID trainingId);
 }

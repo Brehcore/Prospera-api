@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona suporte a redefinição de senha e troca de e-mail&#10;&#10;- Implementa endpoints para recuperação e redefinição de senha (`/auth/forgot-password`, `/auth/reset-password`, `/auth/change-password`)&#10;- Adiciona suporte para troca de e-mail com processos de verificação e confirmação&#10;- Cria as entidades e repositórios `PasswordResetToken` e `EmailUpdateToken`&#10;- Atualiza `SecurityConfig` para incluir permissões relacionadas&#10;- Refatora `AuthController` e `AuthenticationService` com funcionalidades expandidas&#10;- Remove `application-dev.properties` e ajusta perfil `dev` para `local` em serviços e controladores">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificatePreviewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/domain/Certificate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/domain/Certificate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/domain/Training.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/domain/Training.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/repositories/ModuleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/repositories/ModuleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/certificate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/certificate.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +33,8 @@
         <option value="Enum" />
         <option value="Interface" />
         <option value="HTML File" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -78,40 +83,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.KeyGen.executor": "Run",
-    "Application.TestDBConnection.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found": "Database connection parameters found",
-    "Notification.DoNotAsk-DatabaseConfigFileWatcher.found": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.DocgenApplication.executor": "Run",
-    "Spring Boot.ProsperaApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/brehs/Documents/Go-Tree/Prospera/Prospera-api/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.KeyGen.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestDBConnection.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;Database connection parameters found&quot;,
+    &quot;Notification.DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.DocgenApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ProsperaApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/brehs/Documents/Go-Tree/Prospera/Prospera-api/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.grazie&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -279,7 +284,10 @@
       <workItem from="1769010844659" duration="13806000" />
       <workItem from="1769437350602" duration="18000" />
       <workItem from="1769437486527" duration="111000" />
-      <workItem from="1769457123310" duration="1587000" />
+      <workItem from="1769457123310" duration="2566000" />
+      <workItem from="1769511214261" duration="9031000" />
+      <workItem from="1769546814334" duration="6000" />
+      <workItem from="1770382698733" duration="2766000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -465,7 +473,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769130725322</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório">
+      <option name="closed" value="true" />
+      <created>1769458852415</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1769458852415</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -522,7 +538,8 @@
     <MESSAGE value="feat: implementa módulo de certificados para emissão e download&#10;&#10;- Adiciona entidade `Certificate` com vínculos a matrículas e validações exclusivas&#10;- Cria `CertificateRepository` para métodos de acesso a certificados&#10;- Implementa `CertificateController` com endpoints para emitir certificados (`/issue/{enrollmentId}`) e realizar download em PDF (`/download/{certificateId}`)&#10;- Adiciona dependências para geração de PDFs (Thymeleaf e Flying Saucer)&#10;- Configura inicialização automática de campos como código de validação e timestamps na entidade `Certificate`" />
     <MESSAGE value="chore: atualiza configurações do workspace no IntelliJ" />
     <MESSAGE value="feat: adiciona suporte a redefinição de senha e troca de e-mail&#10;&#10;- Implementa endpoints para recuperação e redefinição de senha (`/auth/forgot-password`, `/auth/reset-password`, `/auth/change-password`)&#10;- Adiciona suporte para troca de e-mail com processos de verificação e confirmação&#10;- Cria as entidades e repositórios `PasswordResetToken` e `EmailUpdateToken`&#10;- Atualiza `SecurityConfig` para incluir permissões relacionadas&#10;- Refatora `AuthController` e `AuthenticationService` com funcionalidades expandidas&#10;- Remove `application-dev.properties` e ajusta perfil `dev` para `local` em serviços e controladores" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: adiciona suporte a redefinição de senha e troca de e-mail&#10;&#10;- Implementa endpoints para recuperação e redefinição de senha (`/auth/forgot-password`, `/auth/reset-password`, `/auth/change-password`)&#10;- Adiciona suporte para troca de e-mail com processos de verificação e confirmação&#10;- Cria as entidades e repositórios `PasswordResetToken` e `EmailUpdateToken`&#10;- Atualiza `SecurityConfig` para incluir permissões relacionadas&#10;- Refatora `AuthController` e `AuthenticationService` com funcionalidades expandidas&#10;- Remove `application-dev.properties` e ajusta perfil `dev` para `local` em serviços e controladores" />
+    <MESSAGE value="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

@@ -46,6 +46,10 @@ public class Certificate {
     @Column(nullable = false)
     private String filePath;
 
+    // Armazena o texto exato que saiu no certificado (ex: "10 horas")
+    @Column(name = "workload_snapshot")
+    private String workloadSnapshot;
+
     @Column(nullable = false)
     private OffsetDateTime issuedAt;
 

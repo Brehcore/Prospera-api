@@ -2,91 +2,125 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Certificado de Conclusão</title>
     <style>
         @page {
-            size: A4 landscape; /* Define a página como paisagem */
+            size: 297mm 210mm;
             margin: 0;
         }
-
         body {
-            font-family: 'Helvetica', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            text-align: center;
-            color: #333;
+            width: 297mm;
+            height: 210mm;
+            font-family: 'Montserrat', sans-serif;
+            color: #0f4c3a; /* Verde escuro da identidade */
+            /* A imagem entra aqui como background */
+            background-image: url('data:image/png;base64,[[${bgImageBase64}]]');
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
-        .container {
+        .content {
+            position: absolute;
+            top: 35%; /* Ajuste conforme a área branca da imagem */
             width: 100%;
-            height: 100vh;
-            padding-top: 100px;
-            box-sizing: border-box;
-            border: 20px solid #2c3e50; /* Borda do certificado */
+            text-align: center;
         }
 
         h1 {
             font-size: 48px;
-            color: #2c3e50;
-            margin-bottom: 20px;
             text-transform: uppercase;
-        }
-
-        .subtitle {
-            font-size: 24px;
+            letter-spacing: 2px;
             margin-bottom: 40px;
         }
 
+        .text-body {
+            font-size: 20px;
+            line-height: 1.6;
+            margin: 0 100px; /* Margem lateral */
+        }
+
         .student-name {
-            font-size: 42px;
+            font-size: 32px;
             font-weight: bold;
-            color: #e67e22; /* Cor de destaque */
-            margin: 20px 0;
-            border-bottom: 2px solid #ccc;
+            border-bottom: 2px solid #0f4c3a;
+            padding: 0 20px;
             display: inline-block;
-            padding-bottom: 10px;
+            margin: 10px 0;
         }
 
         .course-title {
-            font-size: 32px;
             font-weight: bold;
-            margin: 20px 0;
+            font-size: 24px;
         }
 
-        .footer {
-            margin-top: 80px;
+        .details {
+            margin-top: 40px;
+            font-size: 16px;
+        }
+
+        /* O Círculo do Código de Validação */
+        .validation-badge {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            width: 120px;
+            height: 120px;
+            border: 3px solid #0f4c3a; /* Verde Borda */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .validation-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .validation-code {
             font-size: 14px;
-            color: #777;
-        }
-
-        .code {
+            font-weight: bold;
             font-family: 'Courier New', monospace;
-            background: #eee;
-            padding: 5px 10px;
-            border-radius: 4px;
+            color: #000;
         }
     </style>
 </head>
 <body>
-<div class="container">
+
+<div class="content">
     <h1>Certificado de Conclusão</h1>
 
-    <p class="subtitle">A Prospera Academy certifica que</p>
+    <div class="validation-badge">
+        <span class="validation-label">Validação</span>
+        <span class="validation-code" th:text="${validationCode}">ABCD-1234</span>
+    </div>
 
-    <div class="student-name" th:text="${studentName}">Nome do Aluno</div>
+    <p class="text-body">
+        Certificamos que
+        <br>
+        <span class="student-name" th:text="${studentName}">NOME DO ALUNO</span>
+        <br>
+        concluiu com êxito o treinamento
+        <br>
+        <span class="course-title" th:text="${courseName}">NOME DO CURSO</span>
+    </p>
 
-    <p class="subtitle">concluiu com êxito o curso</p>
-
-    <div class="course-title" th:text="${courseTitle}">Nome do Curso</div>
-
-    <p>Data de emissão: <span th:text="${issueDate}">12/12/2025</span></p>
-
-    <div class="footer">
-        <p>Este certificado pode ser validado através do código:</p>
-        <p class="code" th:text="${validationCode}">ABCD-1234</p>
-        <p>Prospera Academy - Ensino de Tecnologia</p>
+    <div class="details">
+        <p>
+            Oferecido pela <strong>Go-Tree Consultoria</strong>
+            <br>
+            Carga Horária: <strong th:text="${workload} + ' horas'">10 horas</strong>
+            <br>
+            Data de Conclusão: <strong th:text="${completionDate}">27/01/2026</strong>
+        </p>
     </div>
 </div>
+
 </body>
 </html>
