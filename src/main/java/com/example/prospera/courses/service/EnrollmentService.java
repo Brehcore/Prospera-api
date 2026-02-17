@@ -2,14 +2,18 @@ package com.example.prospera.courses.service;
 
 import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.auth.repositories.AuthUserRepository;
+import com.example.prospera.certificate.domain.Certificate;
+import com.example.prospera.certificate.repositories.CertificateRepository;
 import com.example.prospera.common.service.AuthorizationService;
 import com.example.prospera.courses.api.dto.EbookProgressDTO;
 import com.example.prospera.courses.api.dto.EnrollmentResponseDTO;
 import com.example.prospera.courses.domain.Enrollment;
 import com.example.prospera.courses.domain.Training;
+import com.example.prospera.courses.domain.TrainingRating;
 import com.example.prospera.courses.domain.enums.EnrollmentStatus;
 import com.example.prospera.courses.domain.enums.TrainingEntityType;
 import com.example.prospera.courses.repositories.EnrollmentRepository;
+import com.example.prospera.courses.repositories.TrainingRatingRepository;
 import com.example.prospera.courses.repositories.TrainingRepository;
 import com.example.prospera.enterprise.api.dto.MemberResponseDTO;
 import com.example.prospera.enterprise.domain.Membership;
@@ -35,6 +39,8 @@ public class EnrollmentService {
     private final AuthUserRepository authUserRepository;
     private final ProgressService progressService;
     private final AuthorizationService authorizationService;
+    private final CertificateRepository certificateRepository;
+    private final TrainingRatingRepository trainingRatingRepository;
 
     @Transactional
     public EnrollmentResponseDTO enrollUserInTraining(AuthUser user, UUID trainingId) {
@@ -65,7 +71,10 @@ public class EnrollmentService {
                 savedEnrollment.getStatus(),
                 savedEnrollment.getEnrolledAt(),
                 savedEnrollment.getTraining().getCoverImageUrl(),
-                BigDecimal.ZERO
+                BigDecimal.ZERO,
+                null,
+                null,
+                null
         );
     }
 
@@ -115,12 +124,23 @@ public class EnrollmentService {
             BigDecimal realProgressPercentage = BigDecimal.ZERO;
             Training training = enrollment.getTraining();
 
+            Integer myScore = trainingRatingRepository.findByEnrollmentId(enrollment.getId())
+                    .map(TrainingRating::getScore)
+                    .orElse(null);
+
             if (training.getEntityType() == TrainingEntityType.EBOOK) {
                 EbookProgressDTO progress = progressService.getEbookProgress(user.getId(), training.getId());
                 realProgressPercentage = progress.progressPercentage();
             } else if (training.getEntityType() == TrainingEntityType.RECORDED_COURSE) {
                 realProgressPercentage = progressService.calculateCourseProgress(enrollment);
             }
+
+            // Verifica se já existe certificado emitido para esta matrícula
+            var certificateOpt = certificateRepository.findByEnrollmentId(enrollment.getId());
+
+            UUID certId = certificateOpt.map(Certificate::getId).orElse(null);
+            String valCode = certificateOpt.map(Certificate::getValidationCode).orElse(null);
+
             return new EnrollmentResponseDTO(
                     enrollment.getId(),
                     training.getId(),
@@ -128,7 +148,10 @@ public class EnrollmentService {
                     enrollment.getStatus(),
                     enrollment.getEnrolledAt(),
                     training.getCoverImageUrl(),
-                    realProgressPercentage
+                    realProgressPercentage,
+                    certId,
+                    valCode,
+                    myScore
             );
         }).collect(Collectors.toList());
     }

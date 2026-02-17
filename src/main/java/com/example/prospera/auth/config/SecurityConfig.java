@@ -52,6 +52,8 @@ public class SecurityConfig {
                         // Rota para resetar senha sem estar logado
                         .requestMatchers("/auth/forgot-password", "/auth/reset-password").permitAll()
 
+						.requestMatchers(HttpMethod.GET, "/api/certificates/**").permitAll()
+
                         // Rota para alterar senha
                         .requestMatchers("/auth/change-password").authenticated()
 

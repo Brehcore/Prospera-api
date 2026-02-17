@@ -67,7 +67,7 @@ public class LessonService {
     @Transactional(readOnly = true)
     public boolean isLessonCompleted(UUID lessonId, UUID userId) {
         // Precisamos achar a matrícula primeiro para verificar o progresso
-        // Uma forma otimizada seria criar um método no Repository que faz o JOIN
+        // Uma forma otimizada seria criar um metodo no Repository que faz o JOIN
         // Mas usando o que você já tem:
 
         var lesson = lessonRepository.findById(lessonId).orElseThrow();

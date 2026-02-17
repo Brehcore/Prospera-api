@@ -4,15 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificatePreviewController.java" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: ajusta configuração de workspace no IntelliJ">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/api/dto/CertificateListItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/common/events/TrainingRatedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/RatingRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/domain/TrainingRating.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/repositories/TrainingRatingRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingRatingService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/domain/Certificate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/domain/Certificate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/api/controllers/CertificateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificatePreviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/api/controllers/CertificatePreviewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/repositories/CertificateRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/repositories/CertificateRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/domain/Training.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/domain/Training.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/repositories/ModuleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/repositories/ModuleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/TrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/TrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/EnrollmentResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/EnrollmentResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/AdminTrainingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/AdminTrainingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/LessonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/LessonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/ProgressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/ProgressService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/exception/SectorNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exception/SectorNotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/certificate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/certificate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,9 +45,10 @@
       <list>
         <option value="Exception" />
         <option value="Enum" />
-        <option value="Interface" />
         <option value="HTML File" />
         <option value="Record" />
+        <option value="package-info" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -60,6 +75,9 @@
     &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
   }
 }</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;a919f9cf5df542f082960f6257e1a39d0af5d0e9&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/certificates/issue/{{enrollmentId}}&quot; /&gt;&#10;  &lt;entry key=&quot;e9a3096045254e83dd108e92cec84cb6f5cdffc6&quot; value=&quot;###&amp;#10;GET http://localhost:8080/api/certificates/download/{{certificateId}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -287,7 +305,11 @@
       <workItem from="1769457123310" duration="2566000" />
       <workItem from="1769511214261" duration="9031000" />
       <workItem from="1769546814334" duration="6000" />
-      <workItem from="1770382698733" duration="2766000" />
+      <workItem from="1770382698733" duration="3332000" />
+      <workItem from="1770465152337" duration="13000" />
+      <workItem from="1770904425968" duration="2418000" />
+      <workItem from="1771155236772" duration="57000" />
+      <workItem from="1771264230974" duration="16356000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -481,7 +503,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769458852415</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório">
+      <option name="closed" value="true" />
+      <created>1770464568486</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1770464568486</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

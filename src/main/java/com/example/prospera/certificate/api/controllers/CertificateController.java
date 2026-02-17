@@ -1,6 +1,7 @@
-package com.example.prospera.certificate.controllers;
+package com.example.prospera.certificate.api.controllers;
 
 import com.example.prospera.auth.domain.AuthUser;
+import com.example.prospera.certificate.api.dto.CertificateListItemDTO;
 import com.example.prospera.certificate.domain.Certificate;
 import com.example.prospera.certificate.service.CertificateService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -49,5 +52,29 @@ public class CertificateController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"certificado.pdf\"")
                 .body(file);
+    }
+
+    /**
+     * Lista todos os certificados do usuário logado com filtro opcional por nome do curso.
+     */
+    @GetMapping("/my-certificates")
+    public ResponseEntity<List<CertificateListItemDTO>> getMyCertificates(
+            @AuthenticationPrincipal AuthUser user,
+            @RequestParam(required = false) String search // Opcional: ?search=Java
+    ) {
+        var certificates = certificateService.getMyCertificates(user.getId(), search);
+        return ResponseEntity.ok(certificates);
+    }
+
+    /**
+     * Retorna uma miniatura (imagem JPG) do certificado com os dados impressos.
+     */
+    @GetMapping(value = "/{certificateId}/thumbnail", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getCertificateThumbnail(@PathVariable UUID certificateId) {
+        byte[] imageBytes = certificateService.generateCertificateThumbnail(certificateId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(imageBytes);
     }
 }

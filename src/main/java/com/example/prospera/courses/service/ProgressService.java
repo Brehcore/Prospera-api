@@ -24,6 +24,11 @@ import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+/**
+ * Serviço responsável por gerenciar o progresso dos usuários em diferentes tipos de treinamentos,
+ * como cursos gravados e e-books. Oferece funcionalidades para marcar lições como concluídas,
+ * atualizar progresso de leitura de e-books e calcular percentuais de conclusão.
+ */
 @Service
 @RequiredArgsConstructor
 public class ProgressService {
@@ -34,6 +39,15 @@ public class ProgressService {
     private final EbookProgressRepository ebookProgressRepository;
     private final TrainingRepository trainingRepository;
 
+    /**
+     * Marca uma lição específica como concluída para um determinado usuário.
+     *
+     * @param userId   ID do usuário que completou a lição
+     * @param lessonId ID da lição que foi completada
+     * @return O registro de progresso da lição criado
+     * @throws EntityNotFoundException se a lição não for encontrada
+     * @throws IllegalStateException   se o usuário não estiver matriculado ou a lição já estiver concluída
+     */
     @Transactional
     public LessonProgress markLessonAsCompleted(UUID userId, UUID lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
@@ -79,6 +93,16 @@ public class ProgressService {
         }
     }
 
+    /**
+     * Atualiza o progresso de leitura de um e-book para um usuário específico.
+     *
+     * @param userId       ID do usuário que está lendo o e-book
+     * @param trainingId   ID do treinamento (e-book)
+     * @param lastPageRead Última página lida pelo usuário
+     * @throws EntityNotFoundException  se o treinamento não for encontrado
+     * @throws IllegalArgumentException se o treinamento não for um e-book ou a página for inválida
+     * @throws IllegalStateException    se o total de páginas do e-book não estiver definido
+     */
     @Transactional
     public void updateEbookProgress(UUID userId, UUID trainingId, int lastPageRead) {
         // Valida se o treinamento existe e é um Ebook
@@ -108,6 +132,15 @@ public class ProgressService {
         ebookProgressRepository.save(progress);
     }
 
+    /**
+     * Recupera o progresso atual de leitura de um e-book para um usuário específico.
+     *
+     * @param userId     ID do usuário
+     * @param trainingId ID do treinamento (e-book)
+     * @return DTO contendo informações sobre o progresso de leitura
+     * @throws EntityNotFoundException  se o treinamento não for encontrado
+     * @throws IllegalArgumentException se o treinamento não for um e-book
+     */
     @Transactional(readOnly = true)
     public EbookProgressDTO getEbookProgress(UUID userId, UUID trainingId) {
         // Busca o treinamento para obter o total de páginas
@@ -135,11 +168,13 @@ public class ProgressService {
         }
     }
 
+
     /**
-     * Calculo do percentual de progresso para um curso gravado (RecordedCourse).
+     * Calcula o percentual de progresso para um curso gravado (RecordedCourse).
+     * O cálculo é baseado no número de lições completadas em relação ao total de lições do curso.
      *
-     * @param enrollment A matrícula do usuário no curso.
-     * @return O progresso em percentual (ex: 75.00).
+     * @param enrollment A matrícula do usuário no curso
+     * @return O progresso em percentual (ex: 75.00)
      */
     @Transactional(readOnly = true)
     public BigDecimal calculateCourseProgress(Enrollment enrollment) {

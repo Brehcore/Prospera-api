@@ -3,10 +3,13 @@ package com.example.prospera.courses.api.controllers;
 import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.courses.api.dto.EnrollmentResponseDTO;
 import com.example.prospera.courses.api.dto.ModuleDTO;
+import com.example.prospera.courses.api.dto.RatingRequestDTO;
 import com.example.prospera.courses.api.dto.TrainingCatalogItemDTO;
 import com.example.prospera.courses.service.EnrollmentService;
 import com.example.prospera.courses.service.ProgressService;
 import com.example.prospera.courses.service.TrainingCatalogService;
+import com.example.prospera.courses.service.TrainingRatingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +38,7 @@ public class TrainingController {
     private final TrainingCatalogService trainingCatalogService;
     private final EnrollmentService enrollmentService;
     private final ProgressService progressService;
+    private final TrainingRatingService ratingService;
 
     /**
      * Retorna o catálogo de treinamentos disponíveis para o usuário autenticado.
@@ -108,5 +113,15 @@ public class TrainingController {
         List<ModuleDTO> modules = trainingCatalogService.findModulesForStudent(user, trainingId);
 
         return ResponseEntity.ok(modules);
+    }
+
+    @PostMapping("/{trainingId}/rate")
+    public ResponseEntity<Void> rateTraining(
+            @AuthenticationPrincipal AuthUser user,
+            @PathVariable UUID trainingId,
+            @RequestBody @Valid RatingRequestDTO dto) {
+
+        ratingService.rateTraining(user, trainingId, dto);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.prospera.courses.service;
 
 import com.example.prospera.auth.domain.AuthUser;
+import com.example.prospera.common.enums.UserRole;
 import com.example.prospera.courses.api.dto.LessonDTO;
 import com.example.prospera.courses.api.dto.ModuleDTO;
 import com.example.prospera.courses.api.dto.PublicTrainingDTO;
@@ -133,37 +134,44 @@ public class TrainingCatalogService {
     }
 
     /**
-     * Busca a estrutura de módulos e aulas para um aluno, verificando se ele tem permissão (matrícula).
+     * Busca a estrutura de módulos e aulas.
+     * Permite acesso se for SYSTEM_ADMIN ou se o aluno tiver matrícula ativa.
      */
     @Transactional(readOnly = true)
     public List<ModuleDTO> findModulesForStudent(AuthUser user, UUID trainingId) {
-        // 1. Segurança: Verificar se o usuário está matriculado neste curso
-        // (Assumindo que EnrollmentRepository tenha este método ou similar)
-        boolean isEnrolled = enrollmentRepository.existsByUserIdAndTrainingId(user.getId(), trainingId);
 
-        if (!isEnrolled) {
-            throw new org.springframework.security.access.AccessDeniedException("Você não está matriculado neste treinamento.");
+        // 1. Verificação de Segurança (Com Bypass para Admin)
+        if (user.getRole() != UserRole.SYSTEM_ADMIN) {
+            boolean isEnrolled = enrollmentRepository.existsByUserIdAndTrainingId(user.getId(), trainingId);
+
+            if (!isEnrolled) {
+                // Se não é admin e não está matriculado, bloqueia.
+                throw new org.springframework.security.access.AccessDeniedException("Você não está matriculado neste treinamento.");
+            }
         }
 
-        // 2. Buscar os módulos do treinamento (ordenados por ordem de exibição)
-        // (Assumindo que ModuleRepository tenha findByTrainingIdOrderByOrderIndex ou similar)
+        // 2. Buscar os módulos do treinamento
         List<Module> modules = moduleRepository.findAllByCourse_IdOrderByModuleOrder(trainingId);
 
-        // 3. Converter para DTOs e preencher o status de conclusão das aulas
+        // 3. Converter para DTOs
         return modules.stream()
                 .map(module -> {
-                    // Mapeia as lições dentro do módulo
                     List<LessonDTO> lessonDTOs = module.getLessons().stream()
-                            .sorted(Comparator.comparingInt(Lesson::getLessonOrder)) // Garante ordem das aulas
+                            .sorted(Comparator.comparingInt(Lesson::getLessonOrder))
                             .map(lesson -> {
-                                // Verifica se o aluno já completou esta aula específica
-                                boolean isCompleted = lessonService.isLessonCompleted(lesson.getId(), user.getId());
-                                // Retorna o DTO com o status correto e URL do vídeo
+                                boolean isCompleted = false;
+
+                                // LÓGICA DE PROGRESSO:
+                                // Só verificamos o progresso se NÃO for Admin (ou se o Admin tiver matrícula opcionalmente).
+                                // Para simplificar: Admin sempre vê como "não concluído" (ou false), pois ele está apenas auditando.
+                                if (user.getRole() != UserRole.SYSTEM_ADMIN) {
+                                    isCompleted = lessonService.isLessonCompleted(lesson.getId(), user.getId());
+                                }
+
                                 return LessonDTO.fromEntity(lesson, isCompleted);
                             })
                             .toList();
 
-                    // Retorna o DTO do módulo preenchido
                     return new ModuleDTO(
                             module.getId(),
                             module.getTitle(),

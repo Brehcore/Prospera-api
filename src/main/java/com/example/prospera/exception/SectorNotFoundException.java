@@ -1,4 +1,4 @@
-package com.example.prospera.courses.service.exception;
+package com.example.prospera.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -12,17 +12,18 @@
             padding: 0;
             width: 297mm;
             height: 210mm;
-            font-family: 'Montserrat', sans-serif;
-            color: #0f4c3a; /* Verde escuro da identidade */
-            /* A imagem entra aqui como background */
+            font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+            color: #0f4c3a;
+            /* Fundo gerado dinamicamente */
             background-image: url('data:image/png;base64,[[${bgImageBase64}]]');
             background-size: cover;
             background-repeat: no-repeat;
         }
 
+        /* --- CONTEÚDO CENTRAL (Títulos e Nomes) --- */
         .content {
             position: absolute;
-            top: 35%; /* Ajuste conforme a área branca da imagem */
+            top: 35%;
             width: 100%;
             text-align: center;
         }
@@ -32,12 +33,13 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 40px;
+            margin-top: 0;
         }
 
         .text-body {
             font-size: 20px;
             line-height: 1.6;
-            margin: 0 100px; /* Margem lateral */
+            margin: 0 100px;
         }
 
         .student-name {
@@ -54,36 +56,51 @@
             font-size: 24px;
         }
 
-        .details {
-            margin-top: 40px;
-            font-size: 16px;
+        /* --- RODAPÉ ESQUERDO: EMPRESA E CNPJ --- */
+        .footer-left {
+            position: absolute;
+            bottom: 60px; /* Alinhado com a base */
+            left: 60px; /* Margem da esquerda */
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
-        /* O Círculo do Código de Validação */
+        /* --- RODAPÉ CENTRAL: CARGA HORÁRIA E DATA --- */
+        .footer-center {
+            position: absolute;
+            bottom: 60px;
+            width: 100%;
+            text-align: center; /* Centraliza na página */
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* --- RODAPÉ DIREITO: VALIDAÇÃO --- */
         .validation-badge {
             position: absolute;
-            bottom: 50px;
-            right: 50px;
-            width: 120px;
-            height: 120px;
-            border: 3px solid #0f4c3a; /* Verde Borda */
+            bottom: 60px;
+            right: 60px;
+            width: 130px;
+            height: 130px;
+            border: 3px solid #0f4c3a;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #ffffff;
             text-align: center;
-            flex-direction: column;
-            background-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 35px;
+            box-sizing: border-box;
         }
 
         .validation-label {
+            display: block;
             font-size: 10px;
             text-transform: uppercase;
             margin-bottom: 5px;
+            color: #666;
         }
 
         .validation-code {
+            display: block;
             font-size: 14px;
             font-weight: bold;
             font-family: 'Courier New', monospace;
@@ -96,30 +113,29 @@
 <div class="content">
     <h1>Certificado de Conclusão</h1>
 
-    <div class="validation-badge">
-        <span class="validation-label">Validação</span>
-        <span class="validation-code" th:text="${validationCode}">ABCD-1234</span>
-    </div>
-
     <p class="text-body">
         Certificamos que
-        <br>
-        <span class="student-name" th:text="${studentName}">NOME DO ALUNO</span>
-        <br>
-        concluiu com êxito o treinamento
-        <br>
-        <span class="course-title" th:text="${courseName}">NOME DO CURSO</span>
+        <br/> <span class="student-name" th:text="${studentName}">NOME DO ALUNO</span>
+        <br/> concluiu com êxito o treinamento
+        <br/> <span class="course-title" th:text="${courseName}">NOME DO CURSO</span>
     </p>
+</div>
 
-    <div class="details">
-        <p>
-            Oferecido pela <strong>Go-Tree Consultoria</strong>
-            <br>
-            Carga Horária: <strong th:text="${workload} + ' horas'">10 horas</strong>
-            <br>
-            Data de Conclusão: <strong th:text="${completionDate}">27/01/2026</strong>
-        </p>
-    </div>
+<div class="footer-left">
+    Oferecido pela <strong th:text="${companyName}">Go-Tree Consultoria</strong>
+    <br/>
+    CNPJ: <span th:text="${companyCnpj}">00.000.000/0001-00</span>
+</div>
+
+<div class="footer-center">
+    Carga Horária: <strong th:text="${workload}">10 horas</strong>
+    <br/>
+    Data de Conclusão: <strong th:text="${completionDate}">27/01/2026</strong>
+</div>
+
+<div class="validation-badge">
+    <span class="validation-label">Validação</span>
+    <span class="validation-code" th:text="${validationCode}">ABCD-1234</span>
 </div>
 
 </body>

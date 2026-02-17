@@ -1,4 +1,4 @@
-package com.example.prospera.certificate.controllers;
+package com.example.prospera.certificate.api.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;

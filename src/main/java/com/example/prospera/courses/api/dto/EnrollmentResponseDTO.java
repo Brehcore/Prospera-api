@@ -13,6 +13,9 @@ public record EnrollmentResponseDTO(
         EnrollmentStatus status,
         OffsetDateTime enrolledAt,
         String coverImageUrl,
-        BigDecimal progressPercentage
+        BigDecimal progressPercentage,
+        UUID certificateId,
+        String validationCode,
+        Integer userRating // null se não avaliou, 1 a 5 se avaliou
 ) {
 }
