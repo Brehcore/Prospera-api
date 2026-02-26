@@ -10,6 +10,8 @@ public record LessonUpdateRequest(
 
         String content,
 
+        String videoUrl,
+
         @NotNull(message = "A ordem da lição é obrigatória")
         @PositiveOrZero(message = "A ordem deve ser um número positivo ou zero")
         Integer lessonOrder

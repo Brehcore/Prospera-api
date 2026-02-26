@@ -1,7 +1,6 @@
 package com.example.prospera.enterprise.service;
 
 import com.example.prospera.auth.domain.AuthUser;
-import com.example.prospera.auth.exceptions.BusinessRuleException;
 import com.example.prospera.auth.repositories.AuthUserRepository;
 import com.example.prospera.common.enums.OrganizationRole;
 import com.example.prospera.common.service.AuthorizationService;
@@ -13,6 +12,7 @@ import com.example.prospera.enterprise.domain.Organization;
 import com.example.prospera.enterprise.repositories.AccountRepository;
 import com.example.prospera.enterprise.repositories.MembershipRepository;
 import com.example.prospera.enterprise.repositories.OrganizationRepository;
+import com.example.prospera.exceptions.BusinessRuleException;
 import com.example.prospera.subscription.entities.Plan;
 import com.example.prospera.subscription.entities.Subscription;
 import com.example.prospera.subscription.enums.PlanType;

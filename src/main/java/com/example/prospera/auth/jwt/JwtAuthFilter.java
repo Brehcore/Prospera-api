@@ -17,13 +17,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor // MELHORIA: Usa Lombok para injeção de dependências
+@RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-
-    // O construtor manual foi removido, o Lombok o gera automaticamente.
 
     @Override
     protected void doFilterInternal(

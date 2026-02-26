@@ -29,8 +29,6 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    // Não precisamos mais injetar nada no construtor
-
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
 		return http

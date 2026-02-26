@@ -2,8 +2,10 @@ package com.example.prospera.courses.api.controllers;
 
 import com.example.prospera.courses.api.dto.LessonCreateRequest;
 import com.example.prospera.courses.api.dto.LessonDTO;
+import com.example.prospera.courses.api.dto.LessonUpdateRequest;
 import com.example.prospera.courses.api.dto.ModuleCreateRequest;
 import com.example.prospera.courses.api.dto.ModuleDTO;
+import com.example.prospera.courses.api.dto.ModuleUpdateRequest;
 import com.example.prospera.courses.api.dto.TrainingCreateRequest;
 import com.example.prospera.courses.api.dto.TrainingDTO;
 import com.example.prospera.courses.api.dto.TrainingDetailDTO;
@@ -37,7 +39,13 @@ import java.util.UUID;
 /**
  * Controller responsável pelo gerenciamento administrativo de treinamentos.
  * Fornece endpoints para criar, atualizar, excluir e gerenciar treinamentos no sistema.
- * Apenas usuários com papel SYSTEM_ADMIN podem acessar estes endpoints.
+ * Permite o gerenciamento completo do ciclo de vida dos treinamentos, incluindo:
+ * - Criação e atualização de treinamentos
+ * - Publicação e arquivamento
+ * - Gerenciamento de módulos e aulas
+ * - Upload de arquivos (ebooks e imagens)
+ * - Associação com setores
+ * Todos os endpoints requerem autenticação e são restritos a usuários com papel SYSTEM_ADMIN.
  */
 @RestController
 @RequestMapping("/admin/trainings")
@@ -45,8 +53,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AdminTrainingController {
 
-
-    // A injeção de dependência acontece aqui
     private final AdminTrainingService adminTrainingService;
 
     /**
@@ -151,6 +157,10 @@ public class AdminTrainingController {
 
     /**
      * Busca um treinamento específico pelo ID, retornando todos os seus detalhes.
+     *
+     * @param trainingId ID único do treinamento a ser consultado
+     * @return ResponseEntity contendo os detalhes completos do treinamento (TrainingDetailDTO)
+     * @throws com.example.prospera.exceptions.ResourceNotFoundException se o treinamento não for encontrado
      */
     @GetMapping("/{trainingId}")
 // Altere o tipo de retorno aqui também
@@ -161,7 +171,14 @@ public class AdminTrainingController {
     }
 
     /**
-     * Atualiza os dados de um treinamento existente.
+     * Atualiza os dados de um treinamento existente no sistema.
+     * Permite a modificação de propriedades como título, descrição, carga horária e outros metadados.
+     *
+     * @param trainingId ID único do treinamento a ser atualizado
+     * @param dto Objeto contendo os novos dados do treinamento
+     * @return ResponseEntity contendo os dados atualizados do treinamento
+     * @throws com.example.prospera.exceptions.ResourceNotFoundException se o treinamento não for encontrado
+     * @throws com.example.prospera.exceptions.BusinessRuleException se houver violação de regras de negócio
      */
     @PutMapping("/{trainingId}")
     public ResponseEntity<TrainingDTO> updateTraining(
@@ -217,5 +234,77 @@ public class AdminTrainingController {
     public ResponseEntity<Void> archiveTraining(@PathVariable UUID trainingId) {
         adminTrainingService.changeTrainingStatus(trainingId, PublicationStatus.ARCHIVED);
         return ResponseEntity.ok().build();
+    }
+
+    // =======================================================================================
+    // == GERENCIAMENTO DE MÓDULOS E AULAS (EDIÇÃO E EXCLUSÃO)                              ==
+    // =======================================================================================
+
+    /**
+     * Atualiza os dados de um módulo existente.
+     */
+    @PutMapping("/modules/{moduleId}")
+    public ResponseEntity<ModuleDTO> updateModule(
+            @PathVariable UUID moduleId,
+            @RequestBody @Valid ModuleUpdateRequest dto) {
+        ModuleDTO updatedModule = adminTrainingService.updateModule(moduleId, dto);
+        return ResponseEntity.ok(updatedModule);
+    }
+
+    /**
+     * Exclui um módulo e todas as suas lições.
+     */
+    @DeleteMapping("/modules/{moduleId}")
+    public ResponseEntity<Void> deleteModule(@PathVariable UUID moduleId) {
+        adminTrainingService.deleteModule(moduleId);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Atualiza os dados de uma lição (aula) existente.
+     */
+    @PutMapping("/lessons/{lessonId}")
+    public ResponseEntity<LessonDTO> updateLesson(
+            @PathVariable UUID lessonId,
+            @RequestBody @Valid LessonUpdateRequest dto) {
+        LessonDTO updatedLesson = adminTrainingService.updateLesson(lessonId, dto);
+        return ResponseEntity.ok(updatedLesson);
+    }
+
+    /**
+     * Exclui uma lição específica.
+     */
+    @DeleteMapping("/lessons/{lessonId}")
+    public ResponseEntity<Void> deleteLesson(@PathVariable UUID lessonId) {
+        adminTrainingService.deleteLesson(lessonId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // =======================================================================================
+    // == REORDENAÇÃO EM MASSA (DRAG AND DROP)                                              ==
+    // =======================================================================================
+
+    /**
+     * Reordena os módulos de um curso gravado.
+     */
+    @PutMapping("/{trainingId}/modules/reorder")
+    public ResponseEntity<Void> reorderModules(
+            @PathVariable UUID trainingId,
+            @RequestBody @Valid com.example.prospera.courses.api.dto.ReorderRequest request) {
+
+        adminTrainingService.reorderModules(trainingId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Reordena as aulas de um módulo específico.
+     */
+    @PutMapping("/modules/{moduleId}/lessons/reorder")
+    public ResponseEntity<Void> reorderLessons(
+            @PathVariable UUID moduleId,
+            @RequestBody @Valid com.example.prospera.courses.api.dto.ReorderRequest request) {
+
+        adminTrainingService.reorderLessons(moduleId, request);
+        return ResponseEntity.noContent().build();
     }
 }

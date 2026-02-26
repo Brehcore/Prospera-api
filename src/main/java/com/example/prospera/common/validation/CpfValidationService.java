@@ -2,7 +2,7 @@ package com.example.prospera.common.validation;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
-import com.example.prospera.auth.exceptions.CpfValidationException;
+import com.example.prospera.exceptions.CpfValidationException;
 import org.springframework.stereotype.Service;
 
 @Service

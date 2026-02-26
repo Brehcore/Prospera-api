@@ -1,6 +1,6 @@
 package com.example.prospera.certificate.service;
 
-import com.example.prospera.auth.exceptions.BusinessRuleException;
+import com.example.prospera.auth.services.EmailService;
 import com.example.prospera.certificate.api.dto.CertificateListItemDTO;
 import com.example.prospera.certificate.domain.Certificate;
 import com.example.prospera.certificate.repositories.CertificateRepository;
@@ -11,6 +11,7 @@ import com.example.prospera.courses.domain.enums.TrainingEntityType;
 import com.example.prospera.courses.repositories.EnrollmentRepository;
 import com.example.prospera.courses.repositories.ModuleRepository;
 import com.example.prospera.courses.service.FileStorageService;
+import com.example.prospera.exceptions.BusinessRuleException;
 import com.lowagie.text.pdf.BaseFont;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,7 @@ public class CertificateService {
     private final FileStorageService fileStorageService;
     private final TemplateEngine templateEngine;
     private final ModuleRepository moduleRepository; // Para calcular horas de vídeo
+    private final EmailService emailService;
 
     // Injeção dos valores do application.properties
     @org.springframework.beans.factory.annotation.Value("${app.company.name:Go-Tree Consultoria}")
@@ -60,35 +62,35 @@ public class CertificateService {
 
     @Transactional
     public Certificate issueCertificate(UUID enrollmentId) {
-        // 1. Busca Matrícula
+        // Busca Matrícula
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new BusinessRuleException("Matrícula não encontrada."));
 
-        // 2. Valida se o curso está concluído
+        // Valida se o curso está concluído
         if (enrollment.getStatus() != EnrollmentStatus.COMPLETED) {
             throw new BusinessRuleException("O certificado só pode ser emitido após a conclusão do curso.");
         }
 
-        // 3. Valida se já existe (Retorna o existente para evitar duplicidade)
+        // Valida se já existe (Retorna o existente para evitar duplicidade)
         if (certificateRepository.existsByEnrollmentId(enrollmentId)) {
             return certificateRepository.findByEnrollmentId(enrollmentId).orElseThrow();
         }
 
-        // 4. Gera Código de Validação
+        // Gera Código de Validação
         String validationCode = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
-        // 5. Calcula a Carga Horária (Texto formatado, ex: "10 horas")
+        // Calcula a Carga Horária (Texto formatado, ex: "10 horas")
         String workloadText = calculateWorkloadText(enrollment.getTraining());
 
-        // 6. Gera o PDF a partir do HTML
+        // Gera o PDF a partir do HTML
         byte[] pdfBytes = generatePdfFromTemplate(enrollment, validationCode, workloadText);
 
-        // 7. Salva o arquivo físico
+        // Salva o arquivo físico
         String fileName = "certificate_" + enrollmentId + ".pdf";
         MultipartFile multipartFile = new ByteArrayMultipartFile(pdfBytes, fileName, "application/pdf");
         String storedPath = fileStorageService.save(multipartFile);
 
-        // 8. Salva no Banco (com o snapshot da carga horária)
+        // Salva no Banco (com o snapshot da carga horária)
         Certificate cert = Certificate.builder()
                 .enrollment(enrollment)
                 .validationCode(validationCode)
@@ -96,6 +98,19 @@ public class CertificateService {
                 .workloadSnapshot(workloadText) // Importante: Salva o valor calculado
                 .build();
 
+        // Pega o nome do aluno (ou o e-mail se o nome estiver nulo)
+        String studentName = (enrollment.getUser().getPersonalProfile() != null)
+                ? enrollment.getUser().getPersonalProfile().getFullName()
+                : enrollment.getUser().getEmail();
+
+        // Envia o e-mail de forma assíncrona com o byte[] do PDF
+        emailService.sendCertificateEmail(
+                enrollment.getUser().getEmail(),
+                studentName,
+                enrollment.getTraining().getTitle(),
+                pdfBytes,
+                fileName
+        );
         return certificateRepository.save(cert);
     }
 

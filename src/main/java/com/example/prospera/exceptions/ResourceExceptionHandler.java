@@ -1,4 +1,4 @@
-package com.example.prospera.auth.exceptions;
+package com.example.prospera.exceptions;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,7 +56,7 @@ public class ResourceExceptionHandler {
 	// Recurso não encontrado (Ex.: User ID inexistente)
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> handleResourceNotFound(ResourceNotFoundException e,
-			HttpServletRequest request) {
+                                                                HttpServletRequest request) {
 
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), HttpStatus.BAD_REQUEST.value(), "Recurso não encontrado",

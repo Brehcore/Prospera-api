@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seu Certificado</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px;">
+    <tr>
+        <td align="center">
+            <table width="600" cellpadding="0" cellspacing="0"
+                   style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                <tr>
+                    <td style="background-color: #0f4c3a; padding: 30px; text-align: center; color: #ffffff;">
+                        <h1 style="margin: 0; font-size: 24px;">Parabéns pela Conclusão! 🎉</h1>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 40px 30px; color: #333333; line-height: 1.6; font-size: 16px;">
+                        <p>Olá, <strong th:text="${studentName}">Aluno</strong>!</p>
+
+                        <p>É com grande alegria que informamos que você concluiu com êxito o treinamento
+                            <strong th:text="${courseName}">Nome do Curso</strong>.</p>
+
+                        <p>Seu esforço e dedicação são fundamentais para o seu crescimento contínuo. Como
+                            reconhecimento, seu certificado de conclusão está <strong>anexado a este e-mail</strong> em
+                            formato PDF.</p>
+
+                        <p>Você também pode acessar, baixar ou compartilhar este certificado a qualquer momento através
+                            da plataforma, acessando o menu "Meus Certificados".</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="background-color: #f9f9f9; padding: 20px; text-align: center; font-size: 14px; color: #777777; border-top: 1px solid #eeeeee;">
+                        <p style="margin: 0;">Equipe <span th:text="${companyName}">Go-Tree Consultoria</span></p>
+                        <p style="margin: 5px 0 0 0;">Este é um e-mail automático, por favor não responda.</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

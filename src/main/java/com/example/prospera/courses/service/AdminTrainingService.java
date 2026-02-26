@@ -2,8 +2,11 @@ package com.example.prospera.courses.service;
 
 import com.example.prospera.courses.api.dto.LessonCreateRequest;
 import com.example.prospera.courses.api.dto.LessonDTO;
+import com.example.prospera.courses.api.dto.LessonUpdateRequest;
 import com.example.prospera.courses.api.dto.ModuleCreateRequest;
 import com.example.prospera.courses.api.dto.ModuleDTO;
+import com.example.prospera.courses.api.dto.ModuleUpdateRequest;
+import com.example.prospera.courses.api.dto.ReorderRequest;
 import com.example.prospera.courses.api.dto.TrainingCreateRequest;
 import com.example.prospera.courses.api.dto.TrainingDTO;
 import com.example.prospera.courses.api.dto.TrainingDetailDTO;
@@ -26,7 +29,8 @@ import com.example.prospera.courses.repositories.TrainingRepository;
 import com.example.prospera.courses.repositories.TrainingSectorAssignmentRepository;
 import com.example.prospera.enterprise.api.dto.SectorDTO;
 import com.example.prospera.enterprise.service.SectorAssignmentService;
-import com.example.prospera.exception.SectorNotFoundException;
+import com.example.prospera.exceptions.ResourceNotFoundException;
+import com.example.prospera.exceptions.SectorNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -140,6 +144,7 @@ public class AdminTrainingService {
                 .module(module)
                 .title(dto.title())
                 .content(dto.content())
+                .videoUrl(dto.videoUrl())
                 .lessonOrder(dto.lessonOrder())
                 .build();
 
@@ -236,7 +241,6 @@ public class AdminTrainingService {
                 .collect(Collectors.toList());
     }
 
-    // --- MÉTODO PRIVADO DE VALIDAÇÃO (agora funcional) ---
     private Mono<Void> validateSectorExists(UUID sectorId) {
         // CORREÇÃO 4: Esta chamada agora funciona corretamente.
         return enterpriseWebClient.get()
@@ -340,7 +344,117 @@ public class AdminTrainingService {
     public void unassignTrainingFromSector(UUID trainingId, UUID sectorId) {
         // Opcional: Adicionar validações para verificar se os IDs existem antes de deletar.
 
-        // Chama o novo método do repositório para executar a exclusão.
+        // Chama o novo metodo do repositório para executar a exclusão.
         assignmentRepository.deleteByTrainingIdAndSectorId(trainingId, sectorId);
+    }
+
+    // =======================================================================================
+    // == GERENCIAMENTO DE MÓDULOS E AULAS (EDIÇÃO E EXCLUSÃO)                              ==
+    // =======================================================================================
+
+    /**
+     * Atualiza os dados de um Módulo existente.
+     */
+    @Transactional
+    public ModuleDTO updateModule(UUID moduleId, ModuleUpdateRequest dto) {
+        Module module = moduleRepository.findById(moduleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Módulo não encontrado com o ID: " + moduleId));
+
+        module.setTitle(dto.title());
+        module.setModuleOrder(dto.moduleOrder());
+
+        Module updatedModule = moduleRepository.save(module);
+        return ModuleDTO.fromEntity(updatedModule);
+    }
+
+    /**
+     * Exclui um Módulo e, em cascata, suas aulas associadas.
+     */
+    @Transactional
+    public void deleteModule(UUID moduleId) {
+        if (!moduleRepository.existsById(moduleId)) {
+            throw new ResourceNotFoundException("Módulo não encontrado com o ID: " + moduleId);
+        }
+
+        // Dica de Ouro: Certifique-se de que na sua entidade Module,
+        // a anotação @OneToMany para "lessons" tenha cascade = CascadeType.ALL e orphanRemoval = true.
+        moduleRepository.deleteById(moduleId);
+    }
+
+    /**
+     * Atualiza os dados de uma Aula (Lesson) existente.
+     */
+    @Transactional
+    public LessonDTO updateLesson(UUID lessonId, LessonUpdateRequest dto) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada com o ID: " + lessonId));
+
+        lesson.setTitle(dto.title());
+        lesson.setContent(dto.content());
+        lesson.setVideoUrl(dto.videoUrl());
+        lesson.setLessonOrder(dto.lessonOrder());
+
+        // Nova linha adicionada!
+        lesson.setVideoUrl(dto.videoUrl());
+
+        Lesson updatedLesson = lessonRepository.save(lesson);
+        return LessonDTO.fromEntity(updatedLesson);
+    }
+
+    /**
+     * Exclui uma Aula (Lesson).
+     */
+    @Transactional
+    public void deleteLesson(UUID lessonId) {
+        if (!lessonRepository.existsById(lessonId)) {
+            throw new ResourceNotFoundException("Aula não encontrada com o ID: " + lessonId);
+        }
+
+        lessonRepository.deleteById(lessonId);
+    }
+
+    // =======================================================================================
+    // == REORDENAÇÃO EM MASSA (DRAG AND DROP)                                              ==
+    // =======================================================================================
+
+    /**
+     * Atualiza a ordem de múltiplos módulos de uma só vez.
+     */
+    @Transactional
+    public void reorderModules(UUID trainingId, ReorderRequest request) {
+        // Valida se o curso existe
+        if (!trainingRepository.existsById(trainingId)) {
+            throw new ResourceNotFoundException("Treinamento não encontrado: " + trainingId);
+        }
+
+        // Para cada item na requisição, busca o módulo e atualiza a ordem
+        for (ReorderRequest.OrderItem item : request.items()) {
+            moduleRepository.findById(item.id()).ifPresent(module -> {
+                // Opcional: Validar se o módulo realmente pertence ao trainingId
+                if (module.getCourse().getId().equals(trainingId)) {
+                    module.setModuleOrder(item.newOrder());
+                    moduleRepository.save(module);
+                }
+            });
+        }
+    }
+
+    /**
+     * Atualiza a ordem de múltiplas aulas de uma só vez dentro de um módulo.
+     */
+    @Transactional
+    public void reorderLessons(UUID moduleId, ReorderRequest request) {
+        if (!moduleRepository.existsById(moduleId)) {
+            throw new ResourceNotFoundException("Módulo não encontrado: " + moduleId);
+        }
+
+        for (ReorderRequest.OrderItem item : request.items()) {
+            lessonRepository.findById(item.id()).ifPresent(lesson -> {
+                if (lesson.getModule().getId().equals(moduleId)) {
+                    lesson.setLessonOrder(item.newOrder());
+                    lessonRepository.save(lesson);
+                }
+            });
+        }
     }
 }

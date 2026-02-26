@@ -9,6 +9,7 @@ public record LessonCreateRequest(
         String title,
 
         String content, // Conteúdo pode ser opcional
+        String videoUrl,
 
         @NotNull(message = "A ordem da lição é obrigatória")
         @PositiveOrZero(message = "A ordem deve ser um número positivo ou zero")

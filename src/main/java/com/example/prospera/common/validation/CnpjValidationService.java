@@ -1,7 +1,7 @@
 package com.example.prospera.common.validation;
 
 import br.com.caelum.stella.validation.CNPJValidator;
-import com.example.prospera.auth.exceptions.CnpjValidationException;
+import com.example.prospera.exceptions.CnpjValidationException;
 import org.springframework.stereotype.Service;
 
 @Service

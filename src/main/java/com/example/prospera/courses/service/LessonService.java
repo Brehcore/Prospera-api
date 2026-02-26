@@ -1,7 +1,6 @@
 package com.example.prospera.courses.service;
 
 import com.example.prospera.auth.domain.AuthUser;
-import com.example.prospera.auth.exceptions.ResourceNotFoundException;
 import com.example.prospera.common.enums.UserRole;
 import com.example.prospera.courses.domain.Lesson;
 import com.example.prospera.courses.domain.Module;
@@ -9,6 +8,7 @@ import com.example.prospera.courses.repositories.EnrollmentRepository;
 import com.example.prospera.courses.repositories.LessonProgressRepository;
 import com.example.prospera.courses.repositories.LessonRepository;
 import com.example.prospera.courses.repositories.ModuleRepository;
+import com.example.prospera.exceptions.ResourceNotFoundException;
 import com.example.prospera.subscription.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;

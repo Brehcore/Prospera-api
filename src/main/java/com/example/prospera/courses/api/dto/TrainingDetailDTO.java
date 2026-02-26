@@ -91,9 +91,15 @@ public record TrainingDetailDTO(
             }
         }
 
-        public record LessonSummary(UUID id, String title, int order) {
+        public record LessonSummary(UUID id, String title, int order, String videoUrl, String content) {
             public static LessonSummary fromEntity(com.example.prospera.courses.domain.Lesson lesson) {
-                return new LessonSummary(lesson.getId(), lesson.getTitle(), lesson.getLessonOrder());
+                return new LessonSummary(
+                        lesson.getId(),
+                        lesson.getTitle(),
+                        lesson.getLessonOrder(),
+                        lesson.getVideoUrl(),
+                        lesson.getContent()
+                );
             }
         }
     }

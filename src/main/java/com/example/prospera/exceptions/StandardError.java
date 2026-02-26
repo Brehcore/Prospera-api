@@ -1,4 +1,4 @@
-package com.example.prospera.auth.exceptions;
+package com.example.prospera.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
