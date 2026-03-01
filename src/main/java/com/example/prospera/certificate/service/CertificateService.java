@@ -1,8 +1,8 @@
 package com.example.prospera.certificate.service;
 
 import com.example.prospera.auth.services.EmailService;
-import com.example.prospera.certificate.api.dto.CertificateListItemDTO;
 import com.example.prospera.certificate.domain.Certificate;
+import com.example.prospera.certificate.dto.CertificateListItemDTO;
 import com.example.prospera.certificate.repositories.CertificateRepository;
 import com.example.prospera.courses.domain.Enrollment;
 import com.example.prospera.courses.domain.Training;
@@ -125,13 +125,13 @@ public class CertificateService {
 
             // Gera a URL de download dinâmica
             String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/api/certificates/download/")
+                    .path("/controllers/certificates/download/")
                     .path(cert.getId().toString())
                     .toUriString();
 
             // Gera a URL da miniatura dinâmica
             String thumbnailUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/api/certificates/")
+                    .path("/controllers/certificates/")
                     .path(cert.getId().toString())
                     .path("/thumbnail")
                     .toUriString();

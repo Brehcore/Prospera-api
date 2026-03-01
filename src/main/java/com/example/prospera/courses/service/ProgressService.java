@@ -1,6 +1,5 @@
 package com.example.prospera.courses.service;
 
-import com.example.prospera.courses.api.dto.EbookProgressDTO;
 import com.example.prospera.courses.domain.EbookProgress;
 import com.example.prospera.courses.domain.EbookTraining;
 import com.example.prospera.courses.domain.Enrollment;
@@ -9,6 +8,7 @@ import com.example.prospera.courses.domain.LessonProgress;
 import com.example.prospera.courses.domain.Training;
 import com.example.prospera.courses.domain.enums.EnrollmentStatus;
 import com.example.prospera.courses.domain.enums.TrainingEntityType;
+import com.example.prospera.courses.dto.EbookProgressDTO;
 import com.example.prospera.courses.repositories.EbookProgressRepository;
 import com.example.prospera.courses.repositories.EnrollmentRepository;
 import com.example.prospera.courses.repositories.LessonProgressRepository;

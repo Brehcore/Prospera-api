@@ -2,12 +2,12 @@ package com.example.prospera.enterprise.service;
 
 import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.common.enums.OrganizationRole;
-import com.example.prospera.enterprise.api.dto.SectorDTO;
 import com.example.prospera.enterprise.domain.Membership;
 import com.example.prospera.enterprise.domain.Organization;
 import com.example.prospera.enterprise.domain.OrganizationSector;
 import com.example.prospera.enterprise.domain.Sector;
 import com.example.prospera.enterprise.domain.UserSector;
+import com.example.prospera.enterprise.dto.SectorDTO;
 import com.example.prospera.enterprise.repositories.MembershipRepository;
 import com.example.prospera.enterprise.repositories.OrganizationRepository;
 import com.example.prospera.enterprise.repositories.OrganizationSectorRepository;
@@ -166,7 +166,7 @@ public class SectorAssignmentService {
     @Transactional
     public void removeSectorFromOrganization(UUID organizationId, UUID sectorId) {
         // A validação de que o ORG_ADMIN tem permissão para a organizationId
-        // já foi feita no controller.
+        // já foi feita no controllers.
 
         // Chama o novo método do repositório para executar a exclusão.
         organizationSectorRepository.deleteByOrganizationIdAndSectorId(organizationId, sectorId);

@@ -1,9 +1,9 @@
 package com.example.prospera.auth.services;
 
-import com.example.prospera.auth.api.dto.UserRegisterRequest;
 import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.auth.domain.EmailUpdateToken;
 import com.example.prospera.auth.domain.PasswordResetToken;
+import com.example.prospera.auth.dto.UserRegisterRequest;
 import com.example.prospera.auth.repositories.AuthUserRepository;
 import com.example.prospera.auth.repositories.EmailUpdateTokenRepository;
 import com.example.prospera.auth.repositories.PasswordResetTokenRepository;

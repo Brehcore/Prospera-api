@@ -1,6 +1,6 @@
 package com.example.prospera.auth.repositories;
 
-import com.example.prospera.auth.api.dto.UserDTO;
+import com.example.prospera.auth.dto.UserDTO;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -2,9 +2,9 @@ package com.example.prospera.courses.service;
 
 import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.common.events.TrainingRatedEvent;
-import com.example.prospera.courses.api.dto.RatingRequestDTO;
 import com.example.prospera.courses.domain.Enrollment;
 import com.example.prospera.courses.domain.TrainingRating;
+import com.example.prospera.courses.dto.RatingRequestDTO;
 import com.example.prospera.courses.repositories.EnrollmentRepository;
 import com.example.prospera.courses.repositories.TrainingRatingRepository;
 import jakarta.persistence.EntityNotFoundException;

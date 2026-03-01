@@ -4,37 +4,102 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: expande funcionalidades de certificados e conteúdo para integração avançada&#10;&#10;- Implementa suporte ao gerenciamento de certificados com endpoints para listar e visualizar certificados do usuário (`/api/certificates/my-certificates`) e geração de miniaturas dinâmicas&#10;- Adiciona variáveis configuráveis para documentos (nome e CNPJ da empresa)&#10;- Permite acesso a recursos de certificado sem autenticação (`SecurityConfig`)&#10;- Refatora template de certificado para melhor design e flexibilidade&#10;- Atualiza serviços de matrícula e progresso para incluir dados de certificados e pontuações em DTOs&#10;- Corrige e ajusta estrutura de pacotes em várias classes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/ReorderRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/certificate-email.html" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona envio de e-mail de certificado e suporte ao gerenciamento avançado de conteúdo&#10;&#10;- Integra envio assíncrono de e-mails com certificados anexados ao processo de emissão&#10;- Expande funcionalidades administrativas no `AdminTrainingController` para atualização, exclusão e reordenação de módulos/aulas&#10;- Adiciona campos `videoUrl` e `content` em aulas no DTO e serviços associados&#10;- Move exceções para pacote centralizado para padronização&#10;- Inclui transações em serviços de conteúdo para garantir consistência">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/AdminUserUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/services/AdminAccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/services/AdminSectorService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/ProsperaApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/ProsperaApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/exceptions/BusinessRuleException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/BusinessRuleException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/exceptions/CnpjValidationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/CnpjValidationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/exceptions/CpfValidationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/CpfValidationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/exceptions/ResourceExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/ResourceExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/exceptions/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/ResourceNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/exceptions/StandardError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/StandardError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/exceptions/ValidationError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/ValidationError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/jwt/JwtAuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/jwt/JwtAuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/controllers/AdminUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/controllers/MaintenanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/MaintenanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/dto/AdminResetPasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/AdminResetPasswordRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/dto/AdminUserDetailDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/AdminUserDetailDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/dto/AdminUserSummaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/AdminUserSummaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/service/AdminUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/services/AdminUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/admin/service/TestDataMaintenanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/services/TestDataMaintenanceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/controllers/UserProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/controllers/UserProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/AuthLoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/AuthLoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/AuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/AuthResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/ChangePasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/ChangePasswordRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/ForgotPasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/ForgotPasswordRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/PasswordResetRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/PasswordResetRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/ProfileMeResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/ProfileMeResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/UserProfilePFRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/UserProfilePFRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/api/dto/UserRegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/UserRegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/jwt/JwtAuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/jwt/JwtAuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/jwt/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/jwt/JwtAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/jwt/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/jwt/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/AuthModuleApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/AuthModuleApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/AuthUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/repositories/AuthUserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/UserProfileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/UserProfileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/api/controllers/CertificateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/api/controllers/CertificatePreviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificatePreviewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/api/dto/CertificateListItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/dto/CertificateListItemDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/common/validation/CnpjValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/common/validation/CnpjValidationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/common/validation/CpfValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/common/validation/CpfValidationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/AdminTrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/AdminTrainingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonUpdateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingDetailDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingDetailDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/AdminTrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/AdminTrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/ContentStreamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/ContentStreamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/LessonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/LessonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/ProgressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/ProgressController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/PublicCatalogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/PublicCatalogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/controllers/TrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/TrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/EbookProgressDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/EbookProgressDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/EnrollmentResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/EnrollmentResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/LessonCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/LessonDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/LessonUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/LessonUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/ModuleCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/ModuleCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/ModuleDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/ModuleDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/ModuleUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/ModuleUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/PublicTrainingDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/PublicTrainingDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/RatingRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/RatingRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/ReorderRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/ReorderRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/SimpleSectorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/SimpleSectorDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingCatalogItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingCatalogItemDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingDetailDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingDetailDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingSectorAssignmentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingSectorAssignmentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingSectorAssignmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingSectorAssignmentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingSummaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingSummaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/api/dto/TrainingUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/config/WebClientConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/AdminTrainingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/AdminTrainingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/ContentAccessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/ContentAccessService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/LessonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/LessonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/ProgressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/ProgressService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingRatingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingRatingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/admin/AdminOrganizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminOrganizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/admin/AdminOrganizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/services/AdminOrganizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/admin/AdminSectorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminSectorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/admin/dto/AdminOrganizationDetailDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/AdminOrganizationDetailDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/admin/dto/AdminOrganizationSummaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/AdminOrganizationSummaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/admin/dto/UpdateOrgStatusRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/UpdateOrgStatusRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/controllers/AdminAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminAccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/controllers/MembershipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/controllers/MembershipController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/controllers/OrganizationAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/controllers/OrganizationAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/controllers/OrganizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/controllers/OrganizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/AccountSummaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/AccountSummaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/AddMemberRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/AddMemberRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/CreateOrganizationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/CreateOrganizationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/MassEnrollmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/MassEnrollmentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/MemberDetailDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/MemberDetailDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/MemberResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/MemberResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/OrganizationResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/OrganizationResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/SectorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/SectorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/SectorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/SectorDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/SectorIdRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/SectorIdRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/api/dto/UpdateMemberRoleRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/dto/UpdateMemberRoleRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/repositories/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/repositories/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/MembershipService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/MembershipService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/OrganizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/OrganizationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/exception/SectorNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/exceptions/SectorNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/PlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/PlanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/SectorAssignmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/SectorAssignmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/SectorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/service/SectorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/integration/api/IntegrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/integration/controller/IntegrationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/SubscriptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,11 +118,11 @@
       <list>
         <option value="Exception" />
         <option value="Enum" />
-        <option value="Record" />
         <option value="package-info" />
         <option value="Interface" />
         <option value="HTML File" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -84,7 +149,7 @@
   }
 }</component>
   <component name="HttpClientEndpointsTabState">
-    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests /&gt;" />
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;de4d7c1e14bd44b776653dacd468b26a684e3581&quot; value=&quot;###&amp;#10;GET http://localhost:8080/admin/organizations&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -321,7 +386,9 @@
       <workItem from="1771455640577" duration="15000" />
       <workItem from="1771503573737" duration="4593000" />
       <workItem from="1771588930076" duration="25084000" />
-      <workItem from="1772105260399" duration="4001000" />
+      <workItem from="1772105260399" duration="4062000" />
+      <workItem from="1772145899165" duration="12000" />
+      <workItem from="1772366814174" duration="6461000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -531,7 +598,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771336741288</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="feat: adiciona envio de e-mail de certificado e suporte ao gerenciamento avançado de conteúdo&#10;&#10;- Integra envio assíncrono de e-mails com certificados anexados ao processo de emissão&#10;- Expande funcionalidades administrativas no `AdminTrainingController` para atualização, exclusão e reordenação de módulos/aulas&#10;- Adiciona campos `videoUrl` e `content` em aulas no DTO e serviços associados&#10;- Move exceções para pacote centralizado para padronização&#10;- Inclui transações em serviços de conteúdo para garantir consistência">
+      <option name="closed" value="true" />
+      <created>1772139014017</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1772139014017</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +639,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix(backend): Corrige CORS, falhas na API e validação do token JWT" />
     <MESSAGE value="&quot;feat: Adicionado fluxos completos de registro, login e edição de perfil&quot;" />
     <MESSAGE value="&quot;feat: Refatorando fluxos completos de registro, login e edição de perfil&quot;" />
     <MESSAGE value="&quot;refactor: Reestruturação e modularização das classes de autenticação&#10;&#10;- Removidas entidades, controladores e serviços desnecessários&#10;- Migração das exceções, DTOs e serviços do pacote 'docgen' para 'auth'&#10;- Criação do pacote 'auth' com estrutura modularizada&#10;- Novo contrato AuthModuleApi para interação com autenticação&#10;- Inclusão de validação de CNPJ dentro do módulo de autenticação&#10;- Ajuste no UserProfileController para suportar perfis pessoa física e jurídica&quot;" />
@@ -589,7 +663,8 @@
     <MESSAGE value="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório" />
     <MESSAGE value="chore: ajusta configuração de workspace no IntelliJ" />
     <MESSAGE value="feat: expande funcionalidades de certificados e conteúdo para integração avançada&#10;&#10;- Implementa suporte ao gerenciamento de certificados com endpoints para listar e visualizar certificados do usuário (`/api/certificates/my-certificates`) e geração de miniaturas dinâmicas&#10;- Adiciona variáveis configuráveis para documentos (nome e CNPJ da empresa)&#10;- Permite acesso a recursos de certificado sem autenticação (`SecurityConfig`)&#10;- Refatora template de certificado para melhor design e flexibilidade&#10;- Atualiza serviços de matrícula e progresso para incluir dados de certificados e pontuações em DTOs&#10;- Corrige e ajusta estrutura de pacotes em várias classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: expande funcionalidades de certificados e conteúdo para integração avançada&#10;&#10;- Implementa suporte ao gerenciamento de certificados com endpoints para listar e visualizar certificados do usuário (`/api/certificates/my-certificates`) e geração de miniaturas dinâmicas&#10;- Adiciona variáveis configuráveis para documentos (nome e CNPJ da empresa)&#10;- Permite acesso a recursos de certificado sem autenticação (`SecurityConfig`)&#10;- Refatora template de certificado para melhor design e flexibilidade&#10;- Atualiza serviços de matrícula e progresso para incluir dados de certificados e pontuações em DTOs&#10;- Corrige e ajusta estrutura de pacotes em várias classes" />
+    <MESSAGE value="feat: adiciona envio de e-mail de certificado e suporte ao gerenciamento avançado de conteúdo&#10;&#10;- Integra envio assíncrono de e-mails com certificados anexados ao processo de emissão&#10;- Expande funcionalidades administrativas no `AdminTrainingController` para atualização, exclusão e reordenação de módulos/aulas&#10;- Adiciona campos `videoUrl` e `content` em aulas no DTO e serviços associados&#10;- Move exceções para pacote centralizado para padronização&#10;- Inclui transações em serviços de conteúdo para garantir consistência" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: adiciona envio de e-mail de certificado e suporte ao gerenciamento avançado de conteúdo&#10;&#10;- Integra envio assíncrono de e-mails com certificados anexados ao processo de emissão&#10;- Expande funcionalidades administrativas no `AdminTrainingController` para atualização, exclusão e reordenação de módulos/aulas&#10;- Adiciona campos `videoUrl` e `content` em aulas no DTO e serviços associados&#10;- Move exceções para pacote centralizado para padronização&#10;- Inclui transações em serviços de conteúdo para garantir consistência" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

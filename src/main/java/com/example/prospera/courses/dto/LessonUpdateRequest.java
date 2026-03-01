@@ -1,0 +1,19 @@
+package com.example.prospera.courses.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+
+public record LessonUpdateRequest(
+        @NotBlank(message = "O título da lição é obrigatório")
+        String title,
+
+        String content,
+
+        String videoUrl,
+
+        @NotNull(message = "A ordem da lição é obrigatória")
+        @PositiveOrZero(message = "A ordem deve ser um número positivo ou zero")
+        Integer lessonOrder
+) {
+}

@@ -26,7 +26,7 @@ public class WebClientConfig {
 
     private ExchangeFilterFunction addAuthorizationHeader() {
         return (clientRequest, next) -> {
-            // Pega o cabeçalho 'Authorization' da requisição original que chegou no controller
+            // Pega o cabeçalho 'Authorization' da requisição original que chegou no controllers
             String authorizationHeader = getAuthorizationHeaderFromCurrentRequest();
 
             // Se houver um cabeçalho, clona a requisição do WebClient e adiciona ele

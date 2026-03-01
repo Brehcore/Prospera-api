@@ -60,10 +60,6 @@ public class SubscriptionService {
     private final OrganizationRepository organizationRepository;
     private final AccountService accountService;
 
-    // =========================================================================
-    // MÉTODOS DE CRIAÇÃO
-    // =========================================================================
-
     /**
      * Cria uma assinatura pessoal para um usuário específico.
      *
@@ -122,10 +118,6 @@ public class SubscriptionService {
         }
         return createSubscriptionForAccount(account, plan);
     }
-
-    // =========================================================================
-    // LÓGICA DE VERIFICAÇÃO DE ACESSO
-    // =========================================================================
 
     /**
      * Verifica e retorna o status de acesso atual de um usuário.
@@ -193,10 +185,6 @@ public class SubscriptionService {
                 userId, trainingId, SubscriptionStatus.ACTIVE, OffsetDateTime.now());
     }
 
-    // =========================================================================
-    // OUTROS MÉTODOS DE GESTÃO
-    // =========================================================================
-
     @Transactional
     public void cancelSubscription(UUID subscriptionId) {
         Subscription subscription = subscriptionRepository.findById(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("Assinatura não encontrada."));
@@ -220,9 +208,6 @@ public class SubscriptionService {
         return allSubscriptions;
     }
 
-    // =========================================================================
-    // ROTINAS AGENDADAS (SCHEDULED TASKS)
-    // =========================================================================
 
     /**
      * Rotina executada periodicamente para verificar e expirar assinaturas vencidas.
@@ -253,10 +238,6 @@ public class SubscriptionService {
         }
     }
 
-    // =========================================================================
-    // METODO PRIVADO AUXILIAR
-    // =========================================================================
-
     private Subscription createSubscriptionForAccount(Account account, Plan plan) {
         Subscription newSubscription = new Subscription();
         newSubscription.setAccount(account);
@@ -266,7 +247,6 @@ public class SubscriptionService {
         OffsetDateTime startDate = OffsetDateTime.now();
         newSubscription.setStartDate(startDate);
         newSubscription.setEndDate(startDate.plusDays(plan.getDurationInDays()));
-        // CORREÇÃO: Faltava salvar a entidade.
         return subscriptionRepository.save(newSubscription);
     }
 }

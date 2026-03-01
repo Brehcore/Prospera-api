@@ -1,16 +1,16 @@
 package com.example.prospera.auth.services;
 
-import com.example.prospera.auth.api.dto.ProfileMeResponseDTO;
-import com.example.prospera.auth.api.dto.UserProfilePFRequest;
 import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.auth.domain.UserProfilePF;
+import com.example.prospera.auth.dto.ProfileMeResponseDTO;
+import com.example.prospera.auth.dto.UserProfilePFRequest;
 import com.example.prospera.auth.repositories.AuthUserRepository;
 import com.example.prospera.auth.repositories.UserProfilePfRepository;
 import com.example.prospera.common.enums.OrganizationRole;
 import com.example.prospera.common.validation.CpfValidationService;
-import com.example.prospera.enterprise.api.dto.OrganizationResponseDTO;
 import com.example.prospera.enterprise.domain.Membership;
 import com.example.prospera.enterprise.domain.Organization;
+import com.example.prospera.enterprise.dto.OrganizationResponseDTO;
 import com.example.prospera.enterprise.repositories.MembershipRepository;
 import com.example.prospera.enterprise.repositories.OrganizationRepository;
 import lombok.RequiredArgsConstructor;

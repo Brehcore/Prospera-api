@@ -4,13 +4,13 @@ import com.example.prospera.auth.domain.AuthUser;
 import com.example.prospera.auth.repositories.AuthUserRepository;
 import com.example.prospera.common.enums.OrganizationRole;
 import com.example.prospera.common.service.AuthorizationService;
-import com.example.prospera.courses.api.dto.EnrollmentResponseDTO;
+import com.example.prospera.courses.dto.EnrollmentResponseDTO;
 import com.example.prospera.courses.service.EnrollmentService;
-import com.example.prospera.enterprise.api.dto.AddMemberRequest;
-import com.example.prospera.enterprise.api.dto.MemberDetailDTO;
 import com.example.prospera.enterprise.domain.Membership;
 import com.example.prospera.enterprise.domain.Organization;
 import com.example.prospera.enterprise.domain.Sector;
+import com.example.prospera.enterprise.dto.AddMemberRequest;
+import com.example.prospera.enterprise.dto.MemberDetailDTO;
 import com.example.prospera.enterprise.repositories.MembershipRepository;
 import com.example.prospera.enterprise.repositories.OrganizationRepository;
 import com.example.prospera.enterprise.repositories.UserSectorRepository;
@@ -59,7 +59,7 @@ public class MembershipService {
                 .user(userToAdd)
                 .organization(organization)
                 .role(dto.role())
-                .addedBy(adminUser) // O adminUser do controller já é a entidade correta
+                .addedBy(adminUser) // O adminUser do controllers já é a entidade correta
                 .build();
         return membershipRepository.save(newMembership);
     }

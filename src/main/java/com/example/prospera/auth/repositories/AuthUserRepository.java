@@ -1,12 +1,13 @@
 package com.example.prospera.auth.repositories;
 
 import com.example.prospera.auth.domain.AuthUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, UUID> {
     @Query("SELECT u FROM AuthUser u LEFT JOIN FETCH u.personalProfile LEFT JOIN FETCH u.memberships WHERE u.id = :id")
     Optional<AuthUser> findUserWithDetailsById(@Param("id") UUID id);
 
-    List<AuthUser> findByEmailContainingIgnoreCase(String email);
-
     boolean existsByEmail(String email);
+
+    Page<AuthUser> findByEmailContainingIgnoreCase(String email, Pageable pageable);
 }
