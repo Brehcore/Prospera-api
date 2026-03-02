@@ -1,6 +1,5 @@
 package com.example.prospera.certificate.service;
 
-import com.example.prospera.auth.services.EmailService;
 import com.example.prospera.certificate.domain.Certificate;
 import com.example.prospera.certificate.dto.CertificateListItemDTO;
 import com.example.prospera.certificate.repositories.CertificateRepository;
@@ -11,6 +10,7 @@ import com.example.prospera.courses.domain.enums.TrainingEntityType;
 import com.example.prospera.courses.repositories.EnrollmentRepository;
 import com.example.prospera.courses.repositories.ModuleRepository;
 import com.example.prospera.courses.service.FileStorageService;
+import com.example.prospera.email.service.EmailService;
 import com.example.prospera.exceptions.BusinessRuleException;
 import com.lowagie.text.pdf.BaseFont;
 import jakarta.persistence.EntityNotFoundException;

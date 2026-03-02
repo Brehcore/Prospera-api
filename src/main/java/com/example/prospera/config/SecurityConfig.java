@@ -36,7 +36,7 @@ public class SecurityConfig {
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(auth -> auth
                         // Regras públicas
-                        .requestMatchers("public/**", "/auth/**", "/stream/**", "/subscriptions/plans").permitAll()
+						.requestMatchers("public/**", "/auth/**", "/stream/**", "/subscriptions/plans", "api/support/tickets").permitAll()
 
                         // Endpoints públicos de consulta de organização
                         .requestMatchers(HttpMethod.POST, "/api/sectors/batch").permitAll()

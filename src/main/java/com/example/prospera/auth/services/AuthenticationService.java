@@ -9,6 +9,7 @@ import com.example.prospera.auth.repositories.EmailUpdateTokenRepository;
 import com.example.prospera.auth.repositories.PasswordResetTokenRepository;
 import com.example.prospera.common.enums.OrganizationRole;
 import com.example.prospera.common.enums.UserRole;
+import com.example.prospera.email.service.EmailService;
 import com.example.prospera.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;

@@ -1,4 +1,4 @@
-package com.example.prospera.auth.services;
+package com.example.prospera.email.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -99,5 +99,40 @@ public class EmailService {
                 "Se não foi você, entre em contato com o suporte imediatamente.");
 
         emailSender.send(message);
+    }
+
+    @Async
+    public void sendSupportTicket(String targetEmail, String userName, String userEmail, String subjectDescription, String messageContent) {
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom(fromEmail, "Plataforma Prospera - Suporte");
+            helper.setTo(targetEmail); // Vai para o TI ou Contato
+            helper.setReplyTo(userEmail); // Se a equipe clicar em responder, vai pro aluno!
+            helper.setSubject("NOVO CHAMADO: " + subjectDescription + " - " + userName);
+
+            // Um HTML simples direto no código para a equipe interna
+            String htmlContent = String.format(
+                    "<div style='font-family: Arial, sans-serif; padding: 20px;'>" +
+                            "<h2>Novo Chamado de Suporte</h2>" +
+                            "<p><strong>Aluno:</strong> %s</p>" +
+                            "<p><strong>E-mail:</strong> %s</p>" +
+                            "<p><strong>Assunto:</strong> %s</p>" +
+                            "<hr/>" +
+                            "<p><strong>Mensagem:</strong></p>" +
+                            "<p style='white-space: pre-wrap;'>%s</p>" +
+                            "</div>",
+                    userName, userEmail, subjectDescription, messageContent
+            );
+
+            helper.setText(htmlContent, true);
+            emailSender.send(message);
+
+            System.out.println("Chamado de suporte enviado para: " + targetEmail);
+
+        } catch (Exception e) {
+            System.err.println("Falha ao enviar e-mail de suporte: " + e.getMessage());
+        }
     }
 }
