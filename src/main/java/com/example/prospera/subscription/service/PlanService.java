@@ -1,9 +1,9 @@
 package com.example.prospera.subscription.service;
 
+import com.example.prospera.admin.dto.PlanCreateRequest;
+import com.example.prospera.admin.dto.PlanUpdateRequest;
 import com.example.prospera.exceptions.BusinessRuleException;
 import com.example.prospera.exceptions.ResourceNotFoundException;
-import com.example.prospera.subscription.dto.PlanCreateRequest;
-import com.example.prospera.subscription.dto.PlanUpdateRequest;
 import com.example.prospera.subscription.entities.Plan;
 import com.example.prospera.subscription.enums.PlanType;
 import com.example.prospera.subscription.repositories.PlanRepository;

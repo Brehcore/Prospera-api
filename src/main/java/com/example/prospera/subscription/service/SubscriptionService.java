@@ -178,9 +178,21 @@ public class SubscriptionService {
                 .stream().toList();
     }
 
+    @Transactional(readOnly = true)
     public boolean hasActiveSubscriptionForTraining(UUID userId, UUID trainingId) {
-        // CORREÇÃO: A query no repositório precisa ser atualizada para o modelo de Account.
-        // Assumindo que a query foi corrigida no SubscriptionRepository.
+        AuthUser user = authUserRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+
+        // 1. Pega o status de acesso atual do usuário
+        AccessStatusDTO accessStatus = getAccessStatusForUser(user);
+
+        // 2. REGRA DE OURO B2C: se a assinatura for PESSOAL, o acesso é GLOBAL!
+        if (accessStatus.accessType() == AccessType.PERSONAL_SUBSCRIPTION) {
+            return true;
+        }
+
+        // 3. Se for Organizacional (B2B), mantém a sua lógica atual rigorosa
+        // que verifica se a empresa tem aquele curso específico no banco de dados.
         return subscriptionRepository.doesUserHaveActiveSubscriptionForTraining(
                 userId, trainingId, SubscriptionStatus.ACTIVE, OffsetDateTime.now());
     }

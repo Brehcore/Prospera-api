@@ -18,6 +18,8 @@ import com.example.prospera.courses.repositories.TrainingRepository;
 import com.example.prospera.enterprise.domain.Membership;
 import com.example.prospera.enterprise.domain.Organization;
 import com.example.prospera.enterprise.dto.MemberResponseDTO;
+import com.example.prospera.subscription.enums.AccessType;
+import com.example.prospera.subscription.service.SubscriptionService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,7 @@ public class EnrollmentService {
     private final AuthorizationService authorizationService;
     private final CertificateRepository certificateRepository;
     private final TrainingRatingRepository trainingRatingRepository;
+    private final SubscriptionService subscriptionService;
 
     @Transactional
     public EnrollmentResponseDTO enrollUserInTraining(AuthUser user, UUID trainingId) {
@@ -51,8 +54,15 @@ public class EnrollmentService {
             throw new IllegalStateException("Usuário já matriculado neste treinamento.");
         }
 
+        // BYPASS B2C
         if (training.getOrganizationId() != null) {
-            authorizationService.checkIsMemberOfOrg(user, training.getOrganizationId());
+            // Verifica se o usuário tem assinatura Personal
+            var accessStatus = subscriptionService.getAccessStatusForUser(user);
+
+            // Se NÃO for Personal, exige que ele seja membro da organização do curso (B2B)
+            if (accessStatus.accessType() != AccessType.PERSONAL_SUBSCRIPTION) {
+                authorizationService.checkIsMemberOfOrg(user, training.getOrganizationId());
+            }
         }
 
         Enrollment newEnrollment = Enrollment.builder()

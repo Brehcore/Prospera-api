@@ -1,8 +1,8 @@
-package com.example.prospera.subscription.controller;
+package com.example.prospera.admin.controllers;
 
-import com.example.prospera.subscription.dto.PlanCreateRequest;
+import com.example.prospera.admin.dto.PlanCreateRequest;
+import com.example.prospera.admin.dto.PlanUpdateRequest;
 import com.example.prospera.subscription.dto.PlanResponse;
-import com.example.prospera.subscription.dto.PlanUpdateRequest;
 import com.example.prospera.subscription.entities.Plan;
 import com.example.prospera.subscription.service.PlanService;
 import jakarta.validation.Valid;

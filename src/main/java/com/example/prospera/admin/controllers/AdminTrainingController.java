@@ -1,4 +1,4 @@
-package com.example.prospera.courses.controllers;
+package com.example.prospera.admin.controllers;
 
 import com.example.prospera.courses.domain.enums.PublicationStatus;
 import com.example.prospera.courses.domain.enums.TrainingEntityType;

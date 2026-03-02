@@ -26,6 +26,8 @@ import com.example.prospera.enterprise.dto.SectorDTO;
 import com.example.prospera.enterprise.repositories.SectorRepository;
 import com.example.prospera.enterprise.repositories.UserSectorRepository;
 import com.example.prospera.enterprise.service.SectorService;
+import com.example.prospera.subscription.enums.AccessType;
+import com.example.prospera.subscription.service.SubscriptionService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,9 +55,37 @@ public class TrainingCatalogService {
     private final SectorService sectorService;
     private final LessonService lessonService;
     private final ModuleRepository moduleRepository;
+    private final SubscriptionService subscriptionService;
 
     @Transactional(readOnly = true)
     public List<TrainingCatalogItemDTO> getCatalogForUser(AuthUser user) {
+        // 1. Verifica qual o tipo de acesso do usuário
+        var accessStatus = subscriptionService.getAccessStatusForUser(user);
+
+        // LÓGICA B2C: ASSINATURA PESSOAL (Ver o catálogo público inteiro)
+        if (accessStatus.accessType() == AccessType.PERSONAL_SUBSCRIPTION) {
+            // Busca todos os treinamentos publicados no sistema
+            List<Training> allPublishedTrainings = trainingRepository.findByStatus(PublicationStatus.PUBLISHED);
+
+            // Busca as matrículas desse usuário para saber se ele já começou algum
+            Map<UUID, Enrollment> enrollmentsByTrainingId = enrollmentRepository
+                    .findByUserWithTrainingDetails(user).stream()
+                    .collect(Collectors.toMap(e -> e.getTraining().getId(), Function.identity()));
+
+            return allPublishedTrainings.stream().map(training -> {
+                Enrollment enrollment = enrollmentsByTrainingId.get(training.getId());
+                EnrollmentStatus status = (enrollment != null) ? enrollment.getStatus() : EnrollmentStatus.NOT_ENROLLED;
+
+                // Cursos para B2C são sempre eletivos (opcionais), o usuário faz se quiser
+                return new TrainingCatalogItemDTO(
+                        training.getId(), training.getTitle(), training.getDescription(),
+                        training.getAuthor(), training.getEntityType().name(),
+                        TrainingType.ELECTIVE, status, training.getCoverImageUrl()
+                );
+            }).collect(Collectors.toList());
+        }
+
+        // LÓGICA B2B: ASSINATURA ORGANIZACIONAL (Vê só o que a empresa liberou)
         List<UUID> userSectorIds = userSectorRepository.findByUserId(user.getId()).stream().map(UserSector::getSectorId).toList();
 
         if (userSectorIds.isEmpty()) return Collections.emptyList();
@@ -80,7 +110,8 @@ public class TrainingCatalogService {
                     training.getDescription(),
                     training.getAuthor(),
                     training.getEntityType().name(),
-                    consolidatedType, enrollmentStatus);
+                    consolidatedType, enrollmentStatus,
+                    training.getCoverImageUrl());
         }).collect(Collectors.toList());
     }
 

@@ -5,7 +5,7 @@ import com.example.prospera.subscription.enums.AccessType;
 import java.time.OffsetDateTime;
 
 public record AccessStatusDTO(
-        AccessType acessType,
+        AccessType accessType,
         String planName,
         OffsetDateTime endDate,
         String organizationName //Será preenchido se o acesso for via organização

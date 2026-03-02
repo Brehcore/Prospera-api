@@ -1,8 +1,8 @@
-package com.example.prospera.subscription.controller;
+package com.example.prospera.admin.controllers;
 
-import com.example.prospera.subscription.dto.PlanIdRequest;
-import com.example.prospera.subscription.dto.SubscriptionCreateRequest;
-import com.example.prospera.subscription.dto.SubscriptionResponse;
+import com.example.prospera.admin.dto.PlanIdRequest;
+import com.example.prospera.admin.dto.SubscriptionCreateRequest;
+import com.example.prospera.admin.dto.SubscriptionResponse;
 import com.example.prospera.subscription.entities.Subscription;
 import com.example.prospera.subscription.enums.SubscriptionOrigin;
 import com.example.prospera.subscription.enums.SubscriptionStatus;

@@ -16,6 +16,7 @@ public record TrainingCatalogItemDTO(
         String author,
         String trainingEntityType, // "EBOOK", "COURSE", "LIVE" - para o frontend saber como renderizar
         TrainingType consolidatedTrainingType, // O tipo consolidado para o usuário (COMPULSORY ou ELECTIVE)
-        EnrollmentStatus enrollmentStatus // Status da matrícula do usuário (NOT_ENROLLED, ACTIVE, COMPLETED)
+        EnrollmentStatus enrollmentStatus, // Status da matrícula do usuário (NOT_ENROLLED, ACTIVE, COMPLETED)
+        String coverImageUrl
 ) {
 }

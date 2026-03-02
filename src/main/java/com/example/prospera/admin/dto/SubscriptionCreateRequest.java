@@ -1,4 +1,4 @@
-package com.example.prospera.subscription.dto;
+package com.example.prospera.admin.dto;
 
 import jakarta.validation.constraints.NotNull;
 

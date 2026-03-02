@@ -4,16 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="refactor: reorganiza pacotes e atualiza referências de importações&#10;&#10;- Move classes em `api/` para diretórios apropriados em `dto/`, `services/`, e `controllers/`&#10;- Corrige referências a pacotes desatualizados em entidades, DTOs, controladores e serviços&#10;- Remove duplicações desnecessárias e ajusta inconsistências na nomenclatura dos pacotes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/support/controller/SupportController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/support/dto/SupportTicketRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/support/enums/SupportSubject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/support/service/SupportService.java" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/EnrollmentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/email/service/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/service/CertificateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/AdminTrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminTrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/ProgressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/ProgressController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingCatalogItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingCatalogItemDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/controller/AdminPlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminPlanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/controller/AdminSubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminSubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/AccessStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/AccessStatusDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/PlanCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/PlanCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/PlanIdRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/PlanIdRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/PlanUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/PlanUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/SubscriptionCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/SubscriptionCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/SubscriptionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/SubscriptionResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/PlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/PlanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/SubscriptionService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +71,7 @@
   }
 }</component>
   <component name="HttpClientEndpointsTabState">
-    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;de4d7c1e14bd44b776653dacd468b26a684e3581&quot; value=&quot;###&amp;#10;GET http://localhost:8080/admin/organizations&quot; /&gt;&#10;  &lt;entry key=&quot;73552c85583a09158be6551595e83443817f0e6c&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/support/tickets&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;name&amp;quot;: &amp;quot;&amp;quot;,&amp;#10;  &amp;quot;userEmail&amp;quot;: &amp;quot;&amp;quot;,&amp;#10;  &amp;quot;subject&amp;quot;: &amp;quot;ACCESS_DIFFICULTIES&amp;quot;,&amp;#10;  &amp;quot;message&amp;quot;: &amp;quot;&amp;quot;&amp;#10;}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;73552c85583a09158be6551595e83443817f0e6c&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/support/tickets&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;name&amp;quot;: &amp;quot;&amp;quot;,&amp;#10;  &amp;quot;userEmail&amp;quot;: &amp;quot;&amp;quot;,&amp;#10;  &amp;quot;subject&amp;quot;: &amp;quot;ACCESS_DIFFICULTIES&amp;quot;,&amp;#10;  &amp;quot;message&amp;quot;: &amp;quot;&amp;quot;&amp;#10;}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -303,7 +311,7 @@
       <workItem from="1772105260399" duration="4062000" />
       <workItem from="1772145899165" duration="12000" />
       <workItem from="1772366814174" duration="6694000" />
-      <workItem from="1772455510876" duration="2458000" />
+      <workItem from="1772455510876" duration="8303000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -529,7 +537,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772373448920</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`">
+      <option name="closed" value="true" />
+      <created>1772467809984</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1772467809984</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -562,7 +578,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="&quot;feat: Refatorando fluxos completos de registro, login e edição de perfil&quot;" />
     <MESSAGE value="&quot;refactor: Reestruturação e modularização das classes de autenticação&#10;&#10;- Removidas entidades, controladores e serviços desnecessários&#10;- Migração das exceções, DTOs e serviços do pacote 'docgen' para 'auth'&#10;- Criação do pacote 'auth' com estrutura modularizada&#10;- Novo contrato AuthModuleApi para interação com autenticação&#10;- Inclusão de validação de CNPJ dentro do módulo de autenticação&#10;- Ajuste no UserProfileController para suportar perfis pessoa física e jurídica&quot;" />
     <MESSAGE value="refactor: remove módulos redundantes de autenticação e perfis de usuário&#10;&#10;- Exclusão de classes, DTOs e serviços relacionados a autenticação e perfis&#10;- Ajuste nas propriedades da aplicação para refletir nova configuração&#10;- Simplificação do mapeamento em UserProfileMapperDTO&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
     <MESSAGE value="feat: implementa módulo de cursos com suporte a criação de cursos, módulos, lições e matrículas&#10;&#10;- Adição de entidades para Course, Module, Lesson e Enrollment&#10;- Criação de DTOs para criação de cursos, módulos e lições&#10;- Implementação de serviços e controladores admin para gerenciar cursos&#10;- Suporte a enumerações para tipos de conteúdo e status de matrícula&#10;- Ajustes em repositórios e entidades existentes para suporte ao novo módulo&#10;- Ampliação de APIs no módulo de autenticação e organizações" />
@@ -587,7 +602,8 @@
     <MESSAGE value="feat: expande funcionalidades de certificados e conteúdo para integração avançada&#10;&#10;- Implementa suporte ao gerenciamento de certificados com endpoints para listar e visualizar certificados do usuário (`/api/certificates/my-certificates`) e geração de miniaturas dinâmicas&#10;- Adiciona variáveis configuráveis para documentos (nome e CNPJ da empresa)&#10;- Permite acesso a recursos de certificado sem autenticação (`SecurityConfig`)&#10;- Refatora template de certificado para melhor design e flexibilidade&#10;- Atualiza serviços de matrícula e progresso para incluir dados de certificados e pontuações em DTOs&#10;- Corrige e ajusta estrutura de pacotes em várias classes" />
     <MESSAGE value="feat: adiciona envio de e-mail de certificado e suporte ao gerenciamento avançado de conteúdo&#10;&#10;- Integra envio assíncrono de e-mails com certificados anexados ao processo de emissão&#10;- Expande funcionalidades administrativas no `AdminTrainingController` para atualização, exclusão e reordenação de módulos/aulas&#10;- Adiciona campos `videoUrl` e `content` em aulas no DTO e serviços associados&#10;- Move exceções para pacote centralizado para padronização&#10;- Inclui transações em serviços de conteúdo para garantir consistência" />
     <MESSAGE value="refactor: reorganiza pacotes e atualiza referências de importações&#10;&#10;- Move classes em `api/` para diretórios apropriados em `dto/`, `services/`, e `controllers/`&#10;- Corrige referências a pacotes desatualizados em entidades, DTOs, controladores e serviços&#10;- Remove duplicações desnecessárias e ajusta inconsistências na nomenclatura dos pacotes" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: reorganiza pacotes e atualiza referências de importações&#10;&#10;- Move classes em `api/` para diretórios apropriados em `dto/`, `services/`, e `controllers/`&#10;- Corrige referências a pacotes desatualizados em entidades, DTOs, controladores e serviços&#10;- Remove duplicações desnecessárias e ajusta inconsistências na nomenclatura dos pacotes" />
+    <MESSAGE value="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
