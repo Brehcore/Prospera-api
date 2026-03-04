@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona configurações iniciais, suporte ao Flyway e estrutura Docker&#10;&#10;- Cria `application.properties` com configurações de JPA, perfil ativo, upload e dados da empresa&#10;- Adiciona dependências do Flyway para migrações de banco de dados no `pom.xml`&#10;- Cria estrutura Docker com `docker-compose.yml` para API, frontend e banco MySQL&#10;- Adiciona script Flyway `V1__Insert_System_Admin.sql` para schema inicial e dados administrativos">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: atualiza configurações de codificação e ajusta nomenclaturas no projeto&#10;&#10;- Define UTF-8 como codificação padrão no `pom.xml`  &#10;- Corrige acentuação em comentários no `application.properties`  &#10;- Atualiza arquivos do IntelliJ para refletir mudanças recentes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +298,7 @@
       <workItem from="1772455510876" duration="8959000" />
       <workItem from="1772538782954" duration="2453000" />
       <workItem from="1772548324715" duration="1203000" />
-      <workItem from="1772624801395" duration="6556000" />
+      <workItem from="1772624801395" duration="10320000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -550,7 +548,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772631145624</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="chore: atualiza configurações de codificação e ajusta nomenclaturas no projeto&#10;&#10;- Define UTF-8 como codificação padrão no `pom.xml`  &#10;- Corrige acentuação em comentários no `application.properties`  &#10;- Atualiza arquivos do IntelliJ para refletir mudanças recentes">
+      <option name="closed" value="true" />
+      <created>1772633702175</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1772633702175</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -583,7 +589,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: adiciona gerenciamento de status de organizações&#10;&#10;- Criação do enum `OrganizationStatus` com valores ACTIVE, INACTIVE e SUSPENDED&#10;- Inclusão do status padrão `ACTIVE` na entidade Organization&#10;- Atualização do DTO `AdminOrganizationSummaryDTO` para exibir o status da organização&#10;- Implementação de método `updateOrganizationStatus` no serviço AdminOrganizationService&#10;- Adição de endpoint PATCH `/organizations/{organizationId}/status` no AdminOrganizationController&#10;- Validação de entrada com o DTO `UpdateOrgStatusRequest`" />
     <MESSAGE value="feat: adiciona suporte a setores no módulo de cursos e melhorias na arquitetura&#10;&#10;- Inclusão da entidade `Sector` e seus repositórios para gerenciamento de setores&#10;- Atualização da entidade `Course` para associar setores e novos enums (CourseModality, PublicationStatus, TrainingType)&#10;- Implementação de controladores e serviços para obter informações detalhadas e criar cursos com setores&#10;- Adicionados novos DTOs para criar e detalhar cursos&#10;- Correções e melhorias em métodos existentes para retornar DTOs em vez de entidades&#10;- Configuração de `WebClient` para comunicação com outros serviços, incluindo validação de setores&#10;- Suporte a publicação de cursos e busca filtrada por setores" />
     <MESSAGE value="refactor: reestrutura módulo de cursos para suportar diversos tipos de treinamento e integrações externas&#10;&#10;- Renomeia entidades e DTOs para refletir a nova abstração de treinamento (`Training`)&#10;- Remove classes redundantes como `CourseDTO`, `CourseRequestData` e `CourseSummaryDTO`&#10;- Adiciona suporte a tipos de treinamento (`TrainingEntityType`) com herança no modelo&#10;- Refatora o módulo de cursos para consolidar lógica de cursos, ebooks e treinamentos&#10;- Implementa `CnpjLookupService` com integração à BrasilAPI para consulta de CNPJs&#10;- Adiciona endpoint de upload de arquivos para ebooks&#10;- Renomeia controladores e serviços para refletir a nova estrutura de treinamento&#10;- Ajusta enums (e.g., `EnrollmentStatus`) e relacionamentos nas entidades de setor&#10;- Introduz `OrganizationSector` e `UserSector` com repositórios para associar setores e organizações&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
     <MESSAGE value="feat: adiciona API pública de catálogos de treinamento e melhorias gerais no módulo&#10;&#10;- Criação do controlador `PublicCatalogController` com endpoints públicos para listar e detalhar treinamentos publicados&#10;- Introdução do DTO `PublicTrainingDTO` para exibição de informações públicas&#10;- Adição de suporte a imagens de capa de treinamentos com método dedicado no `AdminTrainingController`&#10;- Implementação de novos métodos no `TrainingCatalogService` para buscar treinamentos publicados&#10;- Modificações no DTO `TrainingDetailDTO` para refletir atributos adicionais como status, autor e timestamps&#10;- Novo suporte ao streaming de imagens via `ContentStreamController`&#10;- Inclusão de timestamps e campos adicionais em entidades como `Training` e `EbookTraining`&#10;- Expansão dos serviços e repositórios para validações de exclusão e listagem de matrículas" />
@@ -608,7 +613,8 @@
     <MESSAGE value="feat: adiciona funcionalidades para matrículas e melhorias no catálogo de treinamentos  &#10;&#10;- Implementa `EnrollmentController` com endpoint para auto-matrícula de usuários  &#10;- Adiciona lógica de acesso por assinatura (B2C/B2B) no `TrainingCatalogService`  &#10;- Corrige typo em `AccessStatusDTO` (`acessType` -&gt; `accessType`)  &#10;- Inclui URL de capa em `TrainingCatalogItemDTO`  &#10;- Adapta `SubscriptionService` e `EnrollmentService` para lógica de assinaturas personalizadas" />
     <MESSAGE value="feat: adiciona configurações iniciais e arquivos de recursos ao projeto&#10;&#10;- Criação do arquivo `application.properties` com configurações de JPA, perfil ativo, tamanho de upload, e dados da empresa&#10;- Inclusão de fontes (`Montserrat.ttf`) e template de certificado (`CERTIFICADO.png`) nos recursos do projeto&#10;- Ajustes no workspace do IntelliJ" />
     <MESSAGE value="feat: adiciona configurações iniciais, suporte ao Flyway e estrutura Docker&#10;&#10;- Cria `application.properties` com configurações de JPA, perfil ativo, upload e dados da empresa&#10;- Adiciona dependências do Flyway para migrações de banco de dados no `pom.xml`&#10;- Cria estrutura Docker com `docker-compose.yml` para API, frontend e banco MySQL&#10;- Adiciona script Flyway `V1__Insert_System_Admin.sql` para schema inicial e dados administrativos" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: adiciona configurações iniciais, suporte ao Flyway e estrutura Docker&#10;&#10;- Cria `application.properties` com configurações de JPA, perfil ativo, upload e dados da empresa&#10;- Adiciona dependências do Flyway para migrações de banco de dados no `pom.xml`&#10;- Cria estrutura Docker com `docker-compose.yml` para API, frontend e banco MySQL&#10;- Adiciona script Flyway `V1__Insert_System_Admin.sql` para schema inicial e dados administrativos" />
+    <MESSAGE value="chore: atualiza configurações de codificação e ajusta nomenclaturas no projeto&#10;&#10;- Define UTF-8 como codificação padrão no `pom.xml`  &#10;- Corrige acentuação em comentários no `application.properties`  &#10;- Atualiza arquivos do IntelliJ para refletir mudanças recentes" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: atualiza configurações de codificação e ajusta nomenclaturas no projeto&#10;&#10;- Define UTF-8 como codificação padrão no `pom.xml`  &#10;- Corrige acentuação em comentários no `application.properties`  &#10;- Atualiza arquivos do IntelliJ para refletir mudanças recentes" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

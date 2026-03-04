@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # --- BANCO DE DADOS (MYSQL) ---
   db:
@@ -36,7 +34,7 @@ services:
         # Roteador ÚNICO para a API do Prospera
         - "traefik.http.routers.prospera-api.rule=Host(`prospera.gotreeconsultoria.com.br`) && PathPrefix(`/api`)"
         - "traefik.http.routers.prospera-api.entrypoints=websecure"
-        - "traefik.http.routers.prospera-api.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.prospera-api.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.prospera-api.loadbalancer.server.port=8080"
     volumes:
       - prospera_uploads:/app/uploads # Para manter as capas de vídeos e PDFs
@@ -57,21 +55,23 @@ services:
   # --- FRONTEND ---
   frontend:
     image: prospera-frontend:prod
-    build: ../Prospera-frontend # Ajuste este caminho para a pasta real do frontend
+    build: ../Prospera-frontend  # Caminho para onde está o seu Dockerfile do front
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=Gotreenet"
-        # Roteador ÚNICO para o Frontend do Prospera
         - "traefik.http.routers.prospera-front.rule=Host(`prospera.gotreeconsultoria.com.br`)"
         - "traefik.http.routers.prospera-front.entrypoints=websecure"
-        - "traefik.http.routers.prospera-front.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.prospera-front.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.prospera-front.loadbalancer.server.port=80"
+        - "traefik.docker.network=Gotreenet"
     networks:
       - Gotreenet
+    # RECOMENDAÇÃO: REMOVA OU COMENTE AS LINHAS DE VOLUMES ABAIXO
+    # volumes:
+    #   - ./dist/prospera-frontend:/usr/share/nginx/html
 
 volumes:
   prospera_uploads:
