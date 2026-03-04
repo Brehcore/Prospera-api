@@ -33,8 +33,6 @@ services:
         - "traefik.docker.network=Gotreenet"
         # Roteador ÚNICO para a API do Prospera
         - "traefik.http.routers.prospera-api.rule=Host(`prospera.gotreeconsultoria.com.br`) && PathPrefix(`/api`)"
-        - "traefik.http.middlewares.prospera-strip.stripprefix.prefixes=/api"
-        - "traefik.http.routers.prospera-api.middlewares=prospera-strip"
         - "traefik.http.routers.prospera-api.entrypoints=websecure"
         - "traefik.http.routers.prospera-api.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.prospera-api.loadbalancer.server.port=8080"

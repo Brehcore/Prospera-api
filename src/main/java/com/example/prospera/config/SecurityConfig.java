@@ -36,13 +36,13 @@ public class SecurityConfig {
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(auth -> auth
                         // Regras públicas
-						.requestMatchers("public/**", "/auth/**", "/stream/**", "/subscriptions/plans", "api/support/tickets").permitAll()
+						.requestMatchers("/public/**", "/auth/**", "/stream/**", "/subscriptions/plans", "api/support/tickets").permitAll()
 
                         // Endpoints públicos de consulta de organização
                         .requestMatchers(HttpMethod.POST, "/api/sectors/batch").permitAll()
 
                         // Endpoints públicos de autenticação
-						.requestMatchers("/auth/register", "/api/auth/login").permitAll()
+						.requestMatchers("/auth/register", "/auth/login").permitAll()
 
                         // Rota púclica para consulta de CNPJ
                         .requestMatchers(HttpMethod.GET, "/api/lookup/cnpj/**").permitAll()

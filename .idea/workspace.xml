@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: configura middleware no Docker Compose e atualiza metadados do IntelliJ&#10;&#10;- Adiciona middleware Traefik para remoção de prefixos (`stripprefix`) na API&#10;- Atualiza metadados do workspace para refletir ajustes recentes">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +299,7 @@
       <workItem from="1772455510876" duration="8959000" />
       <workItem from="1772538782954" duration="2453000" />
       <workItem from="1772548324715" duration="1203000" />
-      <workItem from="1772624801395" duration="16464000" />
+      <workItem from="1772624801395" duration="18539000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -611,7 +613,23 @@
       <option name="project" value="LOCAL" />
       <updated>1772652933780</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="chore: ajusta middleware Traefik no Docker Compose e atualiza metadados do workspace&#10;&#10;- Configura middleware para remoção de prefixos (`stripprefix`) na API&#10;- Sincroniza metadados do IntelliJ workspace com as alterações recentes">
+      <option name="closed" value="true" />
+      <created>1772653227524</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1772653227524</updated>
+    </task>
+    <task id="LOCAL-00041" summary="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`">
+      <option name="closed" value="true" />
+      <created>1772654322277</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1772654322277</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -644,9 +662,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
-    <MESSAGE value="feat: adiciona suporte a gerenciamento de contas pessoais e organizacionais para assinaturas&#10;&#10;- Refatora assinatura para associar `Subscription` à entidade `Account` em vez de `User`&#10;- Atualiza `AuthUser` para incluir uma conta pessoal (`personalAccount`)&#10;- Cria métodos para criar/gerenciar assinaturas pessoais e organizacionais (`SubscriptionService`)&#10;- Adiciona campos `type` em `Plan`, DTOs e repositórios relacionados&#10;- Introduz novos endpoints para gerenciamento unificado de acesso e planos disponíveis&#10;- Atualiza métodos nos controladores com base na nova estrutura de assinatura (e.g., `/me/access-status`)&#10;- Remove endpoints obsoletos relacionados a assinaturas individuais&#10;- Ajusta lógica de validação para planos empresariais e individuais&#10;- Refatora DTOs e serviços para mapear entidades mais eficientemente (`fromEntity`)" />
-    <MESSAGE value="feat: ajusta URL no `CnpjLookupService` e resolve inconsistências em comentários&#10;&#10;- Atualiza o `CnpjLookupService` para usar placeholders em chamadas de API&#10;- Corrige inconsistências em comentários, alterando &quot;método&quot; para &quot;metodo&quot;&#10;- Mantém tratamento robusto de erros no serviço de consulta a CNPJs&#10;- Altera comentários em controladores e serviços para padronizar linguagem" />
     <MESSAGE value="feat: adiciona melhorias de comentários e suporte avançado para assinaturas e treinamentos&#10;&#10;- Documenta endpoints no `TrainingController` para melhor clareza sobre matrícula e catálogo de treinamentos&#10;- Refatora `SubscriptionResponse` para incluir detalhes do proprietário (ID, nome, usuário associado)&#10;- Atualiza lógica no `AdminSubscriptionController` para mapear assinaturas considerando diferentes tipos de usuários&#10;- Adiciona bypass para administradores do sistema no acesso a conteúdos protegidos no `ContentAccessService`&#10;- Expande validações e reutiliza lógica de carregamento de recursos nos serviços de conteúdo" />
     <MESSAGE value="refactor: reestrutura pacotes para `prospera` e remove classes redundantes&#10;&#10;- Altera base de pacotes de `docgen` para `prospera` em todo o sistema&#10;- Remove classes obsoletas não referenciadas, como `StandardError`, `UserType` e `IntegrationController`&#10;- Atualiza referências de pacotes em entidades, DTOs, controladores e serviços&#10;- Corrige e padroniza comentários em controladores e serviços afetados" />
     <MESSAGE value="feat: implementa módulo de certificados para emissão e download&#10;&#10;- Adiciona entidade `Certificate` com vínculos a matrículas e validações exclusivas&#10;- Cria `CertificateRepository` para métodos de acesso a certificados&#10;- Implementa `CertificateController` com endpoints para emitir certificados (`/issue/{enrollmentId}`) e realizar download em PDF (`/download/{certificateId}`)&#10;- Adiciona dependências para geração de PDFs (Thymeleaf e Flying Saucer)&#10;- Configura inicialização automática de campos como código de validação e timestamps na entidade `Certificate`" />
@@ -669,7 +684,10 @@
     <MESSAGE value="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis de ambiente para padrões nativos reconhecidos pelo Spring Boot&#10;- Adiciona `SPRING_JPA_DATABASE_PLATFORM` para configuração do Hibernate&#10;- Atualiza detalhes no IntelliJ workspace para refletir ajustes recentes" />
     <MESSAGE value="chore: refina variáveis no Docker Compose e metadados do workspace&#10;&#10;- Alinha variáveis de ambiente aos padrões nativos do Spring Boot&#10;- Adiciona configurações de email e plataforma de banco para o Hibernate&#10;- Atualiza metadados no IntelliJ workspace para ajustes recentes" />
     <MESSAGE value="chore: configura middleware no Docker Compose e atualiza metadados do IntelliJ&#10;&#10;- Adiciona middleware Traefik para remoção de prefixos (`stripprefix`) na API&#10;- Atualiza metadados do workspace para refletir ajustes recentes" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: configura middleware no Docker Compose e atualiza metadados do IntelliJ&#10;&#10;- Adiciona middleware Traefik para remoção de prefixos (`stripprefix`) na API&#10;- Atualiza metadados do workspace para refletir ajustes recentes" />
+    <MESSAGE value="chore: ajusta middleware Traefik no Docker Compose e atualiza metadados do workspace&#10;&#10;- Configura middleware para remoção de prefixos (`stripprefix`) na API&#10;- Sincroniza metadados do IntelliJ workspace com as alterações recentes" />
+    <MESSAGE value="chore: adiciona novo domínio permitido na configuração CORS&#10;&#10;- Insere `https://prospera.gotreeconsultoria.com.br` na lista de origens permitidas&#10;- Atualiza `SecurityConfig` com o domínio autorizado adicional" />
+    <MESSAGE value="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
