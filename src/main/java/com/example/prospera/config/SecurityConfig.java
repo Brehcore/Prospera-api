@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/sectors/batch").permitAll()
 
                         // Endpoints públicos de autenticação
-                        .requestMatchers("/auth/register", "/auth/login").permitAll()
+						.requestMatchers("/auth/register", "/api/auth/login").permitAll()
 
                         // Rota púclica para consulta de CNPJ
                         .requestMatchers(HttpMethod.GET, "/api/lookup/cnpj/**").permitAll()
@@ -92,7 +92,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:4200"));
+		configuration.setAllowedOrigins(List.of("http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:4200", "https://prospera.gotreeconsultoria.com.br"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setAllowCredentials(true);
