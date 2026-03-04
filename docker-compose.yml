@@ -39,14 +39,15 @@ services:
     volumes:
       - prospera_uploads:/app/uploads # Para manter as capas de vídeos e PDFs
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/${DB_NAME:-prospera_db}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=prod
-      - APPLICATION_SECURITY_JWT_SECRET_KEY=${JWT_SECRET}
-      - APPLICATION_SECURITY_JWT_EXPIRATION=86400000
+      - SERVER_PORT=8080
       - CORS_ALLOWED_ORIGINS=https://prospera.gotreeconsultoria.com.br
+
+      # Alimentando as variáveis do seu application-prod:
+      - DB_URL=jdbc:mysql://db:3306/${DB_NAME:-prospera_db}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - DB_USERNAME=root
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
       - MAIL_USERNAME=${MAIL_USERNAME}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
     networks:
