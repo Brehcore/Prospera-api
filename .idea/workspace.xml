@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: atualiza variáveis de ambiente no Docker Compose e metadados do IntelliJ workspace&#10;&#10;- Renomeia variáveis de ambiente relacionadas à segurança no `docker-compose.yml`&#10;- Adiciona nova variável de configuração para o tempo de expiração do JWT&#10;- Ajusta metadados do IntelliJ workspace para refletir mudanças recentes">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: renomeia variáveis de ambiente no Docker Compose e ajusta metadados do workspace&#10;&#10;- Modifica variáveis de segurança no `docker-compose.yml` para uma nomenclatura mais coerente&#10;- Atualiza parâmetros relacionados ao JWT no `docker-compose.yml`&#10;- Ajusta detalhes do IntelliJ workspace para refletir mudanças recentes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +298,7 @@
       <workItem from="1772455510876" duration="8959000" />
       <workItem from="1772538782954" duration="2453000" />
       <workItem from="1772548324715" duration="1203000" />
-      <workItem from="1772624801395" duration="11843000" />
+      <workItem from="1772624801395" duration="13508000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -571,7 +572,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772647427542</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="chore: renomeia variáveis de ambiente no Docker Compose e ajusta metadados do workspace&#10;&#10;- Modifica variáveis de segurança no `docker-compose.yml` para uma nomenclatura mais coerente&#10;- Atualiza parâmetros relacionados ao JWT no `docker-compose.yml`&#10;- Ajusta detalhes do IntelliJ workspace para refletir mudanças recentes">
+      <option name="closed" value="true" />
+      <created>1772647996995</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1772647996995</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -604,7 +613,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: adiciona API pública de catálogos de treinamento e melhorias gerais no módulo&#10;&#10;- Criação do controlador `PublicCatalogController` com endpoints públicos para listar e detalhar treinamentos publicados&#10;- Introdução do DTO `PublicTrainingDTO` para exibição de informações públicas&#10;- Adição de suporte a imagens de capa de treinamentos com método dedicado no `AdminTrainingController`&#10;- Implementação de novos métodos no `TrainingCatalogService` para buscar treinamentos publicados&#10;- Modificações no DTO `TrainingDetailDTO` para refletir atributos adicionais como status, autor e timestamps&#10;- Novo suporte ao streaming de imagens via `ContentStreamController`&#10;- Inclusão de timestamps e campos adicionais em entidades como `Training` e `EbookTraining`&#10;- Expansão dos serviços e repositórios para validações de exclusão e listagem de matrículas" />
     <MESSAGE value="feat: adiciona suporte a setores globais e associações em treinamentos&#10;&#10;- Criação do `SectorService` para gerenciamento de setores globais&#10;- Adicionado endpoint público `/sectors` no `PublicCatalogController` para listar setores globais&#10;- Novos métodos e validações em serviços e repositórios para gerenciar exclusões seguras de setores e associações&#10;- Refatoração no `Training` para incluir relações com associações de setores (`TrainingSectorAssignment`)&#10;- Atualização dos DTOs `TrainingDetailDTO` e criação do `TrainingSectorAssignmentDTO` para suportar associações&#10;- Endpoint para desvincular treinamentos de setores adicionado ao `AdminTrainingController`&#10;- Expansão da segurança e exclusões para organizações associadas a setores no módulo `enterprise`&#10;- Ajustes no módulo de segurança para novos endpoints públicos" />
     <MESSAGE value="feat: adiciona suporte a progresso de e-books, streaming e permissões de acesso&#10;&#10;- Criação do `EbookProgressDTO` e novo método `getEbookProgress` no `ProgressService` para consulta de progresso&#10;- Implementação de validações em `updateEbookProgress` para total de páginas e limites de progresso&#10;- Adição de timestamps em `EbookProgress` para rastrear atualizações&#10;- Introdução do `ContentAccessService` para gerenciamento de acesso seguro a conteúdos como e-books e imagens&#10;- Atualização do `ContentStreamController` para endpoints públicos e restritos de streaming de e-books/imagens&#10;- Inclusão de progressão percentual no `EnrollmentResponseDTO`&#10;- Documentação expandida nas entidades, serviços e DTOs afetados" />
     <MESSAGE value="Remove `.idea` files from version control to clean up project artifacts" />
@@ -629,7 +637,8 @@
     <MESSAGE value="chore: atualiza configurações de codificação e ajusta nomenclaturas no projeto&#10;&#10;- Define UTF-8 como codificação padrão no `pom.xml`  &#10;- Corrige acentuação em comentários no `application.properties`  &#10;- Atualiza arquivos do IntelliJ para refletir mudanças recentes" />
     <MESSAGE value="chore: ajusta configurações do Docker Compose e atualiza comentários no projeto&#10;&#10;- Corrige nome do resolver TLS em `docker-compose.yml`&#10;- Remove versão especificada no `docker-compose.yml` para simplificar configuração&#10;- Ajusta comentários e alinhamento nos labels Traefik&#10;- Introduz melhorias nos metadados do IntelliJ workspace para tarefas e nomenclaturas" />
     <MESSAGE value="chore: atualiza variáveis de ambiente no Docker Compose e metadados do IntelliJ workspace&#10;&#10;- Renomeia variáveis de ambiente relacionadas à segurança no `docker-compose.yml`&#10;- Adiciona nova variável de configuração para o tempo de expiração do JWT&#10;- Ajusta metadados do IntelliJ workspace para refletir mudanças recentes" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: atualiza variáveis de ambiente no Docker Compose e metadados do IntelliJ workspace&#10;&#10;- Renomeia variáveis de ambiente relacionadas à segurança no `docker-compose.yml`&#10;- Adiciona nova variável de configuração para o tempo de expiração do JWT&#10;- Ajusta metadados do IntelliJ workspace para refletir mudanças recentes" />
+    <MESSAGE value="chore: renomeia variáveis de ambiente no Docker Compose e ajusta metadados do workspace&#10;&#10;- Modifica variáveis de segurança no `docker-compose.yml` para uma nomenclatura mais coerente&#10;- Atualiza parâmetros relacionados ao JWT no `docker-compose.yml`&#10;- Ajusta detalhes do IntelliJ workspace para refletir mudanças recentes" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: renomeia variáveis de ambiente no Docker Compose e ajusta metadados do workspace&#10;&#10;- Modifica variáveis de segurança no `docker-compose.yml` para uma nomenclatura mais coerente&#10;- Atualiza parâmetros relacionados ao JWT no `docker-compose.yml`&#10;- Ajusta detalhes do IntelliJ workspace para refletir mudanças recentes" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
