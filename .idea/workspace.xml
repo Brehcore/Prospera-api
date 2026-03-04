@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/certificate/controllers/CertificateController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/LessonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/LessonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/integration/controller/IntegrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/integration/controller/IntegrationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/controller/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/controller/SubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/support/controller/SupportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/support/controller/SupportController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +62,9 @@
     &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
   }
 }</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;a0f3b8edf2907d78305ae5424b43b17fc8ab7654&quot; value=&quot;###&amp;#10;GET http://localhost:8080/lookup/cnpj/{{cnpj}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -299,7 +307,7 @@
       <workItem from="1772455510876" duration="8959000" />
       <workItem from="1772538782954" duration="2453000" />
       <workItem from="1772548324715" duration="1203000" />
-      <workItem from="1772624801395" duration="18539000" />
+      <workItem from="1772624801395" duration="21501000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -629,7 +637,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772654322277</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace">
+      <option name="closed" value="true" />
+      <created>1772655419656</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1772655419656</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -662,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: adiciona melhorias de comentários e suporte avançado para assinaturas e treinamentos&#10;&#10;- Documenta endpoints no `TrainingController` para melhor clareza sobre matrícula e catálogo de treinamentos&#10;- Refatora `SubscriptionResponse` para incluir detalhes do proprietário (ID, nome, usuário associado)&#10;- Atualiza lógica no `AdminSubscriptionController` para mapear assinaturas considerando diferentes tipos de usuários&#10;- Adiciona bypass para administradores do sistema no acesso a conteúdos protegidos no `ContentAccessService`&#10;- Expande validações e reutiliza lógica de carregamento de recursos nos serviços de conteúdo" />
     <MESSAGE value="refactor: reestrutura pacotes para `prospera` e remove classes redundantes&#10;&#10;- Altera base de pacotes de `docgen` para `prospera` em todo o sistema&#10;- Remove classes obsoletas não referenciadas, como `StandardError`, `UserType` e `IntegrationController`&#10;- Atualiza referências de pacotes em entidades, DTOs, controladores e serviços&#10;- Corrige e padroniza comentários em controladores e serviços afetados" />
     <MESSAGE value="feat: implementa módulo de certificados para emissão e download&#10;&#10;- Adiciona entidade `Certificate` com vínculos a matrículas e validações exclusivas&#10;- Cria `CertificateRepository` para métodos de acesso a certificados&#10;- Implementa `CertificateController` com endpoints para emitir certificados (`/issue/{enrollmentId}`) e realizar download em PDF (`/download/{certificateId}`)&#10;- Adiciona dependências para geração de PDFs (Thymeleaf e Flying Saucer)&#10;- Configura inicialização automática de campos como código de validação e timestamps na entidade `Certificate`" />
     <MESSAGE value="chore: atualiza configurações do workspace no IntelliJ" />
@@ -687,7 +702,8 @@
     <MESSAGE value="chore: ajusta middleware Traefik no Docker Compose e atualiza metadados do workspace&#10;&#10;- Configura middleware para remoção de prefixos (`stripprefix`) na API&#10;- Sincroniza metadados do IntelliJ workspace com as alterações recentes" />
     <MESSAGE value="chore: adiciona novo domínio permitido na configuração CORS&#10;&#10;- Insere `https://prospera.gotreeconsultoria.com.br` na lista de origens permitidas&#10;- Atualiza `SecurityConfig` com o domínio autorizado adicional" />
     <MESSAGE value="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`" />
+    <MESSAGE value="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

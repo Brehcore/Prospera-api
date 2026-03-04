@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/certificates")
+@RequestMapping("/certificates")
 @RequiredArgsConstructor
 public class CertificateController {
 

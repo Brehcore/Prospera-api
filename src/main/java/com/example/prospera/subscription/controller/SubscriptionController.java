@@ -23,7 +23,7 @@ import java.util.List;
  * para usuários autenticados.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping
 @RequiredArgsConstructor
 public class SubscriptionController {
 

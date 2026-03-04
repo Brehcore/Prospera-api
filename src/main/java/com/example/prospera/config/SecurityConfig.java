@@ -36,21 +36,18 @@ public class SecurityConfig {
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(auth -> auth
                         // Regras públicas
-						.requestMatchers("/public/**", "/auth/**", "/stream/**", "/subscriptions/plans", "api/support/tickets").permitAll()
-
-                        // Endpoints públicos de consulta de organização
-                        .requestMatchers(HttpMethod.POST, "/api/sectors/batch").permitAll()
+						.requestMatchers("/public/**", "/auth/**", "/stream/**", "/subscriptions/plans", "/support/tickets").permitAll()
 
                         // Endpoints públicos de autenticação
 						.requestMatchers("/auth/register", "/auth/login").permitAll()
 
                         // Rota púclica para consulta de CNPJ
-                        .requestMatchers(HttpMethod.GET, "/api/lookup/cnpj/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/lookup/cnpj/**").permitAll()
 
                         // Rota para resetar senha sem estar logado
                         .requestMatchers("/auth/forgot-password", "/auth/reset-password").permitAll()
 
-						.requestMatchers(HttpMethod.GET, "/api/certificates/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/certificates/**").permitAll()
 
                         // Rota para alterar senha
                         .requestMatchers("/auth/change-password").authenticated()

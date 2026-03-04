@@ -31,7 +31,6 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=Gotreenet"
-        # Roteador ÚNICO para a API do Prospera
         - "traefik.http.routers.prospera-api.rule=Host(`prospera.gotreeconsultoria.com.br`) && PathPrefix(`/api`)"
         - "traefik.http.routers.prospera-api.entrypoints=websecure"
         - "traefik.http.routers.prospera-api.tls.certresolver=letsencryptresolver"

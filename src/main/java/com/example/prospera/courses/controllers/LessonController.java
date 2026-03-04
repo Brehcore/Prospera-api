@@ -22,7 +22,7 @@ import java.util.UUID;
  * Requer autenticação para acessar todos os endpoints.
  */
 @RestController
-@RequestMapping("/api/lessons")
+@RequestMapping("/lessons")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class LessonController {

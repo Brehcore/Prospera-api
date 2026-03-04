@@ -18,7 +18,7 @@ import java.util.UUID;
  * Controlador responsável por gerenciar as matrículas (self-service) dos usuários.
  */
 @RestController
-@RequestMapping("/api/enrollments")
+@RequestMapping("/enrollments")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class EnrollmentController {

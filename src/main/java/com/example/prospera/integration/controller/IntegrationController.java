@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Fornece funcionalidades para consulta de dados cadastrais e empresariais.
  */
 @RestController
-@RequestMapping("/api/lookup")
+@RequestMapping("/lookup")
 @RequiredArgsConstructor
 public class IntegrationController {
 
