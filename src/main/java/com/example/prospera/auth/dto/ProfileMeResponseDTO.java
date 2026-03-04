@@ -28,7 +28,7 @@ public class ProfileMeResponseDTO {
         public PersonalProfileData(UserProfilePF pf) {
             this.fullName = pf.getFullName();
             this.cpf = maskCpf(pf.getCpf());
-            this.birthDate = maskBirthDate(pf.getBirthDate().toString());
+            this.birthDate = pf.getBirthDate() != null ? maskBirthDate(pf.getBirthDate().toString()) : "";
             this.phone = maskPhone(pf.getPhone());
         }
 
