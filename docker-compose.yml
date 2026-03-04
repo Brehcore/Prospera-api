@@ -74,6 +74,8 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.prospera-front.rule=Host(`prospera.gotreeconsultoria.com.br`)"
+        - "traefik.http.middlewares.prospera-strip.stripprefix.prefixes=/api"
+        - "traefik.http.routers.prospera-api.middlewares=prospera-strip"
         - "traefik.http.routers.prospera-front.entrypoints=websecure"
         - "traefik.http.routers.prospera-front.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.prospera-front.loadbalancer.server.port=80"
