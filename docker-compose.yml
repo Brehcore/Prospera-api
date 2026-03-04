@@ -1,0 +1,90 @@
+version: "3.8"
+
+services:
+  # --- BANCO DE DADOS (MYSQL) ---
+  db:
+    image: mysql:8.0
+    deploy:
+      replicas: 1
+      endpoint_mode: dnsrr
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-prospera_db}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - prospera_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - prospera_internal_net
+
+  # --- BACKEND (API) ---
+  api:
+    image: prospera-api:prod
+    build: .
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=Gotreenet"
+        # Roteador ÚNICO para a API do Prospera
+        - "traefik.http.routers.prospera-api.rule=Host(`prospera.gotreeconsultoria.com.br`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.prospera-api.entrypoints=websecure"
+        - "traefik.http.routers.prospera-api.tls.certresolver=letsencrypt"
+        - "traefik.http.services.prospera-api.loadbalancer.server.port=8080"
+    volumes:
+      - prospera_uploads:/app/uploads # Para manter as capas de vídeos e PDFs
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/${DB_NAME:-prospera_db}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=prod
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ALLOWED_ORIGINS=https://prospera.gotreeconsultoria.com.br
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+    networks:
+      - prospera_internal_net
+      - Gotreenet
+
+  # --- FRONTEND ---
+  frontend:
+    image: prospera-frontend:prod
+    build: ../Prospera-frontend # Ajuste este caminho para a pasta real do frontend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=Gotreenet"
+        # Roteador ÚNICO para o Frontend do Prospera
+        - "traefik.http.routers.prospera-front.rule=Host(`prospera.gotreeconsultoria.com.br`)"
+        - "traefik.http.routers.prospera-front.entrypoints=websecure"
+        - "traefik.http.routers.prospera-front.tls.certresolver=letsencrypt"
+        - "traefik.http.services.prospera-front.loadbalancer.server.port=80"
+    networks:
+      - Gotreenet
+
+volumes:
+  prospera_uploads:
+  prospera_mysql_data:
+    external: true
+    name: prospera_mysql_data_vol
+
+networks:
+  prospera_internal_net:
+    driver: overlay
+  Gotreenet:
+    external: true
+
+secrets:
+  jwt_secret_prospera:
+    external: true

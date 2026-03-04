@@ -4,24 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/EnrollmentController.java" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="feat: adiciona configurações iniciais e arquivos de recursos ao projeto&#10;&#10;- Criação do arquivo `application.properties` com configurações de JPA, perfil ativo, tamanho de upload, e dados da empresa&#10;- Inclusão de fontes (`Montserrat.ttf`) e template de certificado (`CERTIFICADO.png`) nos recursos do projeto&#10;- Ajustes no workspace do IntelliJ">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V1__Insert_System_Admin.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/AdminTrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminTrainingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/ProgressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/controllers/ProgressController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingCatalogItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/dto/TrainingCatalogItemDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/EnrollmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/courses/service/TrainingCatalogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/controller/AdminPlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminPlanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/controller/AdminSubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/controllers/AdminSubscriptionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/AccessStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/AccessStatusDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/PlanCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/PlanCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/PlanIdRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/PlanIdRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/PlanUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/PlanUpdateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/SubscriptionCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/SubscriptionCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/dto/SubscriptionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/admin/dto/SubscriptionResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/PlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/PlanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/subscription/service/SubscriptionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +32,7 @@
         <option value="HTML File" />
         <option value="Enum" />
         <option value="Record" />
+        <option value="Dockerfile" />
         <option value="Class" />
       </list>
     </option>
@@ -70,9 +59,6 @@
     &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
   }
 }</component>
-  <component name="HttpClientEndpointsTabState">
-    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;73552c85583a09158be6551595e83443817f0e6c&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/support/tickets&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;name&amp;quot;: &amp;quot;&amp;quot;,&amp;#10;  &amp;quot;userEmail&amp;quot;: &amp;quot;&amp;quot;,&amp;#10;  &amp;quot;subject&amp;quot;: &amp;quot;ACCESS_DIFFICULTIES&amp;quot;,&amp;#10;  &amp;quot;message&amp;quot;: &amp;quot;&amp;quot;&amp;#10;}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
-  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -96,40 +82,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.KeyGen.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestDBConnection.executor&quot;: &quot;Run&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;Database connection parameters found&quot;,
-    &quot;Notification.DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.DocgenApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.ProsperaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/brehs/Documents/Go-Tree/Prospera/Prospera-api/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.grazie&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.KeyGen.executor": "Run",
+    "Application.SecretJwt.executor": "Run",
+    "Application.TestDBConnection.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found": "Database connection parameters found",
+    "Notification.DoNotAsk-DatabaseConfigFileWatcher.found": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.DocgenApplication.executor": "Run",
+    "Spring Boot.ProsperaApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/brehs/Documents/Go-Tree/Prospera/Prospera-api/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -311,7 +298,10 @@
       <workItem from="1772105260399" duration="4062000" />
       <workItem from="1772145899165" duration="12000" />
       <workItem from="1772366814174" duration="6694000" />
-      <workItem from="1772455510876" duration="8303000" />
+      <workItem from="1772455510876" duration="8959000" />
+      <workItem from="1772538782954" duration="2453000" />
+      <workItem from="1772548324715" duration="1203000" />
+      <workItem from="1772624801395" duration="4232000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -545,7 +535,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772467809984</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="feat: adiciona funcionalidades para matrículas e melhorias no catálogo de treinamentos  &#10;&#10;- Implementa `EnrollmentController` com endpoint para auto-matrícula de usuários  &#10;- Adiciona lógica de acesso por assinatura (B2C/B2B) no `TrainingCatalogService`  &#10;- Corrige typo em `AccessStatusDTO` (`acessType` -&gt; `accessType`)  &#10;- Inclui URL de capa em `TrainingCatalogItemDTO`  &#10;- Adapta `SubscriptionService` e `EnrollmentService` para lógica de assinaturas personalizadas">
+      <option name="closed" value="true" />
+      <created>1772475693829</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1772475693829</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -578,7 +576,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="&quot;refactor: Reestruturação e modularização das classes de autenticação&#10;&#10;- Removidas entidades, controladores e serviços desnecessários&#10;- Migração das exceções, DTOs e serviços do pacote 'docgen' para 'auth'&#10;- Criação do pacote 'auth' com estrutura modularizada&#10;- Novo contrato AuthModuleApi para interação com autenticação&#10;- Inclusão de validação de CNPJ dentro do módulo de autenticação&#10;- Ajuste no UserProfileController para suportar perfis pessoa física e jurídica&quot;" />
     <MESSAGE value="refactor: remove módulos redundantes de autenticação e perfis de usuário&#10;&#10;- Exclusão de classes, DTOs e serviços relacionados a autenticação e perfis&#10;- Ajuste nas propriedades da aplicação para refletir nova configuração&#10;- Simplificação do mapeamento em UserProfileMapperDTO&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
     <MESSAGE value="feat: implementa módulo de cursos com suporte a criação de cursos, módulos, lições e matrículas&#10;&#10;- Adição de entidades para Course, Module, Lesson e Enrollment&#10;- Criação de DTOs para criação de cursos, módulos e lições&#10;- Implementação de serviços e controladores admin para gerenciar cursos&#10;- Suporte a enumerações para tipos de conteúdo e status de matrícula&#10;- Ajustes em repositórios e entidades existentes para suporte ao novo módulo&#10;- Ampliação de APIs no módulo de autenticação e organizações" />
     <MESSAGE value="feat: adiciona gerenciamento de status de organizações&#10;&#10;- Criação do enum `OrganizationStatus` com valores ACTIVE, INACTIVE e SUSPENDED&#10;- Inclusão do status padrão `ACTIVE` na entidade Organization&#10;- Atualização do DTO `AdminOrganizationSummaryDTO` para exibir o status da organização&#10;- Implementação de método `updateOrganizationStatus` no serviço AdminOrganizationService&#10;- Adição de endpoint PATCH `/organizations/{organizationId}/status` no AdminOrganizationController&#10;- Validação de entrada com o DTO `UpdateOrgStatusRequest`" />
@@ -603,7 +600,8 @@
     <MESSAGE value="feat: adiciona envio de e-mail de certificado e suporte ao gerenciamento avançado de conteúdo&#10;&#10;- Integra envio assíncrono de e-mails com certificados anexados ao processo de emissão&#10;- Expande funcionalidades administrativas no `AdminTrainingController` para atualização, exclusão e reordenação de módulos/aulas&#10;- Adiciona campos `videoUrl` e `content` em aulas no DTO e serviços associados&#10;- Move exceções para pacote centralizado para padronização&#10;- Inclui transações em serviços de conteúdo para garantir consistência" />
     <MESSAGE value="refactor: reorganiza pacotes e atualiza referências de importações&#10;&#10;- Move classes em `api/` para diretórios apropriados em `dto/`, `services/`, e `controllers/`&#10;- Corrige referências a pacotes desatualizados em entidades, DTOs, controladores e serviços&#10;- Remove duplicações desnecessárias e ajusta inconsistências na nomenclatura dos pacotes" />
     <MESSAGE value="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`" />
+    <MESSAGE value="feat: adiciona funcionalidades para matrículas e melhorias no catálogo de treinamentos  &#10;&#10;- Implementa `EnrollmentController` com endpoint para auto-matrícula de usuários  &#10;- Adiciona lógica de acesso por assinatura (B2C/B2B) no `TrainingCatalogService`  &#10;- Corrige typo em `AccessStatusDTO` (`acessType` -&gt; `accessType`)  &#10;- Inclui URL de capa em `TrainingCatalogItemDTO`  &#10;- Adapta `SubscriptionService` e `EnrollmentService` para lógica de assinaturas personalizadas" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: adiciona funcionalidades para matrículas e melhorias no catálogo de treinamentos  &#10;&#10;- Implementa `EnrollmentController` com endpoint para auto-matrícula de usuários  &#10;- Adiciona lógica de acesso por assinatura (B2C/B2B) no `TrainingCatalogService`  &#10;- Corrige typo em `AccessStatusDTO` (`acessType` -&gt; `accessType`)  &#10;- Inclui URL de capa em `TrainingCatalogItemDTO`  &#10;- Adapta `SubscriptionService` e `EnrollmentService` para lógica de assinaturas personalizadas" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
