@@ -43,18 +43,19 @@ services:
       - SERVER_PORT=8080
       - CORS_ALLOWED_ORIGINS=https://prospera.gotreeconsultoria.com.br
 
-      # Banco de dados
-      - DB_URL=jdbc:mysql://db:3306/${DB_NAME:-prospera_db}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      - DB_USERNAME=root
-      - DB_PASSWORD=${DB_PASSWORD}
+      # Banco de Dados (Nomes nativos que o Spring Boot reconhece)
+      - SPRING_DATASOURCE_URL=jdbc:mysql://prospera_db:3306/${DB_NAME:-prospera_db}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
 
-      # Forçando o nome nativo do JWT (A Prova de Falhas)
+      # JWT (Nomes nativos)
       - APPLICATION_SECURITY_JWT_SECRET_KEY=${JWT_SECRET}
       - APPLICATION_SECURITY_JWT_EXPIRATION=86400000
 
-      # Email
-      - MAIL_USERNAME=${MAIL_USERNAME}
-      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      # Email (Nomes nativos)
+      - SPRING_MAIL_USERNAME=${MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${MAIL_PASSWORD}
     networks:
       - prospera_internal_net
       - Gotreenet
