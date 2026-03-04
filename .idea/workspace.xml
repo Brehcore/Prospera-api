@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis relacionadas à segurança para maior clareza&#10;- Adiciona nova variável para configuração de expiração do JWT&#10;- Atualiza detalhes no IntelliJ workspace para refletir alterações recentes">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis de ambiente para padrões nativos reconhecidos pelo Spring Boot&#10;- Adiciona `SPRING_JPA_DATABASE_PLATFORM` para configuração do Hibernate&#10;- Atualiza detalhes no IntelliJ workspace para refletir ajustes recentes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
@@ -298,7 +298,7 @@
       <workItem from="1772455510876" duration="8959000" />
       <workItem from="1772538782954" duration="2453000" />
       <workItem from="1772548324715" duration="1203000" />
-      <workItem from="1772624801395" duration="13901000" />
+      <workItem from="1772624801395" duration="15011000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -588,7 +588,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772650286928</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis de ambiente para padrões nativos reconhecidos pelo Spring Boot&#10;- Adiciona `SPRING_JPA_DATABASE_PLATFORM` para configuração do Hibernate&#10;- Atualiza detalhes no IntelliJ workspace para refletir ajustes recentes">
+      <option name="closed" value="true" />
+      <created>1772650649894</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1772650649894</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -621,7 +629,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: adiciona suporte a progresso de e-books, streaming e permissões de acesso&#10;&#10;- Criação do `EbookProgressDTO` e novo método `getEbookProgress` no `ProgressService` para consulta de progresso&#10;- Implementação de validações em `updateEbookProgress` para total de páginas e limites de progresso&#10;- Adição de timestamps em `EbookProgress` para rastrear atualizações&#10;- Introdução do `ContentAccessService` para gerenciamento de acesso seguro a conteúdos como e-books e imagens&#10;- Atualização do `ContentStreamController` para endpoints públicos e restritos de streaming de e-books/imagens&#10;- Inclusão de progressão percentual no `EnrollmentResponseDTO`&#10;- Documentação expandida nas entidades, serviços e DTOs afetados" />
     <MESSAGE value="Remove `.idea` files from version control to clean up project artifacts" />
     <MESSAGE value="Remove `application-test.properties` do version control." />
     <MESSAGE value="feat: implementa módulo de assinaturas com suporte a criação e gerenciamento de planos e assinaturas&#10;&#10;- Adição das entidades `Subscription`, `Plan` e associadas&#10;- Criação de repositórios como `PlanRepository` e `SubscriptionRepository`&#10;- Implementação de controladores (`AdminSubscriptionController`, `SubscriptionController` e `AdminPlanController`) para gerenciar planos e assinaturas&#10;- Serviços para lógica de negócio, como `SubscriptionService` e `PlanService`&#10;- Adição de DTOs para criar e detalhar planos (`PlanCreateRequest`, `PlanResponse`) e assinaturas (`SubscriptionCreateRequest`, `SubscriptionResponse`)&#10;- Introdução dos enums `SubscriptionStatus` e `SubscriptionOrigin` para controle de estados e origens&#10;- Validações aplicadas para planos e assinaturas no nível de serviço e DTOs&#10;&#10;Signed-off-by: Brena Soares &lt;brehcore@gmail.com&gt;" />
@@ -646,7 +653,8 @@
     <MESSAGE value="chore: atualiza variáveis de ambiente no Docker Compose e metadados do IntelliJ workspace&#10;&#10;- Renomeia variáveis de ambiente relacionadas à segurança no `docker-compose.yml`&#10;- Adiciona nova variável de configuração para o tempo de expiração do JWT&#10;- Ajusta metadados do IntelliJ workspace para refletir mudanças recentes" />
     <MESSAGE value="chore: renomeia variáveis de ambiente no Docker Compose e ajusta metadados do workspace&#10;&#10;- Modifica variáveis de segurança no `docker-compose.yml` para uma nomenclatura mais coerente&#10;- Atualiza parâmetros relacionados ao JWT no `docker-compose.yml`&#10;- Ajusta detalhes do IntelliJ workspace para refletir mudanças recentes" />
     <MESSAGE value="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis relacionadas à segurança para maior clareza&#10;- Adiciona nova variável para configuração de expiração do JWT&#10;- Atualiza detalhes no IntelliJ workspace para refletir alterações recentes" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis relacionadas à segurança para maior clareza&#10;- Adiciona nova variável para configuração de expiração do JWT&#10;- Atualiza detalhes no IntelliJ workspace para refletir alterações recentes" />
+    <MESSAGE value="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis de ambiente para padrões nativos reconhecidos pelo Spring Boot&#10;- Adiciona `SPRING_JPA_DATABASE_PLATFORM` para configuração do Hibernate&#10;- Atualiza detalhes no IntelliJ workspace para refletir ajustes recentes" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: refina variáveis de ambiente no Docker Compose e metadados do workspace&#10;&#10;- Renomeia variáveis de ambiente para padrões nativos reconhecidos pelo Spring Boot&#10;- Adiciona `SPRING_JPA_DATABASE_PLATFORM` para configuração do Hibernate&#10;- Atualiza detalhes no IntelliJ workspace para refletir ajustes recentes" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
