@@ -4,6 +4,7 @@ import com.example.prospera.integration.dto.BrasilApiCnpjResponse;
 import com.example.prospera.integration.service.CnpjLookupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controlador REST responsável por expor endpoints de integração com serviços externos.
  * Fornece funcionalidades para consulta de dados cadastrais e empresariais.
  */
+@CrossOrigin(origins = "https://prospera.gotreeconsultoria.com.br")
 @RestController
 @RequestMapping("/lookup")
 @RequiredArgsConstructor
