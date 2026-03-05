@@ -77,15 +77,19 @@ public class AuthUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 1. Se o usuário tem um vínculo com uma organização (Membership)...
+        // SYSTEM_ADMIN sempre tem prioridade
+        if (this.role == UserRole.SYSTEM_ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+        }
+
+        // ORG_ADMIN/ORG_MEMBER pegam das memberships
         if (this.memberships != null && !this.memberships.isEmpty()) {
-            // ... as permissões dele vêm da role DENTRO da organização (ORG_ADMIN, ORG_MEMBER)
             return this.memberships.stream()
                     .map(membership -> new SimpleGrantedAuthority("ROLE_" + membership.getRole().name()))
                     .collect(Collectors.toList());
         }
 
-        // 2. Se não, ele é um usuário avulso (PF), então usamos a role base.
+        // Default: role base
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 

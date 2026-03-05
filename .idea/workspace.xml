@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: atualiza Docker Compose, metadados do IntelliJ e ajusta lógica do DTO&#10;&#10;- Remove comentários redundantes em volumes no `docker-compose.yml`&#10;- Atualiza metadados do IntelliJ workspace para refletir ajustes recentes&#10;- Adiciona validação para `birthDate` nulo no `ProfileMeResponseDTO`">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/ProfileMeResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/auth/dto/ProfileMeResponseDTO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -640,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772655419656</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="chore: atualiza Docker Compose, metadados do IntelliJ e ajusta lógica do DTO&#10;&#10;- Remove comentários redundantes em volumes no `docker-compose.yml`&#10;- Atualiza metadados do IntelliJ workspace para refletir ajustes recentes&#10;- Adiciona validação para `birthDate` nulo no `ProfileMeResponseDTO`">
+      <option name="closed" value="true" />
+      <created>1772663595792</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1772663595792</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -673,8 +679,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: reestrutura pacotes para `prospera` e remove classes redundantes&#10;&#10;- Altera base de pacotes de `docgen` para `prospera` em todo o sistema&#10;- Remove classes obsoletas não referenciadas, como `StandardError`, `UserType` e `IntegrationController`&#10;- Atualiza referências de pacotes em entidades, DTOs, controladores e serviços&#10;- Corrige e padroniza comentários em controladores e serviços afetados" />
-    <MESSAGE value="feat: implementa módulo de certificados para emissão e download&#10;&#10;- Adiciona entidade `Certificate` com vínculos a matrículas e validações exclusivas&#10;- Cria `CertificateRepository` para métodos de acesso a certificados&#10;- Implementa `CertificateController` com endpoints para emitir certificados (`/issue/{enrollmentId}`) e realizar download em PDF (`/download/{certificateId}`)&#10;- Adiciona dependências para geração de PDFs (Thymeleaf e Flying Saucer)&#10;- Configura inicialização automática de campos como código de validação e timestamps na entidade `Certificate`" />
     <MESSAGE value="chore: atualiza configurações do workspace no IntelliJ" />
     <MESSAGE value="feat: adiciona suporte a redefinição de senha e troca de e-mail&#10;&#10;- Implementa endpoints para recuperação e redefinição de senha (`/auth/forgot-password`, `/auth/reset-password`, `/auth/change-password`)&#10;- Adiciona suporte para troca de e-mail com processos de verificação e confirmação&#10;- Cria as entidades e repositórios `PasswordResetToken` e `EmailUpdateToken`&#10;- Atualiza `SecurityConfig` para incluir permissões relacionadas&#10;- Refatora `AuthController` e `AuthenticationService` com funcionalidades expandidas&#10;- Remove `application-dev.properties` e ajusta perfil `dev` para `local` em serviços e controladores" />
     <MESSAGE value="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório" />
@@ -698,7 +702,9 @@
     <MESSAGE value="chore: adiciona novo domínio permitido na configuração CORS&#10;&#10;- Insere `https://prospera.gotreeconsultoria.com.br` na lista de origens permitidas&#10;- Atualiza `SecurityConfig` com o domínio autorizado adicional" />
     <MESSAGE value="chore: ajusta rotas públicas e configurações de CORS no SecurityConfig&#10;&#10;- Corrige rota pública de autenticação para `/api/auth/login`&#10;- Adiciona novo domínio permitido ao CORS: `https://prospera.gotreeconsultoria.com.br`" />
     <MESSAGE value="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace" />
+    <MESSAGE value="chore: adiciona middleware Traefik para remoção de prefixo `/api` na API" />
+    <MESSAGE value="chore: atualiza Docker Compose, metadados do IntelliJ e ajusta lógica do DTO&#10;&#10;- Remove comentários redundantes em volumes no `docker-compose.yml`&#10;- Atualiza metadados do IntelliJ workspace para refletir ajustes recentes&#10;- Adiciona validação para `birthDate` nulo no `ProfileMeResponseDTO`" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: atualiza Docker Compose, metadados do IntelliJ e ajusta lógica do DTO&#10;&#10;- Remove comentários redundantes em volumes no `docker-compose.yml`&#10;- Atualiza metadados do IntelliJ workspace para refletir ajustes recentes&#10;- Adiciona validação para `birthDate` nulo no `ProfileMeResponseDTO`" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
