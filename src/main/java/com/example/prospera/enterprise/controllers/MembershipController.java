@@ -138,7 +138,7 @@ public class MembershipController {
      * @return Resposta de criação sem conteúdo (201)
      */
     @PostMapping("/{membershipId}/sectors")
-    @PreAuthorize("hasRole('ORG_ADMIN')")
+    @PreAuthorize("hasRole('ORG_ADMIN') or hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Void> assignSectorToMember(
             @AuthenticationPrincipal AuthUser adminUser,
             @PathVariable UUID organizationId,

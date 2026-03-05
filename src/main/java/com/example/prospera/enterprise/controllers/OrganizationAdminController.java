@@ -32,7 +32,7 @@ import java.util.UUID;
 
 /**
  * Controlador responsável por gerenciar operações administrativas de uma organização.
- * Permite que administradores da organização (ORG_ADMIN) realizem operações como:
+ * Permite que administradores da organização (ORG_ADMIN & SYSTEM_ADMIN) realizem operações como:
  * - Matricular membros em treinamentos
  * - Gerenciar setores da organização
  * - Consultar treinamentos disponíveis
@@ -40,7 +40,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/organizations/{orgId}")
-@PreAuthorize("hasRole('ORG_ADMIN')")
+@PreAuthorize("hasRole('ORG_ADMIN') or hasRole('SYSTEM_ADMIN')")
 @RequiredArgsConstructor
 public class OrganizationAdminController {
 
@@ -182,7 +182,6 @@ public class OrganizationAdminController {
      * @throws AccessDeniedException se o admin não pertencer à organização
      */
     @DeleteMapping("/sectors/{sectorId}")
-    @PreAuthorize("hasRole('ORG_ADMIN')")
     public ResponseEntity<Void> removeSectorFromOrganization(
             @AuthenticationPrincipal AuthUser orgAdmin,
             @PathVariable UUID orgId,

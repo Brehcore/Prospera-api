@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: atualiza Docker Compose, metadados do IntelliJ e ajusta lógica do DTO&#10;&#10;- Remove comentários redundantes em volumes no `docker-compose.yml`&#10;- Atualiza metadados do IntelliJ workspace para refletir ajustes recentes&#10;- Adiciona validação para `birthDate` nulo no `ProfileMeResponseDTO`">
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: redefine lógica de permissões em `AuthUser.getAuthorities`&#10;&#10;- Prioriza `SYSTEM_ADMIN` para retorno de autoridades&#10;- Ajusta fluxo para `ORG_ADMIN` e `ORG_MEMBER` com base em memberships&#10;- Simplifica comentários na implementação">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/controllers/MembershipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/enterprise/controllers/MembershipController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,9 +56,6 @@
     &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
   }
 }</component>
-  <component name="HttpClientEndpointsTabState">
-    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;a0f3b8edf2907d78305ae5424b43b17fc8ab7654&quot; value=&quot;###&amp;#10;GET http://localhost:8080/lookup/cnpj/{{cnpj}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
-  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -301,6 +299,7 @@
       <workItem from="1772538782954" duration="2453000" />
       <workItem from="1772548324715" duration="1203000" />
       <workItem from="1772624801395" duration="21501000" />
+      <workItem from="1772713638818" duration="2801000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -646,7 +645,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772663595792</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="chore: redefine lógica de permissões em `AuthUser.getAuthorities`&#10;&#10;- Prioriza `SYSTEM_ADMIN` para retorno de autoridades&#10;- Ajusta fluxo para `ORG_ADMIN` e `ORG_MEMBER` com base em memberships&#10;- Simplifica comentários na implementação">
+      <option name="closed" value="true" />
+      <created>1772713945146</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1772713945146</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -679,7 +686,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chore: atualiza configurações do workspace no IntelliJ" />
     <MESSAGE value="feat: adiciona suporte a redefinição de senha e troca de e-mail&#10;&#10;- Implementa endpoints para recuperação e redefinição de senha (`/auth/forgot-password`, `/auth/reset-password`, `/auth/change-password`)&#10;- Adiciona suporte para troca de e-mail com processos de verificação e confirmação&#10;- Cria as entidades e repositórios `PasswordResetToken` e `EmailUpdateToken`&#10;- Atualiza `SecurityConfig` para incluir permissões relacionadas&#10;- Refatora `AuthController` e `AuthenticationService` com funcionalidades expandidas&#10;- Remove `application-dev.properties` e ajusta perfil `dev` para `local` em serviços e controladores" />
     <MESSAGE value="refactor: atualiza LICENSE, README e configuração de workspace&#10;&#10;- Substitui informações de copyright no LICENSE &#10;- Renomeia projeto no README e adiciona detalhes sobre fluxo de segurança e funcionalidades de senha/e-mail &#10;- Atualiza configuração de workspace para refletir o novo nome do repositório" />
     <MESSAGE value="chore: ajusta configuração de workspace no IntelliJ" />
@@ -704,7 +710,8 @@
     <MESSAGE value="chore: remove middleware Traefik obsoleto e ajusta rotas públicas no SecurityConfig&#10;&#10;- Remove configuração de middleware `stripprefix` no Traefik no `docker-compose.yml`&#10;- Corrige erro de rota pública para `/auth/login` no `SecurityConfig`&#10;- Atualiza comentários e configurações no IntelliJ workspace" />
     <MESSAGE value="chore: adiciona middleware Traefik para remoção de prefixo `/api` na API" />
     <MESSAGE value="chore: atualiza Docker Compose, metadados do IntelliJ e ajusta lógica do DTO&#10;&#10;- Remove comentários redundantes em volumes no `docker-compose.yml`&#10;- Atualiza metadados do IntelliJ workspace para refletir ajustes recentes&#10;- Adiciona validação para `birthDate` nulo no `ProfileMeResponseDTO`" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: atualiza Docker Compose, metadados do IntelliJ e ajusta lógica do DTO&#10;&#10;- Remove comentários redundantes em volumes no `docker-compose.yml`&#10;- Atualiza metadados do IntelliJ workspace para refletir ajustes recentes&#10;- Adiciona validação para `birthDate` nulo no `ProfileMeResponseDTO`" />
+    <MESSAGE value="chore: redefine lógica de permissões em `AuthUser.getAuthorities`&#10;&#10;- Prioriza `SYSTEM_ADMIN` para retorno de autoridades&#10;- Ajusta fluxo para `ORG_ADMIN` e `ORG_MEMBER` com base em memberships&#10;- Simplifica comentários na implementação" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: redefine lógica de permissões em `AuthUser.getAuthorities`&#10;&#10;- Prioriza `SYSTEM_ADMIN` para retorno de autoridades&#10;- Ajusta fluxo para `ORG_ADMIN` e `ORG_MEMBER` com base em memberships&#10;- Simplifica comentários na implementação" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
