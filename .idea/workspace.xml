@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="chore: adiciona configuração para execução assíncrona&#10;&#10;- Configura `AsyncConfig` com `ThreadPoolTaskExecutor`&#10;- Sincroniza metadados do IntelliJ workspace com a alteração">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="10549347-8293-4170-acb9-8e29a1b60120" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/integration/controller/IntegrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/integration/controller/IntegrationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/prospera/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +56,9 @@
     &quot;accountId&quot;: &quot;f941e9e4-6c79-48bb-9648-359f0125651d&quot;
   }
 }</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;a0f3b8edf2907d78305ae5424b43b17fc8ab7654&quot; value=&quot;###&amp;#10;GET http://localhost:8080/lookup/cnpj/{{cnpj}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -300,7 +302,7 @@
       <workItem from="1772538782954" duration="2453000" />
       <workItem from="1772548324715" duration="1203000" />
       <workItem from="1772624801395" duration="21501000" />
-      <workItem from="1772713638818" duration="6794000" />
+      <workItem from="1772713638818" duration="14843000" />
     </task>
     <task id="LOCAL-00001" summary="feat: implementação da segurança básica e melhorias no projeto&#10;&#10;Principais alterações:&#10;- Configuração do Spring Security com autenticação básica&#10;- Implementação de autorização baseada em roles (ADMIN/USER)&#10;- Melhoria no tratamento de erros de autenticação&#10;- Correção na validação de tokens no DatabaseMaintenanceService&#10;- Ajustes na entidade User para suporte adequado ao UserDetails&#10;- Adição de DTO para autenticação&#10;- Remoção de arquivos do target/&#10;- Ajustes nos dados de teste do admin">
       <option name="closed" value="true" />
@@ -678,7 +680,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772733983744</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="chore: adiciona configuração para ambiente de produção&#10;&#10;- Cria `application-prod.properties` com variáveis sensíveis e específicas para produção&#10;- Remove `@CrossOrigin` do `IntegrationController`&#10;- Atualiza `.gitignore` para incluir exclusão de arquivos de configuração sensível">
+      <option name="closed" value="true" />
+      <created>1772736825814</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1772736825814</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -711,7 +721,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: expande funcionalidades de certificados e conteúdo para integração avançada&#10;&#10;- Implementa suporte ao gerenciamento de certificados com endpoints para listar e visualizar certificados do usuário (`/api/certificates/my-certificates`) e geração de miniaturas dinâmicas&#10;- Adiciona variáveis configuráveis para documentos (nome e CNPJ da empresa)&#10;- Permite acesso a recursos de certificado sem autenticação (`SecurityConfig`)&#10;- Refatora template de certificado para melhor design e flexibilidade&#10;- Atualiza serviços de matrícula e progresso para incluir dados de certificados e pontuações em DTOs&#10;- Corrige e ajusta estrutura de pacotes em várias classes" />
     <MESSAGE value="feat: adiciona envio de e-mail de certificado e suporte ao gerenciamento avançado de conteúdo&#10;&#10;- Integra envio assíncrono de e-mails com certificados anexados ao processo de emissão&#10;- Expande funcionalidades administrativas no `AdminTrainingController` para atualização, exclusão e reordenação de módulos/aulas&#10;- Adiciona campos `videoUrl` e `content` em aulas no DTO e serviços associados&#10;- Move exceções para pacote centralizado para padronização&#10;- Inclui transações em serviços de conteúdo para garantir consistência" />
     <MESSAGE value="refactor: reorganiza pacotes e atualiza referências de importações&#10;&#10;- Move classes em `api/` para diretórios apropriados em `dto/`, `services/`, e `controllers/`&#10;- Corrige referências a pacotes desatualizados em entidades, DTOs, controladores e serviços&#10;- Remove duplicações desnecessárias e ajusta inconsistências na nomenclatura dos pacotes" />
     <MESSAGE value="feat: adiciona módulo de suporte com criação de chamados por e-mail&#10;&#10;- Implementa endpoint `/api/support/tickets` no `SupportController` para abrir chamados&#10;- Cria DTO `SupportTicketRequest` com validações&#10;- Adiciona `SupportService` para processamento de chamados e envio de e-mail assíncrono via `EmailService`" />
@@ -736,7 +745,8 @@
     <MESSAGE value="chore: adiciona suporte a permissões para `SYSTEM_ADMIN` nos controladores&#10;&#10;- Atualiza `@PreAuthorize` para incluir `SYSTEM_ADMIN` em endpoints de controllers&#10;- Ajusta lógica de permissões no `OrganizationAdminController` e `MembershipController`&#10;- Sincroniza metadados do IntelliJ workspace com as alterações" />
     <MESSAGE value="chore: adiciona configuração de CORS no `IntegrationController`&#10;&#10;- Permite origem `https://prospera.gotreeconsultoria.com.br` com `@CrossOrigin` annotation&#10;- Sincroniza metadados do IntelliJ workspace com a alteração" />
     <MESSAGE value="chore: adiciona configuração para execução assíncrona&#10;&#10;- Configura `AsyncConfig` com `ThreadPoolTaskExecutor`&#10;- Sincroniza metadados do IntelliJ workspace com a alteração" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: adiciona configuração para execução assíncrona&#10;&#10;- Configura `AsyncConfig` com `ThreadPoolTaskExecutor`&#10;- Sincroniza metadados do IntelliJ workspace com a alteração" />
+    <MESSAGE value="chore: adiciona configuração para ambiente de produção&#10;&#10;- Cria `application-prod.properties` com variáveis sensíveis e específicas para produção&#10;- Remove `@CrossOrigin` do `IntegrationController`&#10;- Atualiza `.gitignore` para incluir exclusão de arquivos de configuração sensível" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: adiciona configuração para ambiente de produção&#10;&#10;- Cria `application-prod.properties` com variáveis sensíveis e específicas para produção&#10;- Remove `@CrossOrigin` do `IntegrationController`&#10;- Atualiza `.gitignore` para incluir exclusão de arquivos de configuração sensível" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
